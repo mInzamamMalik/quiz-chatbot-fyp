@@ -5,5 +5,5 @@ import db from './db'
 import { webhook, talk } from './lib/dialogflow'
 export { webhook, talk }
 
-import { login, signup } from './lib/authentication'
-export { login, signup }
+import { login, signup, profile } from './lib/authentication'
+export { login, signup, profile }
