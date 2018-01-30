@@ -19,47 +19,69 @@
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
 
-    <!-- Add your site or application content here -->
-    <div class="header">
-      <div class="navbar navbar-default" role="navigation">
+    <!-- application header -->
+      <div class="header">
+      <nav class="navbar navbar-transparent navbar-fixed-top" role="navigation">
         <div class="container">
+          <!-- Brand and toggle get grouped for better mobile display -->
           <div class="navbar-header">
-
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#js-navbar-collapse">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#left-navbar-menu-collapse">
               <span class="sr-only">Toggle navigation</span>
               <span class="icon-bar"></span>
               <span class="icon-bar"></span>
               <span class="icon-bar"></span>
             </button>
-
-            <a class="navbar-brand" href="#/">radUlFasaad</a>
           </div>
 
-          <div class="collapse navbar-collapse" id="js-navbar-collapse">
-
+          <!-- Collect the nav links, forms, and other content for toggling -->
+          <div class="collapse navbar-collapse" id="left-navbar-menu-collapse">
             <ul class="nav navbar-nav">
-              <li class="active"><a href="#/">Home</a></li>
-              <li><a ng-href="#/about">About</a></li>
-              <li><a ng-href="#/">Contact</a></li>
+              <li class="dropdown">
+                <a href="javascript:" class="dropdown-toggle" data-toggle="dropdown">
+                  <img src="images/flags/US.png"/> English(US) <b class="caret"></b>
+                </a>
+                <ul class="dropdown-menu">
+                  <li><a href="#"><img src="images/flags/GB.png"/> English(UK)</a></li>
+                  <li><a href="#"><img src="images/flags/FR.png"/> Français</a></li>
+
+                  <li class="divider"></li>
+                  <li><a href="#"><img src="images/flags/TR.png"/> Türkçe <span class="label label-default">soon</span></a></li>
+
+                </ul>
+              </li>
             </ul>
-          </div>
-        </div>
-      </div>
+
+            <ul class="nav navbar-nav navbar-right">
+              <li>
+                <a href="javascript:">
+                  Login
+                </a>
+              </li>
+              <li>
+                <a href="javascript:">
+                  Signup
+                </a>
+              </li>
+            </ul>
+          </div><!-- /.navbar-collapse -->
+        </div><!-- /.container -->
+      </nav>
     </div>
 
-    <div class="container">
-    <div ng-view=""></div>
-    </div>
-
-    <div class="footer">
+    <!-- views -->
       <div class="container">
-        <p><span class="glyphicon glyphicon-heart"></span> from the Yeoman team</p>
+        <div ng-view=""></div>
       </div>
-    </div>
 
+    <!-- application footer -->
+     <div class="footer">
+      <!--<div class="container">-->
+        <!--<p><span class="glyphicon glyphicon-heart"></span> from the Yeoman team</p>-->
+      <!--</div>-->
+    </div>
 
     <!-- Google Analytics: change UA-XXXXX-X to be your site's ID -->
-     <script>
+    <script>
        !function(A,n,g,u,l,a,r){A.GoogleAnalyticsObject=l,A[l]=A[l]||function(){
        (A[l].q=A[l].q||[]).push(arguments)},A[l].l=+new Date,a=n.createElement(g),
        r=n.getElementsByTagName(g)[0],a.src=u,r.parentNode.insertBefore(a,r)
