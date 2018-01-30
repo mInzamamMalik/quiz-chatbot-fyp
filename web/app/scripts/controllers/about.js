@@ -1,17 +1,21 @@
-'use strict';
+(function(){
+  'use strict';
 
-/**
- * @ngdoc function
- * @name radUlFasaadApp.controller:AboutCtrl
- * @description
- * # AboutCtrl
- * Controller of the radUlFasaadApp
- */
-angular.module('radUlFasaadApp')
-  .controller('AboutCtrl', function () {
-    this.awesomeThings = [
+  angular
+    .module('radUlFasaadApp')
+    .controller('AboutCtrl', AboutCtrl);
+
+  AboutCtrl.$inject = [];
+
+  function AboutCtrl() {
+    /* jshint validthis: true */
+    var vm = this;
+
+    vm.awesomeThings = [
       'HTML5 Boilerplate',
       'AngularJS',
       'Karma'
     ];
-  });
+  }
+
+})();

@@ -1,23 +1,20 @@
-'use strict';
+(function(){
+  'use strict';
 
-/**
- * @ngdoc overview
- * @name radUlFasaadApp
- * @description
- * # radUlFasaadApp
- *
- * Main module of the application.
- */
-angular
-  .module('radUlFasaadApp', [
-    'ngAnimate',
-    'ngCookies',
-    'ngResource',
-    'ngRoute',
-    'ngSanitize',
-    'ngTouch'
-  ])
-  .config(function ($routeProvider) {
+  angular
+    .module('radUlFasaadApp', [
+      'ngAnimate',
+      'ngCookies',
+      'ngResource',
+      'ngRoute',
+      'ngSanitize',
+      'ngTouch'
+    ])
+    .config(config);
+
+  config.$inject = ['$routeProvider'];
+
+  function config($routeProvider) {
     $routeProvider
       .when('/', {
         templateUrl: 'views/main.html',
@@ -32,4 +29,6 @@ angular
       .otherwise({
         redirectTo: '/'
       });
-  });
+  }
+
+})();
