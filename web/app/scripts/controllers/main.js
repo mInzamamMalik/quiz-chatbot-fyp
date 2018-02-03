@@ -92,7 +92,9 @@
       AppLoader.stop();
     }
     function registerUser(form) {
-      console.info('form ', form)
+      if(form.$valid) {
+        console.info('form ', form)
+      }
     }
   }
 

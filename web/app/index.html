@@ -80,7 +80,7 @@
         <div class="login-register">
             <div class="modal fade login" id="loginModal">
                 <div class="modal-dialog login animated">
-                    <div class="modal-content">
+                    <div class="modal-content" ng-class="{'danger-border': registerForm.cPassword.$error.passwordVerify}">
                         <div class="modal-header">
                             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                             <h4 class="modal-title">Login with</h4>
@@ -119,16 +119,21 @@
                                 <div class="content registerBox" style="display:none;">
                                     <div class="form">
                                         <form name="registerForm" ng-submit="loginCtrl.registerUser(registerForm)">
-                                            <input class="form-control" data-ng-model="loginCtrl.register.fullName"
+                                            <input bs-validation required class="form-control" data-ng-model="loginCtrl.register.fullName"
                                                    type="text" placeholder="Your Name" name="fullName">
-                                            <input class="form-control" data-ng-model="loginCtrl.register.email"
+                                            <input bs-validation required class="form-control" data-ng-model="loginCtrl.register.email"
                                                    type="text" placeholder="Email" name="email">
-                                            <input class="form-control" data-ng-model="loginCtrl.register.contact"
+                                            <input bs-validation required class="form-control" data-ng-model="loginCtrl.register.contact"
                                                    type="text" placeholder="Contact" name="contact">
-                                            <input class="form-control" data-ng-model="loginCtrl.register.password"
+                                            <input bs-validation required class="form-control" data-ng-model="loginCtrl.register.password"
                                                    type="password" placeholder="Password" name="password">
-                                            <input class="form-control" data-ng-model="loginCtrl.register.cPassword"
+                                            <input bs-validation required class="form-control" data-ng-model="loginCtrl.register.cPassword"
+                                                   data-password-verify="loginCtrl.register.password"
                                                    type="password" placeholder="Repeat Password" name="cPassword">
+
+                                            <div class="text-danger margin-left-5" ng-show="registerForm.cPassword.$error.passwordVerify">
+                                                password not same
+                                            </div>
                                             <input class="btn btn-default btn-register" type="submit"
                                                    value="Create account" name="submit">
                                         </form>
@@ -189,6 +194,7 @@
     <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
     <script src="bower_components/angular-touch/angular-touch.js"></script>
     <script src="bower_components/please-wait/build/please-wait.js"></script>
+    <script src="bower_components/bootstrap-angular-validation/dist/bootstrap-angular-validation-all.min.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
 
@@ -196,7 +202,9 @@
         <script src="scripts/app.js"></script>
         <script src="scripts/controllers/main.js"></script>
         <script src="scripts/controllers/about.js"></script>
+        <script src="scripts/directives/index.js"></script>
         <script src="scripts/loader/loader.js"></script>
+        <script src="scripts/bs-validation/form-validation.js"></script>
         <!-- endbuild -->
 </body>
 </html>

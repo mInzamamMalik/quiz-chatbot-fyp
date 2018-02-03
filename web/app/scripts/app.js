@@ -8,13 +8,14 @@
       'ngResource',
       'ngRoute',
       'ngSanitize',
-      'ngTouch'
+      'ngTouch',
+      'bootstrap.angular.validation'
     ])
-    .config(config);
+    .config(RouteConfig);
 
-  config.$inject = ['$routeProvider'];
+  RouteConfig.$inject = ['$routeProvider'];
 
-  function config($routeProvider) {
+  function RouteConfig($routeProvider) {
     $routeProvider
       .when('/', {
         templateUrl: 'views/main.html',
