@@ -17,6 +17,7 @@
       'AngularJS',
       'Karma'
     ];
+    vm.register = {};
 
 
     vm.openLoginModal = openLoginModal;
@@ -24,6 +25,8 @@
     vm.showLoginForm = showLoginForm;
     vm.showRegisterForm = showRegisterForm;
     vm.loginAjax = loginAjax;
+
+    vm.registerUser = registerUser;
 
 
     function openLoginModal(){
@@ -87,6 +90,9 @@
         $('#loginModal .modal-dialog').removeClass('shake');
       }, 1000 );
       AppLoader.stop();
+    }
+    function registerUser(form) {
+      console.info('form ', form)
     }
   }
 

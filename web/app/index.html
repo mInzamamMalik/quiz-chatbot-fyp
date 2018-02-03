@@ -118,13 +118,19 @@
                             <div class="box">
                                 <div class="content registerBox" style="display:none;">
                                     <div class="form">
-                                        <form novalidate>
-                                            <input class="form-control" type="text" placeholder="Email" name="email">
-                                            <input class="form-control" type="password" placeholder="Password" name="password">
-                                            <input id="password_confirmation" class="form-control" type="password"
-                                                   placeholder="Repeat Password" name="password_confirmation">
+                                        <form name="registerForm" ng-submit="loginCtrl.registerUser(registerForm)">
+                                            <input class="form-control" data-ng-model="loginCtrl.register.fullName"
+                                                   type="text" placeholder="Your Name" name="fullName">
+                                            <input class="form-control" data-ng-model="loginCtrl.register.email"
+                                                   type="text" placeholder="Email" name="email">
+                                            <input class="form-control" data-ng-model="loginCtrl.register.contact"
+                                                   type="text" placeholder="Contact" name="contact">
+                                            <input class="form-control" data-ng-model="loginCtrl.register.password"
+                                                   type="password" placeholder="Password" name="password">
+                                            <input class="form-control" data-ng-model="loginCtrl.register.cPassword"
+                                                   type="password" placeholder="Repeat Password" name="cPassword">
                                             <input class="btn btn-default btn-register" type="submit"
-                                                   value="Create account" name="commit">
+                                                   value="Create account" name="submit">
                                         </form>
                                     </div>
                                 </div>
