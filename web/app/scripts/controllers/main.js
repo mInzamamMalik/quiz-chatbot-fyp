@@ -5,9 +5,9 @@
     .module('radUlFasaadApp')
     .controller('MainCtrl', MainCtrl);
 
-  MainCtrl.$inject = ['$timeout'];
+  MainCtrl.$inject = ['$timeout', 'AppLoader'];
 
-  function MainCtrl($timeout) {
+  function MainCtrl($timeout, AppLoader) {
     /* jshint validthis: true */
     var vm = this;
 
@@ -63,6 +63,7 @@
 
     }
     function loginAjax(){
+      AppLoader.start();
       /*   Remove this comments when moving to server
        $.post( "/login", function( data ) {
        if(data == 1){
@@ -74,7 +75,9 @@
        */
 
       /*   Simulate error message from the server   */
-      shakeModal();
+      $timeout(function() {
+        shakeModal();
+      }, 2000);
     }
     function shakeModal(){
       $('#loginModal .modal-dialog').addClass('shake');
@@ -83,6 +86,7 @@
       $timeout( function(){
         $('#loginModal .modal-dialog').removeClass('shake');
       }, 1000 );
+      AppLoader.stop();
     }
   }
 
