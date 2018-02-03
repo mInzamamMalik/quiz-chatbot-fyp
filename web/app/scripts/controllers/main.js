@@ -5,9 +5,9 @@
     .module('radUlFasaadApp')
     .controller('MainCtrl', MainCtrl);
 
-  MainCtrl.$inject = ['$timeout', 'AppLoader'];
+  MainCtrl.$inject = ['$rootScope', '$timeout', 'Auth'];
 
-  function MainCtrl($timeout, AppLoader) {
+  function MainCtrl($rootScope, $timeout, Auth) {
     /* jshint validthis: true */
     var vm = this;
 
@@ -66,7 +66,6 @@
 
     }
     function loginAjax(){
-      AppLoader.start();
       /*   Remove this comments when moving to server
        $.post( "/login", function( data ) {
        if(data == 1){
@@ -89,13 +88,31 @@
       $timeout( function(){
         $('#loginModal .modal-dialog').removeClass('shake');
       }, 1000 );
-      AppLoader.stop();
     }
     function registerUser(form) {
       if(form.$valid) {
-        console.info('form ', form)
+        console.info('form ', vm.register);
+        $rootScope.appLoading(true);
+
+        Auth.signUp(vm.register)
+          .then(function(res) {
+            console.info('res ', res);
+            vm.register = {};
+            $rootScope.appLoading(false);
+          }, function(err) {
+            console.info('err ', err);
+            vm.register = {};
+            $rootScope.appLoading(false);
+          })
       }
     }
+    var emitFun = function(boolean){
+      $rootScope.$emit('appLoading', boolean);
+    }
+
+    //vm.$on('destory', function(){
+    //  emitFun = undefined;
+    //})
   }
 
 })();
