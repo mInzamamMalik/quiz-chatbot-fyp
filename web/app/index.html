@@ -106,7 +106,7 @@
                                     </div>
                                     <div class="error"></div>
                                     <div class="form loginBox">
-                                        <form method="post" action="/login" accept-charset="UTF-8">
+                                        <form>
                                             <input class="form-control" type="text" placeholder="Email" name="email">
                                             <input class="form-control" type="password" placeholder="Password" name="password">
                                             <input class="btn btn-default btn-login" type="button"
@@ -134,8 +134,11 @@
                                             <div class="text-danger margin-left-5" ng-show="registerForm.cPassword.$error.passwordVerify">
                                                 password not same
                                             </div>
-                                            <input class="btn btn-default btn-register" type="submit"
+
+                                            <input ng-show="!isLoading" class="btn btn-default btn-register" type="submit"
                                                    value="Create account" name="submit">
+                                            <input ng-show="isLoading" class="btn btn-default btn-register" type="button"
+                                                 value="Please wait" ng-disabled="true">
                                         </form>
                                     </div>
                                 </div>

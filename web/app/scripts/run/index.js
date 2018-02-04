@@ -11,10 +11,10 @@
 
       /* toggle loading at root level */
 
-      $rootScope.loading = false;
+      $rootScope.isLoading = false;
 
       $rootScope.startLoading = function(val) {
-        $rootScope.loading = val;
+        $rootScope.isLoading = val;
         if (val) AppLoader.start();
         else AppLoader.stop();
       };
