@@ -9,7 +9,8 @@
       'ngRoute',
       'ngSanitize',
       'ngTouch',
-      'bootstrap.angular.validation'
+      'bootstrap.angular.validation',
+      'toastr'
     ])
     .config(RouteConfig);
 
