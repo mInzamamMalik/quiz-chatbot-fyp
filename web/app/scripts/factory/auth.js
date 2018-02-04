@@ -13,8 +13,6 @@
         signUp: signUp,
         login: login
       };
-
-
       return factory;
 
 

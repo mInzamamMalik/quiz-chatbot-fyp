@@ -28,7 +28,6 @@
 
       /* functions */
       function start() {
-        console.info('start function start')
         loader = window.pleaseWait({
           logo: '',
           backgroundColor: '#00000099',
@@ -36,7 +35,6 @@
         })
       }
       function stop() {
-        console.info('stop function work')
         loader.finish();
       }
 

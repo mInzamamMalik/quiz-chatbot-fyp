@@ -92,27 +92,20 @@
     function registerUser(form) {
       if(form.$valid) {
         console.info('form ', vm.register);
-        $rootScope.appLoading(true);
+        $rootScope.startLoading(true);
 
         Auth.signUp(vm.register)
           .then(function(res) {
             console.info('res ', res);
             vm.register = {};
-            $rootScope.appLoading(false);
+            $rootScope.startLoading(false);
           }, function(err) {
             console.info('err ', err);
             vm.register = {};
-            $rootScope.appLoading(false);
+            $rootScope.startLoading(false);
           })
       }
     }
-    var emitFun = function(boolean){
-      $rootScope.$emit('appLoading', boolean);
-    }
-
-    //vm.$on('destory', function(){
-    //  emitFun = undefined;
-    //})
   }
 
 })();
