@@ -1,1 +1,15 @@
-<p>This is the home view.</p>
+<div class="home-wrapper" data-ng-controller="HomeCtrl as home">
+  <timeline>
+    <timeline-event ng-repeat="thing in home.timeline" side="{{thing.isMe ? 'right' : 'left'}}">
+      <timeline-badge class="{{thing.badgeClass}}">
+        <i class="fa fa-stop"></i>
+      </timeline-badge>
+      <timeline-panel class="{{thing.badgeClass}}">
+        <timeline-heading>
+          <h4>{{thing.title}}</h4>
+        </timeline-heading>
+        <p>{{thing.content}}</p>
+      </timeline-panel>
+    </timeline-event>
+  </timeline>
+</div>

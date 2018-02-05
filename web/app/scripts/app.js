@@ -10,7 +10,8 @@
       'ngSanitize',
       'ngTouch',
       'bootstrap.angular.validation',
-      'toastr'
+      'toastr',
+      'angular-timeline'
     ])
     .config(RouteConfig);
 
@@ -19,16 +20,16 @@
   function RouteConfig($routeProvider) {
     $routeProvider
       .when('/', {
-        templateUrl: 'views/main.html',
-        controller: 'MainCtrl'
+        templateUrl: 'views/main.html'
+        //controller: 'MainCtrl'
       })
       .when('/about', {
-        templateUrl: 'views/about.html',
-        controller: 'AboutCtrl'
+        templateUrl: 'views/about.html'
+        //controller: 'AboutCtrl'
       })
       .when('/home', {
-        templateUrl: 'views/home.html',
-        controller: 'HomeCtrl'
+        templateUrl: 'views/home.html'
+        //controller: 'HomeCtrl'
       })
       .otherwise({
         redirectTo: '/'
