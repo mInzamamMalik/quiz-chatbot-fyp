@@ -107,11 +107,14 @@
                                     </div>
                                     <div class="error"></div>
                                     <div class="form loginBox">
-                                        <form>
-                                            <input class="form-control" type="text" placeholder="Email" name="email">
-                                            <input class="form-control" type="password" placeholder="Password" name="password">
-                                            <input class="btn btn-default btn-login" type="button"
-                                                   value="Login" data-ng-click="loginCtrl.loginAjax()">
+                                        <form name="loginForm" data-ng-submit="loginCtrl.loginAjax(loginForm)">
+                                            <input bs-validation required class="form-control" type="text"
+                                                   data-ng-model="loginCtrl.singIn.email" placeholder="Email" name="email">
+                                            <input bs-validation required class="form-control" type="password"
+                                                   data-ng-model="loginCtrl.singIn.pass" placeholder="Password" name="password">
+
+                                            <button data-ng-disabled="isLoading" data-ng-class="{'grey-bg': isLoading}"
+                                                    type="submit" class="btn btn-default btn-login">Login</button>
                                         </form>
                                     </div>
                                 </div>
@@ -119,7 +122,7 @@
                             <div class="box">
                                 <div class="content registerBox" style="display:none;">
                                     <div class="form">
-                                        <form name="registerForm" ng-submit="loginCtrl.registerUser(registerForm)">
+                                        <form name="registerForm" data-ng-submit="loginCtrl.registerUser(registerForm)">
                                             <input bs-validation required class="form-control" data-ng-model="loginCtrl.register.fullName"
                                                    type="text" placeholder="Your Name" name="fullName">
                                             <input bs-validation required class="form-control" data-ng-model="loginCtrl.register.email"
@@ -136,10 +139,10 @@
                                                 password not same
                                             </div>
 
-                                            <input ng-show="!isLoading" class="btn btn-default btn-register" type="submit"
+                                            <input data-ng-show="!isLoading" class="btn btn-default btn-register" type="submit"
                                                    value="Create account" name="submit">
-                                            <input ng-show="isLoading" class="btn btn-default btn-register" type="button"
-                                                 value="Please wait" ng-disabled="true">
+                                            <input data-ng-class="{'grey-bg': isLoading}" data-ng-show="isLoading" type="button"
+                                                   class="btn btn-default btn-register" value="Please wait" ng-disabled="true">
                                         </form>
                                     </div>
                                 </div>

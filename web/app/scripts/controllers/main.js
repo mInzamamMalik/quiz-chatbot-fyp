@@ -18,6 +18,7 @@
       'Karma'
     ];
     vm.register = {};
+    vm.singIn = {};
 
 
     vm.openLoginModal = openLoginModal;
@@ -65,21 +66,26 @@
       $('.error').removeClass('alert alert-danger').html('');
 
     }
-    function loginAjax(){
-      /*   Remove this comments when moving to server
-       $.post( "/login", function( data ) {
-       if(data == 1){
-       window.location.replace("/home");
-       } else {
-       shakeModal();
-       }
-       });
-       */
+    function loginAjax(form){
+      if(form.$valid) {
+        console.info('form ', vm.singIn);
+        $rootScope.startLoading(true);
 
-      /*   Simulate error message from the server   */
-      $timeout(function() {
-        shakeModal();
-      }, 2000);
+        Auth.login(vm.singIn)
+          .then(function(res) {
+            console.info('res ', res);
+            vm.singIn = {};
+            $rootScope.startLoading(false);
+          }, function(err) {
+            console.info('err ', err);
+            vm.singIn = {};
+            $rootScope.startLoading(false);
+            $timeout(function() {
+              shakeModal();
+            }, 2000);
+          });
+
+      }
     }
     function shakeModal(){
       $('#loginModal .modal-dialog').addClass('shake');
