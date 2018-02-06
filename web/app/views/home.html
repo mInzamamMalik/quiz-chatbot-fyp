@@ -1,17 +1,25 @@
-<div class="home-wrapper" data-ng-controller="HomeCtrl as home">
-  <timeline>
-    <timeline-event ng-repeat="thing in home.timeline track by $index" side="{{thing.isMe ? 'right' : 'left'}}"
-                    when-visible="home.animateElementIn"
-                    when-not-visible="home.animateElementOut">
-      <timeline-badge class="{{thing.isMe ? 'success' : 'danger'}}">
-        <i class="fa fa-stop"></i>
-      </timeline-badge>
-      <timeline-panel class="{{thing.isMe ? 'primary' : 'danger'}}">
-        <timeline-heading>
-          <h4>{{thing.title}}</h4>
-        </timeline-heading>
-        <p>{{thing.content}}</p>
-      </timeline-panel>
-    </timeline-event>
-  </timeline>
+<div class="home-wrapper" data-ng-controller="HomeCtrl as home" style="background-image: url('images/bg.jpg')">
+  <div class="overlay">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <timeline>
+            <timeline-event ng-repeat="thing in home.timeline track by $index" side="{{thing.isMe ? 'right' : 'left'}}"
+                            when-visible="home.animateElementIn"
+                            when-not-visible="home.animateElementOut">
+              <timeline-badge class="{{thing.isMe ? 'success' : 'danger'}}">
+                <i class="fa fa-stop"></i>
+              </timeline-badge>
+              <timeline-panel class="{{thing.isMe ? 'primary' : 'danger'}}">
+                <timeline-heading>
+                  <h4>{{thing.title}}</h4>
+                </timeline-heading>
+                <p>{{thing.content}}</p>
+              </timeline-panel>
+            </timeline-event>
+          </timeline>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
