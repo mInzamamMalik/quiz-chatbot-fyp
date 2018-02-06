@@ -41,6 +41,7 @@
   "scripts": {
     "test": "karma start test\\karma.conf.js",
     "start": "grunt serve",
-    "build": "grunt build"
+    "build": "grunt build",
+    "setup": "npm i -g bower && bower i"
   }
 }
