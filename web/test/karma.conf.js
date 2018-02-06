@@ -33,6 +33,7 @@ module.exports = function(config) {
       'bower_components/bootstrap-angular-validation/dist/bootstrap-angular-validation-all.min.js',
       'bower_components/angular-toastr/dist/angular-toastr.tpls.js',
       'bower_components/angular-timeline/dist/angular-timeline.js',
+      'bower_components/angular-scroll-animate/dist/angular-scroll-animate.js',
       'bower_components/angular-mocks/angular-mocks.js',
       // endbower
       'app/scripts/**/*.js',

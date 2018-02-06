@@ -11,7 +11,8 @@
       'ngTouch',
       'bootstrap.angular.validation',
       'toastr',
-      'angular-timeline'
+      'angular-timeline',
+      'angular-scroll-animate'
     ])
     .config(RouteConfig);
 

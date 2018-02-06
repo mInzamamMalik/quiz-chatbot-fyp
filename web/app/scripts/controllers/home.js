@@ -11,71 +11,70 @@
     /* jshint validthis: true */
     var vm = this;
     vm.timeline = [{
-      badgeClass: 'info',
-      title: 'First heading',
+      title: 'Heading',
       content: 'More awesome content.',
       isMe: 1
     }, {
-      badgeClass: 'warning',
-      title: 'Second heading',
+      title: 'Heading',
       content: 'More awesome content.',
       isMe: 0
     }, {
-      badgeClass: 'danger',
-      title: 'Second heading',
+      title: 'Heading',
       content: 'More awesome content.',
       isMe: 1
     }, {
-      badgeClass: 'success',
-      title: 'Second heading',
+      title: 'Heading',
       content: 'More awesome content.',
       isMe: 0
     }, {
-      badgeClass: 'default',
-      title: 'Second heading',
+      title: 'Heading',
       content: 'More awesome content.',
       isMe: 1
     }, {
-      badgeClass: 'success',
-      title: 'Second heading',
+      title: 'Heading',
       content: 'More awesome content.',
       isMe: 0
     }, {
-      badgeClass: 'default',
-      title: 'Second heading',
+      title: 'Heading',
       content: 'More awesome content.',
       isMe: 1
     }, {
-      badgeClass: 'success',
-      title: 'Second heading',
+      title: 'Heading',
       content: 'More awesome content.',
       isMe: 0
     }, {
-      badgeClass: 'default',
-      title: 'Second heading',
+      title: 'Heading',
       content: 'More awesome content.',
       isMe: 1
     }, {
-      badgeClass: 'success',
-      title: 'Second heading',
+      title: 'Heading',
       content: 'More awesome content.',
       isMe: 0
     }, {
-      badgeClass: 'default',
-      title: 'Second heading',
+      title: 'Heading',
       content: 'More awesome content.',
       isMe: 1
     }, {
-      badgeClass: 'success',
-      title: 'Second heading',
+      title: 'Heading',
       content: 'More awesome content.',
       isMe: 0
     }, {
-      badgeClass: 'default',
-      title: 'Second heading',
+      title: 'Heading',
       content: 'More awesome content.',
       isMe: 1
     }];
+
+
+    vm.animateElementIn = animateElementIn;
+    vm.animateElementOut = animateElementOut;
+
+
+    function animateElementIn($el) {
+      $el.children().addClass('animated pulse');
+    }
+    function animateElementOut($el) {
+      $el.children().removeClass('animated pulse');
+    }
   }
 
 })();

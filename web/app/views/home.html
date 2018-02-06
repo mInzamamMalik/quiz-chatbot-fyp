@@ -1,10 +1,12 @@
 <div class="home-wrapper" data-ng-controller="HomeCtrl as home">
   <timeline>
-    <timeline-event ng-repeat="thing in home.timeline" side="{{thing.isMe ? 'right' : 'left'}}">
-      <timeline-badge class="{{thing.badgeClass}}">
+    <timeline-event ng-repeat="thing in home.timeline track by $index" side="{{thing.isMe ? 'right' : 'left'}}"
+                    when-visible="home.animateElementIn"
+                    when-not-visible="home.animateElementOut">
+      <timeline-badge class="{{thing.isMe ? 'success' : 'danger'}}">
         <i class="fa fa-stop"></i>
       </timeline-badge>
-      <timeline-panel class="{{thing.badgeClass}}">
+      <timeline-panel class="{{thing.isMe ? 'primary' : 'danger'}}">
         <timeline-heading>
           <h4>{{thing.title}}</h4>
         </timeline-heading>
