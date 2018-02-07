@@ -13,7 +13,6 @@
       'toastr',
       'angular-timeline',
       'angular-scroll-animate',
-      'voiceRss',
       'yaru22.angular-timeago'
     ])
     .config(RouteConfig);

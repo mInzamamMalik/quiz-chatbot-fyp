@@ -5,9 +5,9 @@
     .module('radUlFasaadApp')
     .controller('HomeCtrl', HomeCtrl);
 
-  HomeCtrl.$inject = ['tts'];
+  HomeCtrl.$inject = [];
 
-  function HomeCtrl(tts) {
+  function HomeCtrl() {
     /* jshint validthis: true */
     var vm = this;
     vm.timeline = [{
@@ -67,7 +67,6 @@
 
     vm.animateElementIn = animateElementIn;
     vm.animateElementOut = animateElementOut;
-    vm.playText = playText;
 
 
     function animateElementIn($el) {
@@ -75,16 +74,6 @@
     }
     function animateElementOut($el) {
       $el.find(".timeline-panel-style").removeClass('animated pulse');
-    }
-    function playText(text) {
-      tts.speech({
-        src: text,
-        hl: 'en-us',
-        r: 0,
-        c: 'mp3',
-        f: '44khz_16bit_stereo',
-        ssml: false
-      });
     }
   }
 
