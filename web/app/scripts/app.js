@@ -12,7 +12,8 @@
       'bootstrap.angular.validation',
       'toastr',
       'angular-timeline',
-      'angular-scroll-animate'
+      'angular-scroll-animate',
+      'voiceRss'
     ])
     .config(RouteConfig);
 
