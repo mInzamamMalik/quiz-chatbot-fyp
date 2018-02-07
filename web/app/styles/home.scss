@@ -3,6 +3,7 @@
   background-size: cover;
   position: absolute;
   background-position: center;
+  background-attachment: fixed;
   width: 100%;
   left: 0;
   .overlay {
@@ -18,5 +19,21 @@
     box-shadow: 0 10px 10px -10px rgba(0, 0, 0, 0.5);
     color: white !important;
     border: none;
+  }
+  .timeline-panel {
+    h4 {
+      margin: 15px 0 10px;
+    }
+    p {
+      font-family: 'Open Sans', sans-serif;
+      word-wrap: break-word;
+      line-height: 20px;
+    }
+  }
+  .timeline {
+    &:before {
+      width: 2px;
+      margin-left: -0.5px;
+    }
   }
 }
