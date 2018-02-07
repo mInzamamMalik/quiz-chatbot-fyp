@@ -16,6 +16,7 @@
                   <h4 ng-bind="thing.isMe ? '' : 'Bot'"></h4>
                 </timeline-heading>
                 <p>{{thing.content}}</p>
+                <p class="time" ng-bind="thing.date | timeAgo"></p>
               </timeline-panel>
             </timeline-event>
           </timeline>

@@ -15,7 +15,7 @@
     box-shadow: none !important;
   }
   .timeline-panel-style {
-    background: #9e9e9e1c !important;
+    background-color: rgba(158, 158, 158, 0.20);
     box-shadow: 0 10px 10px -10px rgba(0, 0, 0, 0.5);
     color: white !important;
     border: none;
@@ -28,6 +28,11 @@
       font-family: 'Open Sans', sans-serif;
       word-wrap: break-word;
       line-height: 20px;
+    }
+    .time {
+      font-size: 12px;
+      margin: 0;
+      color: #9e9e9e;
     }
   }
   .timeline-panel-style:after, .timeline-panel-style:before { display: none !important; }
