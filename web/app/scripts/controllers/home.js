@@ -58,10 +58,10 @@
 
 
     function animateElementIn($el) {
-      $el.children().addClass('animated pulse');
+      $el.find(".timeline-panel-style").addClass('animated pulse');
     }
     function animateElementOut($el) {
-      $el.children().removeClass('animated pulse');
+      $el.find(".timeline-panel-style").removeClass('animated pulse');
     }
     function playText(text) {
       tts.speech({
