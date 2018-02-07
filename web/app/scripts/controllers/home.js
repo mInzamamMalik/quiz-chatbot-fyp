@@ -11,55 +11,42 @@
     /* jshint validthis: true */
     var vm = this;
     vm.timeline = [{
-      title: 'Heading',
       content: 'More awesome content.',
       isMe: 1
     }, {
-      title: 'Heading',
-      content: 'More awesome content.',
-      isMe: 0
-    }, {
-      title: 'Heading',
       content: 'More awesome content.',
       isMe: 1
     }, {
-      title: 'Heading',
-      content: 'More awesome content.',
-      isMe: 0
-    }, {
-      title: 'Heading',
       content: 'More awesome content.',
       isMe: 1
     }, {
-      title: 'Heading',
       content: 'More awesome content.',
       isMe: 0
     }, {
-      title: 'Heading',
       content: 'More awesome content.',
       isMe: 1
     }, {
-      title: 'Heading',
       content: 'More awesome content.',
       isMe: 0
     }, {
-      title: 'Heading',
       content: 'More awesome content.',
       isMe: 1
     }, {
-      title: 'Heading',
       content: 'More awesome content.',
       isMe: 0
     }, {
-      title: 'Heading',
       content: 'More awesome content.',
       isMe: 1
     }, {
-      title: 'Heading',
       content: 'More awesome content.',
       isMe: 0
     }, {
-      title: 'Heading',
+      content: 'More awesome content.',
+      isMe: 1
+    }, {
+      content: 'More awesome content.',
+      isMe: 0
+    }, {
       content: 'More awesome content.',
       isMe: 1
     }];

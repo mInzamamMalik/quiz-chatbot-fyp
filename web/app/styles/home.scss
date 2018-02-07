@@ -30,6 +30,7 @@
       line-height: 20px;
     }
   }
+  .timeline-panel-style:after, .timeline-panel-style:before { display: none !important; }
   .timeline {
     &:before {
       width: 2px;

@@ -12,7 +12,7 @@
               </timeline-badge>
               <timeline-panel class="timeline-panel-style">
                 <timeline-heading>
-                  <h4>{{thing.title}}</h4>
+                  <h4 ng-bind="thing.isMe ? '' : 'Bot'"></h4>
                 </timeline-heading>
                 <p>{{thing.content}}</p>
               </timeline-panel>
