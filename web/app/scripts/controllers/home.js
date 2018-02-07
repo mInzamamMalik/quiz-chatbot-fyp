@@ -71,7 +71,7 @@
 
 
     function animateElementIn($el) {
-      $el.find(".dateline-panel-style").addClass('animated pulse');
+      $el.find(".timeline-panel-style").addClass('animated pulse');
     }
     function animateElementOut($el) {
       $el.find(".timeline-panel-style").removeClass('animated pulse');
