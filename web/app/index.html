@@ -2,6 +2,8 @@
 <html>
   <head>
     <meta charset="utf-8">
+    <meta name="google-signin-client_id"
+          content="609554142051-3mmupe9tupv6r5q8k3gnp28noi7bnd4k.apps.googleusercontent.com">
     <title></title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width">
@@ -97,15 +99,18 @@
                             <div class="box">
                                 <div class="content">
                                     <div class="social">
-                                        <a class="circle github" href="javascript:">
-                                            <i class="fa fa-github fa-fw"></i>
-                                        </a>
-                                        <a id="google_login" class="circle google" href="javascript:">
-                                            <i class="fa fa-google-plus fa-fw"></i>
-                                        </a>
-                                        <a id="facebook_login" class="circle facebook" href="javascript:">
-                                            <i class="fa fa-facebook fa-fw"></i>
-                                        </a>
+                                        <!--<a class="circle github" href="javascript:">-->
+                                            <!--<i class="fa fa-github fa-fw"></i>-->
+                                        <!--</a>-->
+                                        <div class="g-signin2 circle google sign-in-with-google" data-onsuccess="onSignIn"></div>
+                                        <p class="text-muted animated fadeInDown">
+                                            <small><b>
+                                                Directly use your <span class="text-primary">Google Account</span>
+                                            </b></small>
+                                        </p>
+                                        <!--<a id="facebook_login" class="circle facebook" href="javascript:">-->
+                                            <!--<i class="fa fa-facebook fa-fw"></i>-->
+                                        <!--</a>-->
                                     </div>
                                     <div class="division">
                                         <div class="line l"></div>
@@ -245,6 +250,23 @@
 
         <!-- Google-Platform-Library -->
         <script src="https://apis.google.com/js/platform.js" async defer></script>
+        <script type="text/javascript">
+            var googleUser = null;
+
+            window.getGoogleUser = getGoogleUser;
+
+            function onSignIn(authenticatedUser) {
+                googleUser = authenticatedUser.getBasicProfile();
+                console.log('ID: ' + googleUser.getId()); // Do not send to your backend! Use an ID token instead.
+                console.log('Name: ' + googleUser.getName());
+                console.log('Image URL: ' + googleUser.getImageUrl());
+                console.log('Email: ' + googleUser.getEmail()); // This is null if the 'email' scope is not present.
+            }
+            function getGoogleUser() {
+                console.info('Google User Details ', googleUser);
+                return googleUser
+            }
+        </script>
         <!-- endbuild -->
 </body>
 </html>
