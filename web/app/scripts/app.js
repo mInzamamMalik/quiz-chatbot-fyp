@@ -13,7 +13,8 @@
       'toastr',
       'angular-timeline',
       'angular-scroll-animate',
-      'yaru22.angular-timeago'
+      'yaru22.angular-timeago',
+      'ngStorage'
     ])
     .config(RouteConfig);
 

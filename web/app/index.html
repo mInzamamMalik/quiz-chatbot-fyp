@@ -218,6 +218,7 @@
     <script src="bower_components/angular-timeline/dist/angular-timeline.js"></script>
     <script src="bower_components/angular-scroll-animate/dist/angular-scroll-animate.js"></script>
     <script src="bower_components/angular-timeago/dist/angular-timeago.js"></script>
+    <script src="bower_components/ngstorage/ngStorage.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
 
@@ -253,18 +254,18 @@
         <script type="text/javascript">
             var googleUser = null;
 
-            window.getGoogleUser = getGoogleUser;
-
             function onSignIn(authenticatedUser) {
-                googleUser = authenticatedUser.getBasicProfile();
-                console.log('ID: ' + googleUser.getId()); // Do not send to your backend! Use an ID token instead.
-                console.log('Name: ' + googleUser.getName());
-                console.log('Image URL: ' + googleUser.getImageUrl());
-                console.log('Email: ' + googleUser.getEmail()); // This is null if the 'email' scope is not present.
-            }
-            function getGoogleUser() {
-                console.info('Google User Details ', googleUser);
-                return googleUser
+                console.info(authenticatedUser);
+                var userBasicProfile = authenticatedUser.getBasicProfile();
+                var googleUser = {
+                    id: userBasicProfile.getId(), // Do not send to your backend! Use an ID token instead.
+                    fullName: userBasicProfile.getName(),
+                    fName: userBasicProfile.getGivenName(),
+                    lName: userBasicProfile.getFamilyName(),
+                    email: userBasicProfile.getEmail(),
+                    imgUrl: userBasicProfile.getImageUrl()
+                };
+                localStorage.setItem('User', JSON.stringify(googleUser))
             }
         </script>
         <!-- endbuild -->
