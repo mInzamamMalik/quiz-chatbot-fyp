@@ -38,12 +38,15 @@
     </RelativeLayout>
 
     <EditText
+        android:singleLine="true"
         android:id="@+id/edt_email"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Email"/>
 
     <EditText
+        android:singleLine="true"
+        android:inputType="textPassword"
         android:id="@+id/edt_password"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
