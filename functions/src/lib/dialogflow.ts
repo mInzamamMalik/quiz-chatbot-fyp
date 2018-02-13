@@ -29,7 +29,11 @@ export const talk = functions.https.onRequest((req, res) => {
 
             res.send({
                 status: 200,
-                reply: "hello world reply from chatbot",
+                reply: "hello this is reply from chatbot",
+                ssml: `<speak> 
+                            <s>Hello </s> 
+                            <s>this is reply from chatbot </s> 
+                        </speak>`,
                 uid: messageObject.uid
             })
         } else {
@@ -38,5 +42,5 @@ export const talk = functions.https.onRequest((req, res) => {
                 message: "invalid token"
             })
         }
-    }
+    })
 });
