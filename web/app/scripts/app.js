@@ -12,7 +12,9 @@
       'bootstrap.angular.validation',
       'toastr',
       'angular-timeline',
-      'angular-scroll-animate'
+      'angular-scroll-animate',
+      'yaru22.angular-timeago',
+      'ngStorage'
     ])
     .config(RouteConfig);
 

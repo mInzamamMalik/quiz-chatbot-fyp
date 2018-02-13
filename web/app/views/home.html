@@ -7,14 +7,15 @@
             <timeline-event ng-repeat="thing in home.timeline track by $index" side="{{thing.isMe ? 'right' : 'left'}}"
                             when-visible="home.animateElementIn"
                             when-not-visible="home.animateElementOut">
-              <timeline-badge class="no-timeline-badge-shadow {{thing.isMe ? 'success' : 'danger'}}">
-                <i class="fa fa-stop"></i>
+              <timeline-badge title="Play" class="cursor no-timeline-badge-shadow {{thing.isMe ? 'success' : 'danger'}}">
+                <i class="fa fa-play"></i>
               </timeline-badge>
               <timeline-panel class="timeline-panel-style">
                 <timeline-heading>
-                  <h4>{{thing.title}}</h4>
+                  <h4 ng-bind="thing.isMe ? '' : 'Bot'"></h4>
                 </timeline-heading>
                 <p>{{thing.content}}</p>
+                <p class="time" ng-bind="thing.date | timeAgo"></p>
               </timeline-panel>
             </timeline-event>
           </timeline>
