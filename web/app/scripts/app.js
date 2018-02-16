@@ -14,7 +14,7 @@
       'angular-timeline',
       'angular-scroll-animate',
       'yaru22.angular-timeago',
-      'ngStorage'
+      'google-signin'
     ])
     .config(RouteConfig);
 

@@ -35,7 +35,7 @@ module.exports = function(config) {
       'bower_components/angular-timeline/dist/angular-timeline.js',
       'bower_components/angular-scroll-animate/dist/angular-scroll-animate.js',
       'bower_components/angular-timeago/dist/angular-timeago.js',
-      'bower_components/ngstorage/ngStorage.js',
+      'bower_components/ng-google-signin/dist/ng-google-signin.js',
       'bower_components/angular-mocks/angular-mocks.js',
       // endbower
       'app/scripts/**/*.js',
