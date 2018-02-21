@@ -5,9 +5,9 @@
     .module('radUlFasaadApp')
     .controller('MainCtrl', MainCtrl);
 
-  MainCtrl.$inject = ['$rootScope', '$timeout', 'Auth'];
+  MainCtrl.$inject = ['$rootScope', '$timeout', 'Auth', 'GoogleSignin', 'toastr', 'ERROR_MSG'];
 
-  function MainCtrl($rootScope, $timeout, Auth) {
+  function MainCtrl($rootScope, $timeout, Auth, GoogleSignin, toastr, ERROR_MSG) {
     /* jshint validthis: true */
     var vm = this;
 
@@ -19,6 +19,7 @@
     ];
     vm.register = {};
     vm.singIn = {};
+    vm.user = null;
 
 
     vm.openLoginModal = openLoginModal;
@@ -26,6 +27,9 @@
     vm.showLoginForm = showLoginForm;
     vm.showRegisterForm = showRegisterForm;
     vm.loginAjax = loginAjax;
+    vm.logout = logout;
+
+    vm.signInWithGoogle = signInWithGoogle;
 
     vm.registerUser = registerUser;
 
@@ -111,6 +115,43 @@
             $rootScope.startLoading(false);
           })
       }
+    }
+    function signInWithGoogle(){
+      GoogleSignin.signIn()
+        .then(function (user) {
+          $timeout(function () {
+            $('#loginModal').fadeOut('fast',function(){
+              $('button[data-dismiss]').click();
+            });
+            var profile = user.getBasicProfile();
+            var userDetail = {
+              fName: profile.getGivenName(),
+              lName: profile.getFamilyName(),
+              fullName: profile.getName(),
+              email: profile.getEmail(),
+              id: profile.getId(),
+              img: profile.getImageUrl()
+            };
+            vm.user = userDetail;
+            toastr.success('logged in as ' + userDetail.fName);
+            console.info(vm.user)
+          });
+        }, function (err) {
+          console.log('reason ', err);
+          toastr.error(ERROR_MSG);
+        });
+    }
+    function logout() {
+      GoogleSignin.signOut()
+        .then(function (res) {
+          $timeout(function () {
+            console.info('logged out');
+            vm.user = null;
+          });
+        }, function (err) {
+          console.log('reason ', err);
+          toastr.error(ERROR_MSG);
+        });
     }
   }
 
