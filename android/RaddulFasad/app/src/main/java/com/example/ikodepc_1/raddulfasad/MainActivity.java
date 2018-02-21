@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.speech.RecognitionListener;
 import android.speech.RecognizerIntent;
 import android.speech.SpeechRecognizer;
+import android.speech.tts.TextToSpeech;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -58,6 +59,7 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
                 }
             }
         });
+
     }
 
     @Override
