@@ -18,7 +18,8 @@
     "animate.css": "^3.5.2",
     "angular-scroll-animate": "^0.9.9",
     "angular-timeago": "^0.4.6",
-    "ng-google-signin": "^0.1.0"
+    "ng-google-signin": "^0.1.0",
+    "aws-sdk": "aws-sdk-js#^2.198.0"
   },
   "devDependencies": {
     "angular-mocks": "^1.4.0"

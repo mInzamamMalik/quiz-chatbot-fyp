@@ -19,14 +19,18 @@
     <link rel="stylesheet" href="styles/main.css">
     <!-- endbuild -->
   </head>
-  <body ng-app="radUlFasaadApp">
+  <body data-ng-app="radUlFasaadApp">
+
+    <!-- Audio element -->
+    <audio data-ng-hide="true" controls autoplay id="say_speak"></audio>
+
     <!--[if lte IE 8]>
       <p class="browsehappy">You are using an <strong>outdated</strong> browser.
           Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
 
     <!-- application header -->
-    <div ng-controller="MainCtrl as loginCtrl">
+    <div data-ng-controller="MainCtrl as loginCtrl">
 
         <div class="header">
             <nav class="navbar navbar-transparent navbar-fixed-top" role="navigation">
@@ -67,7 +71,7 @@
                             </li>
                         </ul>
 
-                        <ul ng-if="loginCtrl.user == null" class="nav navbar-nav navbar-right">
+                        <ul data-ng-if="loginCtrl.user == null" class="nav navbar-nav navbar-right">
                             <li class="animated fadeIn">
                                 <a href="javascript:" data-ng-click="loginCtrl.openLoginModal()">
                                     Login
@@ -79,7 +83,7 @@
                                 </a>
                             </li>
                         </ul>
-                        <ul ng-if="loginCtrl.user != null" class="nav navbar-nav navbar-right">
+                        <ul data-ng-if="loginCtrl.user != null" class="nav navbar-nav navbar-right">
                             <li class="active animated fadeIn">
                                 <a href="javascript:" data-ng-bind="loginCtrl.user.fullName + ','"></a>
                             </li>
@@ -98,7 +102,7 @@
         <div class="login-register">
             <div class="modal fade login" id="loginModal">
                 <div class="modal-dialog login animated">
-                    <div class="modal-content" ng-class="{'danger-border': registerForm.cPassword.$error.passwordVerify}">
+                    <div class="modal-content" data-ng-class="{'danger-border': registerForm.cPassword.$error.passwordVerify}">
                         <div class="modal-header">
                             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                             <h4 class="modal-title">Login with</h4>
@@ -163,14 +167,14 @@
                                                    data-password-verify="loginCtrl.register.password"
                                                    type="password" placeholder="Repeat Password" name="cPassword">
 
-                                            <div class="text-danger margin-left-5" ng-show="registerForm.cPassword.$error.passwordVerify">
+                                            <div class="text-danger margin-left-5" data-ng-show="registerForm.cPassword.$error.passwordVerify">
                                                 password not same
                                             </div>
 
                                             <input data-ng-show="!isLoading" class="btn btn-default btn-register" type="submit"
                                                    value="Create account" name="submit">
                                             <input data-ng-class="{'grey-bg': isLoading}" data-ng-show="isLoading" type="button"
-                                                   class="btn btn-default btn-register" value="Please wait" ng-disabled="true">
+                                                   class="btn btn-default btn-register" value="Please wait" data-ng-disabled="true">
                                         </form>
                                     </div>
                                 </div>
@@ -196,7 +200,7 @@
 
     <!-- views -->
       <div class="container">
-        <div ng-view=""></div>
+        <div data-ng-view=""></div>
       </div>
 
     <!-- application footer -->
@@ -235,6 +239,7 @@
     <script src="bower_components/angular-scroll-animate/dist/angular-scroll-animate.js"></script>
     <script src="bower_components/angular-timeago/dist/angular-timeago.js"></script>
     <script src="bower_components/ng-google-signin/dist/ng-google-signin.js"></script>
+    <script src="bower_components/aws-sdk/dist/aws-sdk.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
 
