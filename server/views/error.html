@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Error</title>
+    <style>
+        body{
+            font-family: sans-serif;
+        }
+        p{
+            margin: 0 0 10px;
+            text-align: left;
+        }
+        h1{
+            font-size: 60px;
+            line-height: 1;
+            color: inherit;
+            letter-spacing: -1px;
+        }
+        .container {
+            text-align: center;
+            padding: 60px;
+            margin-bottom: 30px;
+            font-size: 18px;
+            font-weight: 200;
+            line-height: 30px;
+            color: inherit;
+            background-color: #eeeeee;
+            -webkit-border-radius: 6px;
+            -moz-border-radius: 6px;
+            border-radius: 6px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1><%= message %></h1>
+    <h2><%= error.status %></h2>
+    <p>
+        <%= error.stack %>
+    </p>
+</div>
+
+</body>
+</html>
