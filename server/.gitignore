@@ -5,5 +5,4 @@
 /bower_components
 /.idea
 .idea
-/server/.idea
-/server/node_modules
+/npm-debug.log
