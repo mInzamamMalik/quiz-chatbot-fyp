@@ -5,3 +5,7 @@
 /bower_components
 /.idea
 .idea
+server/.idea
+/server/.idea
+server/node_modules
+/server/node_modules
