@@ -18,9 +18,42 @@ var Polly = new AWS.Polly({
 });
 
 // Configure
-var params;
+var params; // for aws polly
+var html; // for display error
 
-/* GET users listing. */
+/* Routes */
+router.get('/', function(req, res, next) {
+  console.info('query ', req.query);
+  if(!req.query.voice || !req.query.SSML) {
+    html = `<h2 style="text-align: center;color: black;font-size: 30px;letter-spacing: 2px;
+                    font-family: sans-serif;
+                    position: absolute;
+                    top: 20%;
+                    left: 0;
+                    bottom: 0;
+                    right: 0;
+                    font-weight: normal;
+                        text-shadow: 1px 1px 2px #777070, 0 0 1em #0000006b, 0 0 0.2em #00000070;">missing required parameter</h2>`;
+    return res.status(400).send(html);
+  }
+  params = {
+    SampleRate: '16000',
+    OutputFormat: 'mp3',
+    TextType: 'ssml',
+    VoiceId: req.query.voice, // 'Joanna'
+    Text: req.query.SSML
+  };
+  Polly.synthesizeSpeech(params, function(err, data) {
+    if (err) {
+      console.log(err);
+      return res.status(400).send(err);
+    } else {
+      console.info(data);
+      console.info('_________________ ');
+      res.status(200).json(data);
+    }
+  });
+});
 router.post('/', function(req, res, next) {
   console.info('body ', req.body);
   if(!req.body.voice || !req.body.SSML) {
