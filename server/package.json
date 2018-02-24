@@ -1,6 +1,6 @@
 {
   "name": "server",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
     "start": "node ./bin/www"
@@ -17,5 +17,18 @@
     "node-uuid": ">= 1.4.1",
     "path": "^0.12.7",
     "serve-favicon": "~2.4.5"
-  }
+  },
+  "engines": {
+    "node": "4.1.1"
+  },
+  "description": "a simple node js server for SSML to speech",
+  "main": "app.js",
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://awais786327@bitbucket.org/malikasinger/rad-ul-fasaad.git"
+  },
+  "author": "awais",
+  "license": "ISC",
+  "homepage": "https://bitbucket.org/malikasinger/rad-ul-fasaad#readme"
 }
