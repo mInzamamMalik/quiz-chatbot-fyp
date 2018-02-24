@@ -11,6 +11,14 @@ var voice = require('./routes/voice');
 
 var app = express();
 
+// configure CORS
+var cors = require('cors');
+var corsOptions = {
+  origin: ['http://localhost:8000', 'https://rad-ul-fasaad.firebaseapp.com'],
+  optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
+};
+app.use(cors(corsOptions));
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 //app.set('view engine', 'jade');
