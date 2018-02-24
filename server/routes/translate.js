@@ -3,7 +3,6 @@ var router = express.Router();
 
 // Load the aws SDK
 var AWS = require('aws-sdk');
-var config = require('../config/credential.json');
 
 // Application env variable
 var env = process.env.NODE_ENV || 'dev';
@@ -11,9 +10,9 @@ console.info('_________________ ', env);
 
 // Create an Polly client
 var Polly = new AWS.Polly({
-  accessKeyId: env === 'dev' ? config[env].access_key_id : process.env.access_key_id,
-  secretAccessKey: env === 'dev' ? config[env].secret_access_key : process.env.secret_access_key,
-  region: env === 'dev' ? config[env].region : process.env.region,
+  accessKeyId: process.env.access_key_id,
+  secretAccessKey: process.env.secret_access_key,
+  region: process.env.region,
   signatureVersion: 'v4'
 });
 
@@ -25,15 +24,18 @@ var html; // for display error
 router.get('/', function(req, res, next) {
   console.info('query ', req.query);
   if(!req.query.voice || !req.query.SSML) {
-    html = `<h2 style="text-align: center;color: black;font-size: 30px;letter-spacing: 2px;
+    html = `<h2 style="
+                    text-align: center;
+                    color: black;
+                    font-size: 35px;
+                    letter-spacing: 1.7px;
                     font-family: sans-serif;
                     position: absolute;
                     top: 20%;
                     left: 0;
                     bottom: 0;
                     right: 0;
-                    font-weight: normal;
-                        text-shadow: 1px 1px 2px #777070, 0 0 1em #0000006b, 0 0 0.2em #00000070;">missing required parameter</h2>`;
+                    font-weight: normal;">missing required parameter<sup style="font-size: xx-small; font-weight: bold;letter-spacing: 1px;">e.g voice, SSML</sup> ?</h2>`;
     return res.status(400).send(html);
   }
   params = {
@@ -57,7 +59,19 @@ router.get('/', function(req, res, next) {
 router.post('/', function(req, res, next) {
   console.info('body ', req.body);
   if(!req.body.voice || !req.body.SSML) {
-    return res.status(400).send('missing required parameter');
+    html = `<h2 style="
+                    text-align: center;
+                    color: black;
+                    font-size: 35px;
+                    letter-spacing: 1.7px;
+                    font-family: sans-serif;
+                    position: absolute;
+                    top: 20%;
+                    left: 0;
+                    bottom: 0;
+                    right: 0;
+                    font-weight: normal;">missing required parameter<sup style="font-size: xx-small; font-weight: bold;letter-spacing: 1px;">e.g voice, SSML</sup> ?</h2>`;
+    return res.status(400).send(html);
   }
   params = {
     SampleRate: '16000',
