@@ -5,9 +5,9 @@
     .module('radUlFasaadApp')
     .controller('MainCtrl', MainCtrl);
 
-  MainCtrl.$inject = ['$rootScope', '$timeout', 'Auth', 'GoogleSignin', 'toastr', 'ERROR_MSG'];
+  MainCtrl.$inject = ['$rootScope', '$timeout', 'Auth', 'GoogleSignin', 'toastr', 'ERROR_MSG', 'NLP'];
 
-  function MainCtrl($rootScope, $timeout, Auth, GoogleSignin, toastr, ERROR_MSG) {
+  function MainCtrl($rootScope, $timeout, Auth, GoogleSignin, toastr, ERROR_MSG, NLP) {
     /* jshint validthis: true */
     var vm = this;
 
@@ -19,6 +19,10 @@
     ];
     vm.register = {};
     vm.singIn = {};
+    vm.voices = null;
+    vm.selectedVoice = {
+
+    };
     vm.user = null;
 
 
@@ -132,6 +136,7 @@
             };
             vm.user = userDetail;
             toastr.success('logged in as ' + userDetail.fName);
+            getVoices();
             console.info(vm.user)
           });
         }, function (err) {
@@ -150,6 +155,19 @@
           console.log('reason ', err);
           toastr.error(ERROR_MSG);
         });
+    }
+    function getVoices() {
+      NLP.getVoice()
+        .then(function (res) {
+          $timeout(function() {
+            vm.voices = res.data.Voices;
+            vm.selectedVoice = vm.voices[0];
+            console.info(vm.voices);
+          })
+        }, function (err) {
+          console.log('reason ', err);
+          toastr.error(ERROR_MSG);
+        })
     }
   }
 

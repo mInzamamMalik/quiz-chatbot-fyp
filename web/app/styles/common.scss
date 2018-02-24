@@ -63,6 +63,36 @@ body {
   padding-top: 5px !important;
   background-color: rgba(0,0,0,0.5) !important;
   margin: 0;
+  .inactive-link {
+    text-align: center;
+    a{
+      pointer-events: none;
+      cursor: default;
+    }
+  }
+  .dropdown-menu{
+    .overflow {
+      height: 300px;
+      overflow: auto;
+      li:first-child{
+        padding-top: 7px;
+      }
+      li {
+        display: list-item;
+        text-align: -webkit-match-parent;
+        a {
+          text-decoration: none;
+          display: block;
+          padding: 5px 20px;
+          clear: both;
+          font-weight: normal;
+          line-height: 1.428571429;
+          color: #333333;
+          white-space: nowrap;
+        }
+      }
+    }
+  }
 }
 
 .cursor {
@@ -109,4 +139,30 @@ body {
   font-size: 14px;
   font-weight: bold;
   font-family: 'Roboto',arial,sans-serif;
+}
+
+// application scroll style
+
+/* width */
+::-webkit-scrollbar {
+  width: 10px;
+  border-radius: 50px
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 50px
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 50px
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+  border-radius: 50px
 }

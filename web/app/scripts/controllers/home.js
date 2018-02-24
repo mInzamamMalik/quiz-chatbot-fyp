@@ -58,15 +58,12 @@
       content: 'More awesome content.',
       date: new Date().getTime()-900000,
       isMe: 0
-    }, {
-      content: 'love you babes.',
-      date: new Date().getTime()-700000,
-      isMe: 1
     }];
 
 
     vm.animateElementIn = animateElementIn;
     vm.animateElementOut = animateElementOut;
+    vm.listenSpeech = listenSpeech;
 
 
     function animateElementIn($el) {
@@ -74,6 +71,9 @@
     }
     function animateElementOut($el) {
       $el.find(".timeline-panel-style").removeClass('animated pulse');
+    }
+    function listenSpeech(ssml) {
+      console.info('ssml ', ssml)
     }
   }
 
