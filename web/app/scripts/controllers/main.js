@@ -5,9 +5,9 @@
     .module('radUlFasaadApp')
     .controller('MainCtrl', MainCtrl);
 
-  MainCtrl.$inject = ['$rootScope', '$timeout', 'Auth', 'GoogleSignin', 'toastr', 'ERROR_MSG', 'NLP'];
+  MainCtrl.$inject = ['$rootScope', '$timeout', 'Auth', 'GoogleSignin', 'toastr', 'ERROR_MSG', 'NLP', '$location'];
 
-  function MainCtrl($rootScope, $timeout, Auth, GoogleSignin, toastr, ERROR_MSG, NLP) {
+  function MainCtrl($rootScope, $timeout, Auth, GoogleSignin, toastr, ERROR_MSG, NLP, $location) {
     /* jshint validthis: true */
     var vm = this;
 
@@ -137,6 +137,7 @@
             vm.user = userDetail;
             toastr.success('logged in as ' + userDetail.fName);
             getVoices();
+            $location.path('/home');
             console.info(vm.user)
           });
         }, function (err) {
@@ -149,7 +150,7 @@
         .then(function (res) {
           $timeout(function () {
             console.info('logged out');
-            vm.user = null;
+            clearAll();
           });
         }, function (err) {
           console.log('reason ', err);
@@ -168,6 +169,16 @@
           console.log('reason ', err);
           toastr.error(ERROR_MSG);
         })
+    }
+    function clearAll() {
+      $timeout(function() {
+        vm.voices = null;
+        vm.selectedVoice = {
+
+        };
+        vm.user = null;
+        $location.path('/');
+      })
     }
   }
 

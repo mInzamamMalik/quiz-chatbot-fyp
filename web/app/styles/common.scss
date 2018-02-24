@@ -70,7 +70,7 @@ body {
       cursor: default;
     }
   }
-  .dropdown-menu{
+  .dropdown-menu {
     .overflow {
       height: 300px;
       overflow: auto;
@@ -82,7 +82,7 @@ body {
         text-align: -webkit-match-parent;
         a {
           text-decoration: none;
-          display: block;
+          display: inline-block;;
           padding: 5px 20px;
           clear: both;
           font-weight: normal;
@@ -91,6 +91,15 @@ body {
           white-space: nowrap;
         }
       }
+    }
+  }
+  .language-title {
+    i {
+      position: absolute;
+      top: 10px;
+    }
+    span {
+      margin-left: 30px;
     }
   }
 }
@@ -146,23 +155,28 @@ body {
 /* width */
 ::-webkit-scrollbar {
   width: 10px;
-  border-radius: 50px
+  border-radius: 4px
 }
 
 /* Track */
 ::-webkit-scrollbar-track {
   background: #f1f1f1;
-  border-radius: 50px
+  border-radius: 4px
 }
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  background: #888;
-  border-radius: 50px
+  background: #555;
+  border-radius: 4px
 }
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-  background: #555;
-  border-radius: 50px
+  background: darkslategrey;
+  border-radius: 4px
+}
+
+/* make audio element invisible */
+#say_speak {
+  display: none;
 }

@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="bower_components/angular-toastr/dist/angular-toastr.css" />
     <link rel="stylesheet" href="bower_components/angular-timeline/dist/angular-timeline.css" />
     <link rel="stylesheet" href="bower_components/animate.css/animate.css" />
+    <link rel="stylesheet" href="bower_components/hover/css/hover.css" />
     <!-- endbower -->
     <!-- endbuild -->
     <!-- build:css(.tmp) styles/main.css -->
@@ -22,7 +23,7 @@
   <body data-ng-app="radUlFasaadApp">
 
     <!-- Audio element -->
-    <audio data-ng-hide="true" controls autoplay id="say_speak"></audio>
+    <audio controls autoplay id="say_speak"></audio>
 
     <!--[if lte IE 8]>
       <p class="browsehappy">You are using an <strong>outdated</strong> browser.
@@ -48,11 +49,11 @@
                     <!-- Collect the nav links, forms, and other content for toggling -->
                     <div class="collapse navbar-collapse" id="left-navbar-menu-collapse">
                         <ul class="nav navbar-nav">
-                            <li data-ng-if="loginCtrl.user != null" class="dropdown">
+                            <li data-ng-if="loginCtrl.user != null" class="dropdown animated fadeIn">
                                 <a title="{{loginCtrl.selectedVoice.LanguageName}}" href="javascript:"
-                                   class="dropdown-toggle" data-toggle="dropdown">
+                                   class="dropdown-toggle language-title" data-toggle="dropdown">
                                     <i title="Language" class="fa fa-language" aria-hidden="true"></i>
-                                    <span ng-if="loginCtrl.selectedVoice.Name"
+                                    <span ng-if="loginCtrl.selectedVoice.Name" class="animated fadeIn"
                                           ng-bind="loginCtrl.selectedVoice.Name + ' (' + loginCtrl.selectedVoice.LanguageCode + ')'"></span>
                                     <b class="caret"></b>
                                 </a>
@@ -61,20 +62,23 @@
                                         <li title="{{voice.LanguageName}}"
                                             data-ng-click="loginCtrl.selectedVoice = voice"
                                             data-ng-repeat="voice in loginCtrl.voices track by $index">
-                                            <a href="javascript:" data-ng-bind="voice.Name + ' (' + voice.LanguageCode + ')'"></a>
+                                            <a href="javascript:" class="hvr-grow">
+                                              <span data-ng-bind="voice.Name + ' (' + voice.LanguageCode + ')'"></span>
+                                              <span class="label label-default" data-ng-bind="voice.Gender"></span>
+                                            </a>
                                         </li>
                                     </div>
 
                                     <li class="divider"></li>
                                     <li class="inactive-link">
                                         <a href="javascript:" class="text-center">
-                                            Available voices
+                                            available voices
                                         </a>
                                     </li>
                                 </ul>
                             </li>
                             <li data-ng-if="loginCtrl.user == null">
-                                <a href="#!/">
+                                <a href="#!/" class="animated fadeIn">
                                     Title Name
                                 </a>
                             </li>
