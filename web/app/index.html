@@ -64,7 +64,12 @@
                                             data-ng-repeat="voice in loginCtrl.voices track by $index">
                                             <a href="javascript:" class="hvr-grow">
                                               <span data-ng-bind="voice.Name + ' (' + voice.LanguageCode + ')'"></span>
-                                              <span class="label label-default" data-ng-bind="voice.Gender"></span>
+                                              <span class="label label-danger" data-ng-bind="voice.Gender"
+                                                    ng-class="{
+                                                    'text-pink': voice.Gender == 'Female',
+                                                    'text-green': voice.Gender == 'Male',
+                                                    }">
+                                              </span>
                                             </a>
                                         </li>
                                     </div>
