@@ -49,16 +49,16 @@
                     <!-- Collect the nav links, forms, and other content for toggling -->
                     <div class="collapse navbar-collapse" id="left-navbar-menu-collapse">
                         <ul class="nav navbar-nav">
-                            <li data-ng-if="loginCtrl.user != null" class="dropdown animated fadeIn">
+                            <li data-ng-if="loginCtrl.user != null" class="dropdown">
                                 <a title="{{loginCtrl.selectedVoice.LanguageName}}" href="javascript:"
-                                   class="dropdown-toggle language-title" data-toggle="dropdown">
+                                   class="dropdown-toggle animated fadeIn language-title" data-toggle="dropdown">
                                     <i title="Language" class="fa fa-language" aria-hidden="true"></i>
                                     <span ng-if="loginCtrl.selectedVoice.Name" class="animated fadeIn"
                                           ng-bind="loginCtrl.selectedVoice.Name + ' (' + loginCtrl.selectedVoice.LanguageCode + ')'"></span>
                                     <b class="caret"></b>
                                 </a>
                                 <ul class="dropdown-menu">
-                                    <div class="overflow">
+                                    <div class="overflow text-center">
                                         <li title="{{voice.LanguageName}}"
                                             data-ng-click="loginCtrl.selectedVoice = voice"
                                             data-ng-repeat="voice in loginCtrl.voices track by $index">
@@ -72,7 +72,7 @@
                                     <li class="divider"></li>
                                     <li class="inactive-link">
                                         <a href="javascript:" class="text-center">
-                                            available voices
+                                          <i class="fa fa-microphone" aria-hidden="true"></i> available voices
                                         </a>
                                     </li>
                                 </ul>
