@@ -13,6 +13,9 @@
   }
   .no-timeline-badge-shadow {
     box-shadow: none !important;
+    i {
+      vertical-align: baseline;
+    }
   }
   .timeline-panel-style {
     background-color: rgba(158, 158, 158, 0.20);
