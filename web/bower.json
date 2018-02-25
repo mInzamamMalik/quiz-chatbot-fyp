@@ -20,7 +20,8 @@
     "angular-timeago": "^0.4.6",
     "ng-google-signin": "^0.1.0",
     "aws-sdk": "aws-sdk-js#^2.198.0",
-    "hover": "^2.1.1"
+    "hover": "^2.1.1",
+    "angular-adaptive-speech": "latest"
   },
   "devDependencies": {
     "angular-mocks": "^1.4.0"

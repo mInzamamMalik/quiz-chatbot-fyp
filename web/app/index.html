@@ -159,7 +159,7 @@
                                                    data-ng-model="loginCtrl.singIn.pass" placeholder="Password" name="password">
 
                                             <button data-ng-disabled="isLoading" data-ng-class="{'grey-bg': isLoading}"
-                                                    type="submit" class="btn btn-default btn-login">Login</button>
+                                                    type="submit" class="btn hvr-shutter-out-horizontal btn-default btn-login">Login</button>
                                         </form>
                                     </div>
                                 </div>
@@ -184,8 +184,8 @@
                                                 password not same
                                             </div>
 
-                                            <input data-ng-show="!isLoading" class="btn btn-default btn-register" type="submit"
-                                                   value="Create account" name="submit">
+                                            <input data-ng-show="!isLoading" class="btn btn-default hvr-back-pulse btn-register"
+                                                   type="submit" value="Create account" name="submit">
                                             <input data-ng-class="{'grey-bg': isLoading}" data-ng-show="isLoading" type="button"
                                                    class="btn btn-default btn-register" value="Please wait" data-ng-disabled="true">
                                         </form>
@@ -253,6 +253,7 @@
     <script src="bower_components/angular-timeago/dist/angular-timeago.js"></script>
     <script src="bower_components/ng-google-signin/dist/ng-google-signin.js"></script>
     <script src="bower_components/aws-sdk/dist/aws-sdk.js"></script>
+    <script src="bower_components/angular-adaptive-speech/src/angular-adaptive-speech.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
 
