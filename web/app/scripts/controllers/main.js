@@ -124,6 +124,7 @@
           $timeout(function () {
             $('#loginModal').fadeOut('fast',function(){
               $('button[data-dismiss]').click();
+              $rootScope.startLoading(true);
             });
             var profile = user.getBasicProfile();
             var userDetail = {
@@ -143,6 +144,7 @@
         }, function (err) {
           console.log('reason ', err);
           toastr.error(ERROR_MSG);
+          $rootScope.startLoading(false);
         });
     }
     function logout() {
@@ -163,11 +165,13 @@
           $timeout(function() {
             vm.voices = res.data.Voices;
             vm.selectedVoice = vm.voices[0];
+            $rootScope.startLoading(false);
             console.info(vm.voices);
           })
         }, function (err) {
           console.log('reason ', err);
           toastr.error(ERROR_MSG);
+          $rootScope.startLoading(false);
         })
     }
     function clearAll() {
