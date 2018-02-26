@@ -11,14 +11,30 @@
 
       /* toggle loading at root level */
 
+      /* vm-properties */
       $rootScope.isLoading = false;
 
-      $rootScope.startLoading = function(val) {
+
+      /* init */
+      stopLoadingOnloaded();
+
+
+      /* vm-functions */
+      $rootScope.startLoading = startLoading;
+
+
+      /* functions */
+      function startLoading(val) {
         $rootScope.isLoading = val;
         if (val) AppLoader.start();
         else AppLoader.stop();
-      };
-
+      }
+      function stopLoadingOnloaded() {
+        startLoading(true);
+        window.onload = function() {
+          startLoading(false);
+        };
+      }
     }
   }
 )();
