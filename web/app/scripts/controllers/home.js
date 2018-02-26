@@ -5,11 +5,65 @@
     .module('radUlFasaadApp')
     .controller('HomeCtrl', HomeCtrl);
 
-  HomeCtrl.$inject = [];
+  HomeCtrl.$inject = ['$rootScope', '$speechRecognition', '$speechSynthetis', '$speechCorrection', 'toastr', '$window'];
 
-  function HomeCtrl() {
+  function HomeCtrl($rootScope, $speechRecognition, $speechSynthetis, $speechCorrection, toastr, $window) {
     /* jshint validthis: true */
     var vm = this;
+    var background = ['red', 'green', 'blue', 'purple', 'grey', 'orange', 'yellow', 'brown', 'golden', 'deepskyblue'];
+    var task = [
+      {
+        'regex': /(.+ )?change( .+)?/gi,
+        'lang': 'en-US',
+        'call': function(e){
+          console.info('changing the background ..................');
+          angular.element('body').css('background', background[Math.floor(Math.random() * 9) + 1]);
+        }
+      }, {
+        'regex': /(.+ )?start( .+)?/gi,
+        'lang': 'en-US',
+        'call': function(e){
+          console.info('loading started ..................');
+          $rootScope.startLoading(true);
+        }
+      }, {
+        'regex': /(.+ )?stop( .+)?/gi,
+        'lang': 'en-US',
+        'call': function(e){
+          console.info('loading finished ..................');
+          $rootScope.startLoading(false);
+        }
+      }, {
+        'regex': /(.+ )?turn off( .+)?/gi,
+        'lang': 'en-US',
+        'call': function(e){
+          console.info('turning off the light ..................');
+          angular.element('.home-wrapper').css('background-image', 'none');
+          angular.element('body').css('background', 'black');
+        }
+      }, {
+        'regex': /(.+ )?remove( .+)?/gi,
+        'lang': 'en-US',
+        'call': function(e){
+          console.info('ok, removing ..........................');
+          angular.element('.home-wrapper').css('background-image', 'none');
+        }
+      }, {
+        'regex': /(.+ )?call( .+)?/gi,
+        'lang': 'en-US',
+        'call': function(e){
+          console.info('calling, please wait ................... ');
+          toastr.success('Calling please wait.......');
+        }
+      }, {
+        'regex': /(.+ )?open( .+)?/gi,
+        'lang': 'en-US',
+        'call': function(e){
+          console.info('opening ................... ');
+          $window.open("https://www.firebase.com", "", "width=1500,height=400");
+        }
+      }
+    ];
     vm.timeline = [{
       content: 'hi there.',
       date: new Date(),
@@ -59,6 +113,27 @@
       date: new Date().getTime()-900000,
       isMe: 0
     }];
+
+
+
+    /* init */
+
+      // when start
+    $speechRecognition.onstart(function() {
+      console.info('Activated!');
+    });
+      // when nothing detect
+    $speechRecognition.onerror(function(e){
+      console.info('No voice detected');
+    });
+      // when somebody speak
+    $speechRecognition.onUtterance(function(utterance){
+      console.log(utterance);
+    });
+      // watch also tasks commands
+    $speechRecognition.listenUtterance(task);
+      // start listening
+    $speechRecognition.listen();
 
 
     vm.animateElementIn = animateElementIn;
