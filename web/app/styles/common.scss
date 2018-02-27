@@ -209,6 +209,11 @@ body {
       .emogi-heading {
         overflow: hidden;
       }
+      .emogi-name {
+        .em {
+          margin: 2px 3px !important;
+        }
+      }
       .emogi-heading:after {
         content: "";
         display: inline-block;

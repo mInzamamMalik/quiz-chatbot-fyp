@@ -73,56 +73,43 @@
 
     vm.timeline = [{
       content: 'hi there.',
+      from: 'me',
       date: new Date(),
-      isMe: 1
+      react: ''
     }, {
       content: 'see time after a while.',
+      from: 'me',
       date: new Date().getTime()+200000,
-      isMe: 1
-    }, {
-      content: 'what\'s up broh!.',
-      date: new Date().getTime()-500000,
-      isMe: 1
+      react: ''
     }, {
       content: 'i am just testing its wonderful.',
+      from: '',
       date: new Date().getTime()-100000,
-      isMe: 0
-    }, {
-      content: 'yeah.',
-      date: new Date().getTime()-800000,
-      isMe: 1
+      react: ''
     }, {
       content: 'this is text speech testing.',
+      from: 'me',
       date: new Date().getTime()-1200000,
-      isMe: 0
-    }, {
-      content: 'i am looking coooooool.',
-      date: new Date().getTime()-300000,
-      isMe: 1
+      react: ''
     }, {
       content: 'really awesome.',
+      from: '',
       date: new Date().getTime()-700000,
-      isMe: 0
-    }, {
-      content: 'testing sound D.J.',
-      date: new Date().getTime()-300000,
-      isMe: 1
-    }, {
-      content: 'waaaaaaaaaaaaaaao.',
-      date: new Date().getTime()-400000,
-      isMe: 0
+      react: ''
     }, {
       content: 'keep rocking man.',
+      from: 'me',
       date: new Date().getTime()-100000,
-      isMe: 1
+      react: ''
     }, {
-      content: 'More awesome content.',
+      content: 'More awesome text.',
+      from: 'me',
       date: new Date().getTime()-900000,
-      isMe: 0
+      react: ''
     }];
     vm.emogis = [{
       type: 'Smiley',
-      values: [
+      names: [
         "em-smile",
         "em-laughing",
         "em-blush",
@@ -302,7 +289,7 @@
       ]
     },{
       type: 'Nature',
-      values: [
+      names: [
         "em-sunny",
         "em-umbrella",
         "em-cloud",
@@ -419,7 +406,7 @@
       ]
     },{
       type: 'Object',
-      values: [
+      names: [
         "em-watch",
         "em-radio",
         "em-satellite",
@@ -596,7 +583,7 @@
       ]
     },{
       type: 'Food',
-      values: [
+      names: [
         "em-apple",
         "em-green_apple",
         "em-tangerine",
@@ -659,7 +646,7 @@
       ]
     },{
       type: 'Activity',
-      values: [
+      names: [
         "em-football",
         "em-basketball",
         "em-soccer",
@@ -693,7 +680,7 @@
       ]
     },{
       type: 'Symbol',
-      values: [
+      names: [
         "em-one",
         "em-two",
         "em-three",
@@ -897,7 +884,7 @@
       ]
     },{
       type: 'Place',
-      values: [
+      names: [
         "em-car",
         "em-taxi",
         "em-oncoming_taxi",
