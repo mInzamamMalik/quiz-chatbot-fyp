@@ -15,7 +15,8 @@
       'angular-scroll-animate',
       'yaru22.angular-timeago',
       'google-signin',
-      'adaptive.speech'
+      'adaptive.speech',
+      'ui.bootstrap'
     ])
     .config(RouteConfig);
 

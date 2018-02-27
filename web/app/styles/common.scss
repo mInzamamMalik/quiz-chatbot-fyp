@@ -187,3 +187,18 @@ body {
 .text-green {
   color: #3f903f !important;
 }
+
+/* for emogi popover */
+.popover {
+  background: #f1f1f1;
+  .arrow {
+    display: none !important;
+  }
+  .popover-content {
+    background: #f1f1f1;
+    max-width: 250px;
+    height: 150px;
+    overflow: scroll;
+    padding: 7px;
+  }
+}
