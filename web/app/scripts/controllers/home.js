@@ -5,11 +5,16 @@
     .module('radUlFasaadApp')
     .controller('HomeCtrl', HomeCtrl);
 
-  HomeCtrl.$inject = ['$rootScope', '$speechRecognition', '$speechSynthetis', '$speechCorrection', 'toastr', '$window'];
+  HomeCtrl.$inject = ['$rootScope', '$speechRecognition', '$speechSynthetis', '$speechCorrection', 'toastr',
+                      '$window', 'ERROR_MSG'];
 
-  function HomeCtrl($rootScope, $speechRecognition, $speechSynthetis, $speechCorrection, toastr, $window) {
+  function HomeCtrl($rootScope, $speechRecognition, $speechSynthetis, $speechCorrection, toastr,
+                    $window, ERROR_MSG) {
     /* jshint validthis: true */
     var vm = this;
+
+    var db = firebase.firestore();
+
     var background = ['red', 'green', 'blue', 'purple', 'grey', 'orange', 'yellow', 'brown', 'golden', 'deepskyblue'];
     var task = [
       {
@@ -64,6 +69,8 @@
         }
       }
     ];
+
+
     vm.timeline = [{
       content: 'hi there.',
       date: new Date(),
@@ -115,9 +122,10 @@
     }];
 
 
-
     /* init */
-    initCloudFirestore();
+
+    getMessages();
+
       // when start
     $speechRecognition.onstart(function() {
       console.info('Activated!');
@@ -132,13 +140,12 @@
     });
       // watch also tasks commands
     $speechRecognition.listenUtterance(task);
-      // start listening
-    //$speechRecognition.listen();
 
 
     vm.animateElementIn = animateElementIn;
     vm.animateElementOut = animateElementOut;
     vm.listenSpeech = listenSpeech;
+    vm.playVoice = playVoice;
 
 
     function animateElementIn($el) {
@@ -147,28 +154,36 @@
     function animateElementOut($el) {
       $el.find(".timeline-panel-style").removeClass('animated pulse');
     }
-    function listenSpeech(ssml) {
-      console.info('ssml ', ssml)
+    function listenSpeech() {
+      // start listening user voice
+      $speechRecognition.listen();
     }
-    function initCloudFirestore() {
-      // Initialize Cloud Firestore through Firebase
-      var db = firebase.firestore();
+    function playVoice(ssml) {
+      console.info(ssml);
+    }
+    function getMessages() {
+      // get all messages collection from fire-store database
+      db.collection("messages").get()
+        .then(function(queryResult) {
+          queryResult.forEach(function(doc) {
+            console.log(doc.id, doc.data());
+          });
+        });
+    }
+    function setFirebaseCollection() {
+      // set message collection into fire-store database
       db.collection("messages").add({
           content: "hi, this is a testing",
-          from: ''
+          from: 'me',
+          date: new Date().getTime(),
+          react: ''
         })
         .then(function(docRef) {
           console.log("Document written with ID: ", docRef.id);
         })
         .catch(function(error) {
           console.error("Error adding document: ", error);
-        });
-      db.collection("messages").get()
-        .then(function(queryResult) {
-          console.log('queryResult ', queryResult);
-          queryResult.forEach(function(obj) {
-            console.log(obj.id, obj.data());
-          });
+          toastr.error(ERROR_MSG);
         });
     }
   }
