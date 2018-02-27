@@ -117,7 +117,7 @@
 
 
     /* init */
-
+    initCloudFirestore();
       // when start
     $speechRecognition.onstart(function() {
       console.info('Activated!');
@@ -133,7 +133,7 @@
       // watch also tasks commands
     $speechRecognition.listenUtterance(task);
       // start listening
-    $speechRecognition.listen();
+    //$speechRecognition.listen();
 
 
     vm.animateElementIn = animateElementIn;
@@ -149,6 +149,27 @@
     }
     function listenSpeech(ssml) {
       console.info('ssml ', ssml)
+    }
+    function initCloudFirestore() {
+      // Initialize Cloud Firestore through Firebase
+      var db = firebase.firestore();
+      db.collection("messages").add({
+          content: "hi, this is a testing",
+          from: ''
+        })
+        .then(function(docRef) {
+          console.log("Document written with ID: ", docRef.id);
+        })
+        .catch(function(error) {
+          console.error("Error adding document: ", error);
+        });
+      db.collection("messages").get()
+        .then(function(queryResult) {
+          console.log('queryResult ', queryResult);
+          queryResult.forEach(function(obj) {
+            console.log(obj.id, obj.data());
+          });
+        });
     }
   }
 
