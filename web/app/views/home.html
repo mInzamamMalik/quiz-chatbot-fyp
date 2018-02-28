@@ -17,7 +17,7 @@
                 </timeline-heading>
                 <p>{{message.content}}</p>
                 <p class="time">
-                  <span data-ng-bind="message.date | timeAgo"></span> -
+                  <span data-ng-bind="message.date | timeAgo"></span> .
                   <span data-ng-show="message.react" class="em no-cursor {{message.react}}"></span>
                   <i data-ng-show="!message.react" class="fa fa-smile-o emogi" aria-hidden="true"
                      popover-is-open="message.isPopover" uib-popover-template="'emogiTemplate.html'"
