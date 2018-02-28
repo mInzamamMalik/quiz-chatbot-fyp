@@ -676,9 +676,11 @@ h1 small, h2 small, h3 small, h1 .small, h2 .small, h3 .small {
 .cover{
     position: fixed;
     opacity: 1;
-    background-color: rgba(0,0,0,.6);
-    left: 0px;
-    top: 0px;
+    background: #070000;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #070000, #4C0001, #070000);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #070000, #4C0001, #070000); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    left: 0;
+    top: 0;
     width: 100%;
     height: 100%;
     z-index: 1;
@@ -768,7 +770,6 @@ h1 small, h2 small, h3 small, h1 .small, h2 .small, h3 .small {
     height: auto;
     z-index: 1;
     overflow: hidden;
-    background-image: url('../images/video_bg.jpg');
     background-position: center center;
     background-size: cover;
 
