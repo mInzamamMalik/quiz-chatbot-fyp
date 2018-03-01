@@ -155,27 +155,27 @@ body {
 
 /* width */
 ::-webkit-scrollbar {
-  width: 10px;
-  border-radius: 4px
+  width: 0;
+//  border-radius: 4px
 }
-
-/* Track */
-::-webkit-scrollbar-track {
-  background: #f1f1f1;
-  border-radius: 4px
-}
-
-/* Handle */
-::-webkit-scrollbar-thumb {
-  background: #555;
-  border-radius: 4px
-}
-
-/* Handle on hover */
-::-webkit-scrollbar-thumb:hover {
-  background: darkslategrey;
-  border-radius: 4px
-}
+//
+///* Track */
+//::-webkit-scrollbar-track {
+//  background: #f1f1f1;
+//  border-radius: 4px
+//}
+//
+///* Handle */
+//::-webkit-scrollbar-thumb {
+//  background: #555;
+//  border-radius: 4px
+//}
+//
+///* Handle on hover */
+//::-webkit-scrollbar-thumb:hover {
+//  background: darkslategrey;
+//  border-radius: 4px
+//}
 
 /* make audio element invisible */
 #say_speak {
