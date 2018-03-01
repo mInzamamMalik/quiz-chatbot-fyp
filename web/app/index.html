@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="bower_components/angular-toastr/dist/angular-toastr.css" />
     <link rel="stylesheet" href="bower_components/angular-timeline/dist/angular-timeline.css" />
     <link rel="stylesheet" href="bower_components/animate.css/animate.css" />
+    <link rel="stylesheet" href="bower_components/hover/css/hover.css" />
     <!-- endbower -->
     <!-- endbuild -->
     <!-- build:css(.tmp) styles/main.css -->
@@ -22,7 +23,7 @@
   <body data-ng-app="radUlFasaadApp">
 
     <!-- Audio element -->
-    <audio data-ng-hide="true" controls autoplay id="say_speak"></audio>
+    <audio controls autoplay id="say_speak"></audio>
 
     <!--[if lte IE 8]>
       <p class="browsehappy">You are using an <strong>outdated</strong> browser.
@@ -48,24 +49,41 @@
                     <!-- Collect the nav links, forms, and other content for toggling -->
                     <div class="collapse navbar-collapse" id="left-navbar-menu-collapse">
                         <ul class="nav navbar-nav">
-                            <!--<li class="dropdown">-->
-                                <!--<a href="javascript:" class="dropdown-toggle" data-toggle="dropdown">-->
-                                    <!--<img src="images/flags/US.png"/> English(US) <b class="caret"></b>-->
-                                <!--</a>-->
-                                <!--<ul class="dropdown-menu">-->
-                                    <!--<li><a href="#"><img src="images/flags/GB.png"/> English(UK)</a></li>-->
-                                    <!--<li><a href="#"><img src="images/flags/FR.png"/> Français</a></li>-->
+                            <li data-ng-if="loginCtrl.user != null" class="dropdown">
+                                <a title="{{loginCtrl.selectedVoice.LanguageName}}" href="javascript:"
+                                   class="dropdown-toggle animated fadeIn language-title" data-toggle="dropdown">
+                                    <i title="Language" class="fa fa-language" aria-hidden="true"></i>
+                                    <span ng-if="loginCtrl.selectedVoice.Name" class="animated fadeIn"
+                                          ng-bind="loginCtrl.selectedVoice.Name + ' (' + loginCtrl.selectedVoice.LanguageCode + ')'"></span>
+                                    <b class="caret"></b>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <div class="overflow text-center">
+                                        <li title="{{voice.LanguageName}}"
+                                            data-ng-click="loginCtrl.selectedVoice = voice"
+                                            data-ng-repeat="voice in loginCtrl.voices track by $index">
+                                            <a href="javascript:" class="hvr-grow">
+                                              <span data-ng-bind="voice.Name + ' (' + voice.LanguageCode + ')'"></span>
+                                              <span class="label label-danger" data-ng-bind="voice.Gender"
+                                                    ng-class="{
+                                                    'text-pink': voice.Gender == 'Female',
+                                                    'text-green': voice.Gender == 'Male',
+                                                    }">
+                                              </span>
+                                            </a>
+                                        </li>
+                                    </div>
 
-                                    <!--<li class="divider"></li>-->
-                                    <!--<li>-->
-                                        <!--<a href="#"><img src="images/flags/TR.png"/>-->
-                                            <!--Türkçe <span class="label label-default">soon</span>-->
-                                        <!--</a>-->
-                                    <!--</li>-->
-                                <!--</ul>-->
-                            <!--</li>-->
-                            <li>
-                                <a href="#!/">
+                                    <li class="divider"></li>
+                                    <li class="inactive-link">
+                                        <a href="javascript:" class="text-center">
+                                          <i class="fa fa-microphone" aria-hidden="true"></i> available voices
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li data-ng-if="loginCtrl.user == null">
+                                <a href="#!/" class="animated fadeIn">
                                     Title Name
                                 </a>
                             </li>
@@ -146,7 +164,7 @@
                                                    data-ng-model="loginCtrl.singIn.pass" placeholder="Password" name="password">
 
                                             <button data-ng-disabled="isLoading" data-ng-class="{'grey-bg': isLoading}"
-                                                    type="submit" class="btn btn-default btn-login">Login</button>
+                                                    type="submit" class="btn hvr-shutter-out-horizontal btn-default btn-login">Login</button>
                                         </form>
                                     </div>
                                 </div>
@@ -171,8 +189,8 @@
                                                 password not same
                                             </div>
 
-                                            <input data-ng-show="!isLoading" class="btn btn-default btn-register" type="submit"
-                                                   value="Create account" name="submit">
+                                            <input data-ng-show="!isLoading" class="btn btn-default hvr-back-pulse btn-register"
+                                                   type="submit" value="Create account" name="submit">
                                             <input data-ng-class="{'grey-bg': isLoading}" data-ng-show="isLoading" type="button"
                                                    class="btn btn-default btn-register" value="Please wait" data-ng-disabled="true">
                                         </form>
@@ -240,6 +258,8 @@
     <script src="bower_components/angular-timeago/dist/angular-timeago.js"></script>
     <script src="bower_components/ng-google-signin/dist/ng-google-signin.js"></script>
     <script src="bower_components/aws-sdk/dist/aws-sdk.js"></script>
+    <script src="bower_components/angular-adaptive-speech/src/angular-adaptive-speech.js"></script>
+    <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
 
@@ -260,6 +280,7 @@
         <!-- Factories -->
         <script src="scripts/factory/auth.js"></script>
         <script src="scripts/factory/app-loader.js"></script>
+        <script src="scripts/factory/nlp.js"></script>
 
         <!-- Run -->
         <script src="scripts/run/index.js"></script>
@@ -268,6 +289,10 @@
         <script src="scripts/config/form-validation.js"></script>
         <script src="scripts/config/time-ago-config.js"></script>
         <script src="scripts/config/google-sign-in.js"></script>
+
+        <!-- Firebase -->
+        <script src="https://www.gstatic.com/firebasejs/4.9.0/firebase.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/4.9.1/firebase-firestore.js"></script>
 
         <!-- endbuild -->
 </body>

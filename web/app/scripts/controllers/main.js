@@ -5,9 +5,9 @@
     .module('radUlFasaadApp')
     .controller('MainCtrl', MainCtrl);
 
-  MainCtrl.$inject = ['$rootScope', '$timeout', 'Auth', 'GoogleSignin', 'toastr', 'ERROR_MSG'];
+  MainCtrl.$inject = ['$rootScope', '$timeout', 'Auth', 'GoogleSignin', 'toastr', 'ERROR_MSG', 'NLP', '$location'];
 
-  function MainCtrl($rootScope, $timeout, Auth, GoogleSignin, toastr, ERROR_MSG) {
+  function MainCtrl($rootScope, $timeout, Auth, GoogleSignin, toastr, ERROR_MSG, NLP, $location) {
     /* jshint validthis: true */
     var vm = this;
 
@@ -19,6 +19,10 @@
     ];
     vm.register = {};
     vm.singIn = {};
+    vm.voices = null;
+    vm.selectedVoice = {
+
+    };
     vm.user = null;
 
 
@@ -31,48 +35,6 @@
     vm.signInWithGoogle = signInWithGoogle;
     vm.registerUser = registerUser;
 
-
-    init();
-
-
-    function init() {
-      AWS.config.region = 'xxx';
-      AWS.config.accessKeyId = 'xxxxxxxxx';
-      AWS.config.secretAccessKey = 'xxxxxxxxxxxxxxxxxxxxxx';
-
-      var polly = new AWS.Polly();
-      var params = {
-        OutputFormat: 'mp3', /* required */
-        Text: ` <speak>
-                   hisaaaa ssd<break time="1s"/>
-                   In the middle of the 10/3/2014 <sub alias="World Wide Web Consortium">W3C</sub> meeting
-                   he shouted, "Score!" quite loudly. When his boss stared at him, he repeated
-                   <amazon:effect name="whispered">"Score"</amazon:effect> in a whisper.
-                </speak>`, /* required */
-        VoiceId: 'Joanna', /* required */
-        SampleRate: '22050',
-        TextType: 'ssml'
-      };
-
-      polly.synthesizeSpeech(params, function(err, data) {
-        if (err) {
-          console.log(err);
-        } else {
-          console.log('stream ', data);
-
-          var blob = new Blob([data.AudioStream], {type : data.ContentType});
-
-          $timeout(function() {
-            var reader = new FileReader();
-            reader.onload = function(e) {
-              angular.element("#say_speak").attr("src", e.target.result);
-            };
-            reader.readAsDataURL(blob);
-          });
-
-        }
-      });
-    }
 
     function openLoginModal(){
       showLoginForm();
@@ -162,6 +124,7 @@
           $timeout(function () {
             $('#loginModal').fadeOut('fast',function(){
               $('button[data-dismiss]').click();
+              $rootScope.startLoading(true);
             });
             var profile = user.getBasicProfile();
             var userDetail = {
@@ -174,11 +137,14 @@
             };
             vm.user = userDetail;
             toastr.success('logged in as ' + userDetail.fName);
+            getVoices();
+            $location.path('/home');
             console.info(vm.user)
           });
         }, function (err) {
           console.log('reason ', err);
           toastr.error(ERROR_MSG);
+          $rootScope.startLoading(false);
         });
     }
     function logout() {
@@ -186,12 +152,37 @@
         .then(function (res) {
           $timeout(function () {
             console.info('logged out');
-            vm.user = null;
+            clearAll();
           });
         }, function (err) {
           console.log('reason ', err);
           toastr.error(ERROR_MSG);
         });
+    }
+    function getVoices() {
+      NLP.getVoice()
+        .then(function (res) {
+          $timeout(function() {
+            vm.voices = res.data.Voices;
+            vm.selectedVoice = vm.voices[0];
+            $rootScope.startLoading(false);
+            console.info(vm.voices);
+          })
+        }, function (err) {
+          console.log('reason ', err);
+          toastr.error(ERROR_MSG);
+          $rootScope.startLoading(false);
+        })
+    }
+    function clearAll() {
+      $timeout(function() {
+        vm.voices = null;
+        vm.selectedVoice = {
+
+        };
+        vm.user = null;
+        $location.path('/');
+      })
     }
   }
 

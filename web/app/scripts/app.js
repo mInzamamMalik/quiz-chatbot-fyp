@@ -14,7 +14,9 @@
       'angular-timeline',
       'angular-scroll-animate',
       'yaru22.angular-timeago',
-      'google-signin'
+      'google-signin',
+      'adaptive.speech',
+      'ui.bootstrap'
     ])
     .config(RouteConfig);
 

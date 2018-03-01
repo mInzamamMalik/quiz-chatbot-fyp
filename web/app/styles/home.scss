@@ -13,6 +13,9 @@
   }
   .no-timeline-badge-shadow {
     box-shadow: none !important;
+    i {
+      vertical-align: baseline;
+    }
   }
   .timeline-panel-style {
     background-color: rgba(158, 158, 158, 0.20);
@@ -33,6 +36,12 @@
       font-size: 12px;
       margin: 0;
       color: #9e9e9e;
+      .emogi {
+        &:hover {
+          text-decoration: underline;
+          cursor: pointer;
+        }
+      }
     }
   }
   .timeline-panel-style:after, .timeline-panel-style:before { display: none !important; }
@@ -40,14 +49,6 @@
     &:before {
       width: 2px;
       margin-left: -0.5px;
-    }
-  }
-  .timeline-badge {
-    i {
-      left: 2px;
-      position: relative;
-      font-size: 18px;
-      bottom: 1px;
     }
   }
 }
