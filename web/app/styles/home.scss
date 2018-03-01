@@ -51,9 +51,25 @@
       margin-left: -0.5px;
     }
   }
+  .fixed-input {
+    position: fixed;
+    bottom: 4%;
+    right: 8%;
+    z-index: 999;
+    width: 90%;
+    .text-overlay {
+      background-color: #0000002b;
+      textarea {
+        background-color: rgba(158, 158, 158, 0.2);
+        box-shadow: 0 10px 10px -10px rgba(0, 0, 0, 0.5);
+        color: #fff;
+        border: none;
+      }
+    }
+  }
   .fixed-action-btn {
     position: fixed;
-    right: 23px;
+    right: 32px;
     bottom: 23px;
     padding-top: 15px;
     margin-bottom: 0;
