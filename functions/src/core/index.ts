@@ -4,3 +4,5 @@ export function upcaseMessage(msg: string): string {
 }
 
 export { eventQuery, textQuery } from './apiai'
+
+export { session } from './session'

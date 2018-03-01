@@ -12,6 +12,7 @@
     "@types/cors": "^2.8.1",
     "@types/request": "^2.47.0",
     "apiai": "^4.0.3",
+    "bcrypt-inzi": "^1.0.7",
     "cors": "^2.8.4",
     "firebase-admin": "^5.7.0",
     "firebase-functions": "^0.8.1",
