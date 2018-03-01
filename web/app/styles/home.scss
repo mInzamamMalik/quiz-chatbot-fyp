@@ -109,6 +109,8 @@
         background-color: transparent;
       }
     }
+
+    /* when not listening */
     .bubble-pulse {
       animation: bubble-pulse 1.5s infinite;
     }
@@ -135,6 +137,33 @@
       100% {
         -moz-box-shadow: 0 0 0 0 rgba(204,169,44, 0);
         box-shadow: 0 0 0 0 rgba(204,169,44, 0);
+      }
+    }
+
+    /* when starts listening */
+    .bubble-pulse-listening {
+      animation: bubble-pulse-listening 1s infinite;
+    }
+    @-webkit-keyframes bubble-pulse-listening {
+      0% {
+        box-shadow: 0 0 0 0 rgba(204, 169, 44, 0.4);
+      }
+      95% {
+        box-shadow: 0 0 0 100px rgba(204, 169, 44, 0);
+      }
+      100% {
+        box-shadow: 0 0 0 0 rgba(204, 169, 44, 0);
+      }
+    }
+    @keyframes bubble-pulse-listening {
+      0% {
+        box-shadow: 0 0 0 0 rgba(204, 169, 44, 0.4);
+      }
+      95% {
+        box-shadow: 0 0 0 100px rgba(204, 169, 44, 0);
+      }
+      100% {
+        box-shadow: 0 0 0 0 rgba(204, 169, 44, 0);
       }
     }
   }
