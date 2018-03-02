@@ -1,33 +1,35 @@
-<div class="main" style="background-image: url('images/default.jpg')">
-  <video id="video_background" preload="auto" autoplay="true" loop="loop" muted="muted" volume="0">
-    <source src="images/video/time.webm" type="video/webm">
-    <source src="images/video/time.mp4" type="video/mp4">
-    Video not supported
-  </video>
-  <!--  Change the image source of #video_background '/images/video_bg.jpg')" with your favourite image.  -->
+<div class="main">
 
   <div class="cover black" data-color="black"></div>
 
   <!--  You can change the black color for the filter with those colors: blue, green, red, orange -->
 
   <div class="container">
-    <h1 class="logo cursive animated fadeInDown">
-      Invision App
+    <h1 class="logo cursive animated fadeIn">
+      <img class="animated pulse infinite" src="../images/logo.svg" height="250" alt="">
+      e BOT
     </h1>
 
     <div class="content">
-      <h4 class="motto animated fadeInUp">Content of title goes here.</h4>
       <div class="subscribe">
-        <h5 class="info-text animated fadeIn">
-          Content of subscribe for mailing goes here.
+        <h5 class="info-text animated fadeIn" start-timeout="2000" type-speed="40" typed
+            type-strings="[
+              '<b>S</b>^1000',
+              '<b>A</b>^1000',
+              '<b>M</b>^1000',
+              'Meet <b>Sam</b>,^1200 your^1000 best ever Assistant'
+          ]" html-mode>
         </h5>
         <div class="row">
           <div class="col-md-4 col-md-offset-4 col-sm6-6 col-sm-offset-3 ">
             <form class="form-inline hvr-shadow" role="form">
               <div class="form-group">
-                <input type="email" class="form-control subscribe-mail transparent" placeholder="Your email here...">
+                <input type="text" class="form-control subscribe-mail transparent"
+                       placeholder="What name you want to call me..">
               </div>
-              <button type="submit" class="btn btn-warning btn-fill">Notify Me</button>
+              <button type="submit" class="btn btn-warning hvr-shutter-in-horizontal btn-fill">
+                <i class="fa fa-circle-o-notch"></i>
+              </button>
             </form>
           </div>
         </div>

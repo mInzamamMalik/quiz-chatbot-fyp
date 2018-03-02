@@ -1,45 +1,67 @@
 <div class="home-wrapper" data-ng-controller="HomeCtrl as home" style="background-image: url('images/bg.jpg')">
-  <div class="overlay">
-    <div class="container">
-      <div class="row">
-        <div class="col-md-12">
-          <timeline>
-            <timeline-event ng-repeat="message in home.timeline track by $index" side="{{message.from == 'me' ? 'right' : 'left'}}"
-                            when-visible="home.animateElementIn"
-                            when-not-visible="home.animateElementOut">
-              <timeline-badge title="Play" data-ng-click=""
-                class="cursor no-timeline-badge-shadow {{message.from == 'me' ? 'success' : 'danger'}}">
-                <i class="fa hvr-grow-shadow fa-volume-up"></i>
-              </timeline-badge>
-              <timeline-panel class="timeline-panel-style">
-                <timeline-heading>
-                  <h4 ng-bind="message.from == 'me' ? '' : 'Bot'"></h4>
-                </timeline-heading>
-                <p>{{message.content}}</p>
-                <p class="time">
-                  <span data-ng-bind="message.date | timeAgo"></span> -
-                  <span data-ng-show="message.react" class="em {{message.react}}"></span>
-                  <i data-ng-show="!message.react" class="fa fa-smile-o emogi" aria-hidden="true"
-                     popover-is-open="message.isPopover" uib-popover-template="'emogiTemplate.html'"
-                     popover-placement="bottom-left" popover-append-to-body="true"
-                     popover-trigger="'outsideClick'"></i>
-                </p>
-              </timeline-panel>
-            </timeline-event>
-          </timeline>
+    <div class="overlay">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <timeline>
+                        <timeline-event ng-repeat="message in home.timeline track by $index" side="{{message.from == 'me' ? 'right' : 'left'}}"
+                                        when-visible="home.animateElementIn"
+                                        when-not-visible="home.animateElementOut">
+                            <timeline-badge title="Play" data-ng-click=""
+                                            class="cursor no-timeline-badge-shadow {{message.from == 'me' ? 'success' : 'danger'}}">
+                                <i class="fa hvr-grow-shadow fa-volume-up"></i>
+                            </timeline-badge>
+                            <timeline-panel class="timeline-panel-style">
+                                <timeline-heading>
+                                    <h4 ng-bind="message.from == 'me' ? '' : 'Bot'"></h4>
+                                </timeline-heading>
+                                <p>{{message.content}}</p>
+                                <p class="time">
+                                    <span data-ng-bind="message.date | timeAgo"></span> .
+                                    <span data-ng-show="message.react" class="em no-cursor {{message.react}}"></span>
+                                    <i data-ng-show="!message.react" class="fa fa-smile-o emogi" aria-hidden="true"
+                                       popover-is-open="message.isPopover" uib-popover-template="'emogiTemplate.html'"
+                                       popover-placement="bottom-left" popover-append-to-body="true"
+                                       popover-trigger="'outsideClick'"></i>
+                                </p>
+                            </timeline-panel>
+                        </timeline-event>
+                    </timeline>
+                </div>
+            </div>
         </div>
-      </div>
     </div>
-  </div>
+
+    <!-- fixed input -->
+    <div class="container">
+        <div class="row">
+            <div class="fixed-input col-md-12">
+                <div class="text-overlay">
+                    <form novalidate data-ng-submit="home.saveUserInputValue()">
+                        <input type="text" class="form-control"
+                               data-ng-model="home.userInputValue" placeholder="Ask what's in you mind..">
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- fixed button for speak -->
+    <div class="fixed-action-btn">
+        <a data-ng-click="home.listening()" data-ng-class="{
+        'bubble-pulse': !home.listeningVoice, 'bubble-pulse-listening': home.listeningVoice
+        }" class="animated zoomIn btn btn-floating btn-large">
+            <i class="fa fa-microphone"></i>
+        </a>
+    </div>
 </div>
 
 <!-- emogi template -->
 <script type="text/ng-template" popover-is-open="'false'" id="emogiTemplate.html">
-  <div data-ng-repeat="emogi in home.emogis">
-    <div class="text-muted emogi-heading" data-ng-bind="emogi.type">Type</div>
-    <div class="emogi-name">
-      <i data-ng-repeat="name in emogi.names track by $index"
-         class="em {{name}}" data-ng-click="message.react = name;message.isPopover = false"></i>
+    <div data-ng-repeat="emogi in home.emogis">
+        <div class="text-muted emogi-heading" data-ng-bind="emogi.type">Type</div>
+        <div class="emogi-name">
+            <i data-ng-repeat="name in emogi.names track by $index"
+               class="em {{name}}" data-ng-click="message.react = name;message.isPopover = false"></i>
+        </div>
     </div>
-  </div>
 </script>
