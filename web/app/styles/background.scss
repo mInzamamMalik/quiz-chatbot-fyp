@@ -317,7 +317,7 @@ h1 small, h2 small, h3 small, h1 .small, h2 .small, h3 .small {
     border-radius: 4px;
     box-shadow: none;
     color: #444444;
-    height: 38px;
+    height: 41px;
     padding: 6px 16px;
 }
 
@@ -473,6 +473,11 @@ h1 small, h2 small, h3 small, h1 .small, h2 .small, h3 .small {
 [class*="navbar-ct"] .btn-default.btn-fill:hover, [class*="navbar-ct"] .btn-default.btn-fill:focus, [class*="navbar-ct"] .btn-default.btn-fill:active, [class*="navbar-ct"] .btn-default.btn-fill.active, [class*="navbar-ct"] .open .dropdown-toggle.btn-fill.btn-default{
     border-color: #FFFFFF;
     opacity: 1;
+}
+.btn-fill {
+    &:before {
+        background-color: #FFA500;
+    }
 }
 .navbar-form{
     box-shadow: none;

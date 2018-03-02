@@ -44,7 +44,9 @@
     </div>
     <!-- fixed button for speak -->
     <div class="fixed-action-btn">
-        <a class="animated zoomIn bubble-pulse btn btn-floating btn-large">
+        <a data-ng-click="home.listening()" data-ng-class="{
+        'bubble-pulse': !home.listeningVoice, 'bubble-pulse-listening': home.listeningVoice
+        }" class="animated zoomIn btn btn-floating btn-large">
             <i class="fa fa-microphone"></i>
         </a>
     </div>

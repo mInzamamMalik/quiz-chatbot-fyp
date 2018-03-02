@@ -6,15 +6,14 @@
     .controller('HomeCtrl', HomeCtrl);
 
   HomeCtrl.$inject = ['$rootScope', '$speechRecognition', '$speechSynthetis', '$speechCorrection', 'toastr',
-                      '$window', 'ERROR_MSG'];
+                      '$window', 'ERROR_MSG', '$timeout'];
 
   function HomeCtrl($rootScope, $speechRecognition, $speechSynthetis, $speechCorrection, toastr,
-                    $window, ERROR_MSG) {
+                    $window, ERROR_MSG, $timeout) {
     /* jshint validthis: true */
     var vm = this;
 
     var db = firebase.firestore();
-
     var background = ['red', 'green', 'blue', 'purple', 'grey', 'orange', 'yellow', 'brown', 'golden', 'deepskyblue'];
     var task = [
       {
@@ -71,6 +70,7 @@
     ];
 
 
+    vm.listeningVoice = false;
     vm.timeline = [{
       content: 'hi there.',
       from: 'me',
@@ -1016,6 +1016,7 @@
     vm.animateElementOut = animateElementOut;
     vm.listenSpeech = listenSpeech;
     vm.playVoice = playVoice;
+    vm.listening = listening;
 
 
     function animateElementIn($el) {
@@ -1055,6 +1056,14 @@
           console.error("Error adding document: ", error);
           toastr.error(ERROR_MSG);
         });
+    }
+    function listening() {
+      $rootScope.startLoading(true);
+      vm.listeningVoice = true;
+      $timeout(function() {
+        vm.listeningVoice = false;
+        $rootScope.startLoading(false);
+      }, 13000)
     }
   }
 
