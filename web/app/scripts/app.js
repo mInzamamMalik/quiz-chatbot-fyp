@@ -16,7 +16,8 @@
       'yaru22.angular-timeago',
       'google-signin',
       'adaptive.speech',
-      'ui.bootstrap'
+      'ui.bootstrap',
+      'angular-typed'
     ])
     .config(RouteConfig);
 
