@@ -1,9 +1,11 @@
 import * as functions from 'firebase-functions'
 import db from './db'
 
-
 import { webhook, talk } from './lib/dialogflow'
 export { webhook, talk }
 
-import { login, signup, profile } from './lib/authentication'
-export { login, signup, profile }
+import { onMessage } from './lib/onMessage'
+export { onMessage }
+
+import { login, signup, profile, logout } from './lib/authentication'
+export { login, signup, profile, logout }
