@@ -17,7 +17,7 @@
 
       /* init */
       stopLoadingOnloaded();
-      initFirebase();
+      //initFirebase();
 
       /* vm-functions */
       $rootScope.startLoading = startLoading;
@@ -35,18 +35,18 @@
           startLoading(false);
         };
       }
-      function initFirebase() {
-        // Initialize Firebase by given your Project API keys
-        var config = {
-          apiKey: "AIzaSyCM_3rlpC55BaiPnkbpM91aRG8X4mOXKfo",
-          authDomain: "rad-ul-fasaad.firebaseapp.com",
-          databaseURL: "https://rad-ul-fasaad.firebaseio.com",
-          projectId: "rad-ul-fasaad",
-          storageBucket: "rad-ul-fasaad.appspot.com",
-          messagingSenderId: "609554142051"
-        };
-        firebase.initializeApp(config);
-      }
+      //function initFirebase() {
+      //  // Initialize Firebase by given your Project API keys
+      //  var config = {
+      //    apiKey: "AIzaSyCM_3rlpC55BaiPnkbpM91aRG8X4mOXKfo",
+      //    authDomain: "rad-ul-fasaad.firebaseapp.com",
+      //    databaseURL: "https://rad-ul-fasaad.firebaseio.com",
+      //    projectId: "rad-ul-fasaad",
+      //    storageBucket: "rad-ul-fasaad.appspot.com",
+      //    messagingSenderId: "609554142051"
+      //  };
+      //  firebase.initializeApp(config);
+      //}
     }
   }
 )();

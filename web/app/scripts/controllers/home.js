@@ -13,7 +13,7 @@
     /* jshint validthis: true */
     var vm = this;
 
-    var db = firebase.firestore();
+    //var db = firebase.firestore();
     var background = ['red', 'green', 'blue', 'purple', 'grey', 'orange', 'yellow', 'brown', 'golden', 'deepskyblue'];
     var task = [
       {
