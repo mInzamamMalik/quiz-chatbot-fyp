@@ -37,7 +37,10 @@
         <div class="row">
             <div class="fixed-input col-md-12">
                 <div class="text-overlay">
-                    <textarea class="form-control" placeholder="What's in your mind.."></textarea>
+                    <form novalidate data-ng-submit="home.saveUserInputValue()">
+                        <input type="text" class="form-control"
+                               data-ng-model="home.userInputValue" placeholder="Ask what's in you mind..">
+                    </form>
                 </div>
             </div>
         </div>

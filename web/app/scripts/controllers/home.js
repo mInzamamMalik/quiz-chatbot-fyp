@@ -21,56 +21,22 @@
         'lang': 'en-US',
         'call': function(e){
           console.info('changing the background ..................');
+          angular.element('.home-wrapper').css('background-image', 'none');
           angular.element('body').css('background', background[Math.floor(Math.random() * 9) + 1]);
         }
       }, {
-        'regex': /(.+ )?start( .+)?/gi,
+        'regex': /(.+ )?please stop( .+)?/gi,
         'lang': 'en-US',
         'call': function(e){
-          console.info('loading started ..................');
-          $rootScope.startLoading(true);
-        }
-      }, {
-        'regex': /(.+ )?stop( .+)?/gi,
-        'lang': 'en-US',
-        'call': function(e){
-          console.info('loading finished ..................');
-          $rootScope.startLoading(false);
-        }
-      }, {
-        'regex': /(.+ )?turn off( .+)?/gi,
-        'lang': 'en-US',
-        'call': function(e){
-          console.info('turning off the light ..................');
-          angular.element('.home-wrapper').css('background-image', 'none');
-          angular.element('body').css('background', 'black');
-        }
-      }, {
-        'regex': /(.+ )?remove( .+)?/gi,
-        'lang': 'en-US',
-        'call': function(e){
-          console.info('ok, removing ..........................');
-          angular.element('.home-wrapper').css('background-image', 'none');
-        }
-      }, {
-        'regex': /(.+ )?call( .+)?/gi,
-        'lang': 'en-US',
-        'call': function(e){
-          console.info('calling, please wait ................... ');
-          toastr.success('Calling please wait.......');
-        }
-      }, {
-        'regex': /(.+ )?open( .+)?/gi,
-        'lang': 'en-US',
-        'call': function(e){
-          console.info('opening ................... ');
-          $window.open("https://www.firebase.com", "", "width=1500,height=400");
+          console.info('ok, stoping ..........................');
+          $speechRecognition.stopListening();
         }
       }
     ];
 
 
     vm.listeningVoice = false;
+    vm.userInputValue = '';
     vm.timeline = [{
       content: 'hi there.',
       from: 'me',
@@ -992,9 +958,8 @@
       ]
     }];
 
-    /* init */
 
-    getMessages();
+    /* init */
 
       // when start
     $speechRecognition.onstart(function() {
@@ -1012,6 +977,7 @@
     $speechRecognition.listenUtterance(task);
 
 
+    vm.saveUserInputValue = saveUserInputValue;
     vm.animateElementIn = animateElementIn;
     vm.animateElementOut = animateElementOut;
     vm.listenSpeech = listenSpeech;
@@ -1032,38 +998,42 @@
     function playVoice(ssml) {
       console.info(ssml);
     }
-    function getMessages() {
-      // get all messages collection from fire-store database
-      db.collection("messages").get()
-        .then(function(queryResult) {
-          queryResult.forEach(function(doc) {
-            console.log(doc.id, doc.data());
-          });
-        });
-    }
-    function setFirebaseCollection() {
-      // set message collection into fire-store database
-      db.collection("messages").add({
-          content: "hi, this is a testing",
-          from: 'me',
-          date: new Date().getTime(),
-          react: ''
-        })
-        .then(function(docRef) {
-          console.log("Document written with ID: ", docRef.id);
-        })
-        .catch(function(error) {
-          console.error("Error adding document: ", error);
-          toastr.error(ERROR_MSG);
-        });
-    }
+    //function getMessages() {
+    //  // get all messages collection from fire-store database
+    //  db.collection("messages").get()
+    //    .then(function(queryResult) {
+    //      queryResult.forEach(function(doc) {
+    //        console.log(doc.id, doc.data());
+    //      });
+    //    });
+    //}
+    //function setFirebaseCollection() {
+    //  // set message collection into fire-store database
+    //  db.collection("messages").add({
+    //      content: "hi, this is a testing",
+    //      from: 'me',
+    //      date: new Date().getTime(),
+    //      react: ''
+    //    })
+    //    .then(function(docRef) {
+    //      console.log("Document written with ID: ", docRef.id);
+    //    })
+    //    .catch(function(error) {
+    //      console.error("Error adding document: ", error);
+    //      toastr.error(ERROR_MSG);
+    //    });
+    //}
     function listening() {
       $rootScope.startLoading(true);
       vm.listeningVoice = true;
       $timeout(function() {
         vm.listeningVoice = false;
         $rootScope.startLoading(false);
-      }, 13000)
+      }, 3000)
+    }
+    function saveUserInputValue() {
+      console.info(vm.userInputValue);
+      vm.userInputValue = '';
     }
   }
 

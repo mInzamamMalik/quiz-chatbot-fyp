@@ -54,15 +54,16 @@
   .fixed-input {
     position: fixed;
     bottom: 4%;
-    right: 8%;
+    right: 7%;
     z-index: 999;
     width: 90%;
     .text-overlay {
       background-color: #0000002b;
-      textarea {
-        background-color: rgba(158, 158, 158, 0.2);
-        box-shadow: 0 10px 10px -10px rgba(0, 0, 0, 0.5);
-        color: #fff;
+      input {
+        //background-color: rgba(158, 158, 158, 0.2);
+        box-shadow: 0 20px 10px -10px rgba(0, 0, 0, 0.5);
+        color: black;
+        height: 52px;
         border: none;
       }
     }
@@ -142,14 +143,14 @@
 
     /* when starts listening */
     .bubble-pulse-listening {
-      animation: bubble-pulse-listening 1s infinite;
+      animation: bubble-pulse-listening 1.5s infinite;
     }
     @-webkit-keyframes bubble-pulse-listening {
       0% {
         box-shadow: 0 0 0 0 rgba(204, 169, 44, 0.4);
       }
       90% {
-        box-shadow: 0 0 0 400px rgba(204, 169, 44, 0);
+        box-shadow: 0 0 0 500px rgba(204, 169, 44, 0);
       }
       100% {
         box-shadow: 0 0 0 0 rgba(204, 169, 44, 0);
@@ -160,7 +161,7 @@
         box-shadow: 0 0 0 0 rgba(204, 169, 44, 0.4);
       }
       90% {
-        box-shadow: 0 0 0 400px rgba(204, 169, 44, 0);
+        box-shadow: 0 0 0 500px rgba(204, 169, 44, 0);
       }
       100% {
         box-shadow: 0 0 0 0 rgba(204, 169, 44, 0);
