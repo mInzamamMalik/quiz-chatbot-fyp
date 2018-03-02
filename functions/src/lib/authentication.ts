@@ -105,7 +105,6 @@ export const profile = functions.https.onRequest(async (req, res) => {
     })
 })
 
-
 export const logout = functions.https.onRequest(async (req, res) => {
     cors(req, res, () => {
 
@@ -119,6 +118,8 @@ export const logout = functions.https.onRequest(async (req, res) => {
                 res.status(200).send("logged out")
             })
 
-        }).catch(e => "invalid token")
+        }).catch(e => {
+            res.status(401).send("invalid token")
+        })
     })
 })
