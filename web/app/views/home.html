@@ -7,7 +7,7 @@
                         <timeline-event ng-repeat="message in home.timeline track by $index" side="{{message.from == 'me' ? 'right' : 'left'}}"
                                         when-visible="home.animateElementIn"
                                         when-not-visible="home.animateElementOut">
-                            <timeline-badge title="Play" data-ng-click=""
+                            <timeline-badge title="Play" data-ng-click="home.playAudio(message.content)"
                                             class="cursor no-timeline-badge-shadow {{message.from == 'me' ? 'success' : 'danger'}}">
                                 <i class="fa hvr-grow-shadow fa-volume-up"></i>
                             </timeline-badge>

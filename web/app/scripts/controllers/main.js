@@ -12,11 +12,7 @@
     var vm = this;
 
 
-    vm.awesomeThings = [
-      'HTML5 Boilerplate',
-      'AngularJS',
-      'Karma'
-    ];
+
     vm.register = {};
     vm.singIn = {};
     vm.voices = null;
@@ -26,6 +22,12 @@
     vm.user = null;
 
 
+
+    /* init */
+
+
+
+    /* vm-function */
     vm.openLoginModal = openLoginModal;
     vm.openRegisterModal = openRegisterModal;
     vm.showLoginForm = showLoginForm;
@@ -36,6 +38,8 @@
     vm.registerUser = registerUser;
 
 
+
+    /* vm-function */
     function openLoginModal(){
       showLoginForm();
       $timeout(function(){

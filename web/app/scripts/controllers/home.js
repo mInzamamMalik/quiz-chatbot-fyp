@@ -5,34 +5,12 @@
     .module('radUlFasaadApp')
     .controller('HomeCtrl', HomeCtrl);
 
-  HomeCtrl.$inject = ['$rootScope', '$speechRecognition', '$speechSynthetis', '$speechCorrection', 'toastr',
-                      '$window', 'ERROR_MSG', '$timeout'];
+  HomeCtrl.$inject = ['$rootScope', 'toastr', '$window', 'ERROR_MSG', '$timeout'];
 
-  function HomeCtrl($rootScope, $speechRecognition, $speechSynthetis, $speechCorrection, toastr,
-                    $window, ERROR_MSG, $timeout) {
+  function HomeCtrl($rootScope, toastr, $window, ERROR_MSG, $timeout) {
     /* jshint validthis: true */
     var vm = this;
 
-    //var db = firebase.firestore();
-    var background = ['red', 'green', 'blue', 'purple', 'grey', 'orange', 'yellow', 'brown', 'golden', 'deepskyblue'];
-    var task = [
-      {
-        'regex': /(.+ )?change( .+)?/gi,
-        'lang': 'en-US',
-        'call': function(e){
-          console.info('changing the background ..................');
-          angular.element('.home-wrapper').css('background-image', 'none');
-          angular.element('body').css('background', background[Math.floor(Math.random() * 9) + 1]);
-        }
-      }, {
-        'regex': /(.+ )?please stop( .+)?/gi,
-        'lang': 'en-US',
-        'call': function(e){
-          console.info('ok, stoping ..........................');
-          $speechRecognition.stopListening();
-        }
-      }
-    ];
 
 
     vm.listeningVoice = false;
@@ -959,70 +937,34 @@
     }];
 
 
+
     /* init */
 
-      // when start
-    $speechRecognition.onstart(function() {
-      console.info('Activated!');
-    });
-      // when nothing detect
-    $speechRecognition.onerror(function(e){
-      console.info('No voice detected');
-    });
-      // when somebody speak
-    $speechRecognition.onUtterance(function(utterance){
-      console.log(utterance);
-    });
-      // watch also tasks commands
-    $speechRecognition.listenUtterance(task);
 
 
-    vm.saveUserInputValue = saveUserInputValue;
+    /* vm-functions */
     vm.animateElementIn = animateElementIn;
     vm.animateElementOut = animateElementOut;
-    vm.listenSpeech = listenSpeech;
-    vm.playVoice = playVoice;
+    vm.saveUserInputValue = saveUserInputValue;
+    vm.playAudio = playAudio;
     vm.listening = listening;
 
 
+
+    /* functions */
     function animateElementIn($el) {
       $el.find(".timeline-panel-style").addClass('animated pulse');
     }
     function animateElementOut($el) {
       $el.find(".timeline-panel-style").removeClass('animated pulse');
     }
-    function listenSpeech() {
-      // start listening user voice
-      $speechRecognition.listen();
+    function saveUserInputValue() {
+      console.info(vm.userInputValue);
+      vm.userInputValue = '';
     }
-    function playVoice(ssml) {
+    function playAudio(ssml) {
       console.info(ssml);
     }
-    //function getMessages() {
-    //  // get all messages collection from fire-store database
-    //  db.collection("messages").get()
-    //    .then(function(queryResult) {
-    //      queryResult.forEach(function(doc) {
-    //        console.log(doc.id, doc.data());
-    //      });
-    //    });
-    //}
-    //function setFirebaseCollection() {
-    //  // set message collection into fire-store database
-    //  db.collection("messages").add({
-    //      content: "hi, this is a testing",
-    //      from: 'me',
-    //      date: new Date().getTime(),
-    //      react: ''
-    //    })
-    //    .then(function(docRef) {
-    //      console.log("Document written with ID: ", docRef.id);
-    //    })
-    //    .catch(function(error) {
-    //      console.error("Error adding document: ", error);
-    //      toastr.error(ERROR_MSG);
-    //    });
-    //}
     function listening() {
       $rootScope.startLoading(true);
       vm.listeningVoice = true;
@@ -1031,10 +973,7 @@
         $rootScope.startLoading(false);
       }, 3000)
     }
-    function saveUserInputValue() {
-      console.info(vm.userInputValue);
-      vm.userInputValue = '';
-    }
+
   }
 
 })();
