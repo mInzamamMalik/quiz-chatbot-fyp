@@ -939,6 +939,60 @@
 
 
     /* init */
+    (function() {
+      if (annyang) {
+
+        var commands = {
+          'test': function() { console.info('__________this is test!'); },
+          'ok': function() { console.info('_____________this is ok !'); }
+        };
+
+        // Add our commands to annyang
+        annyang.addCommands(commands);
+
+
+        annyang.addCallback('resultMatch', function(userSaid, commandText, phrases) {
+          console.log('@command match');
+        });
+
+        annyang.addCallback('result', function(phrases) {
+          console.log(phrases); // best possible match is at 0'th index
+          SpeechKITT.setInstructionsText(phrases[0]);
+          $timeout(function() {
+            angular.element('#skitt-ui').removeClass('skitt-ui--listening');
+            angular.element('#skitt-ui').addClass('skitt-ui--not-listening');
+          });
+          $timeout(function() {
+            angular.element('#skitt-ui').addClass('skitt-ui--listening');
+          }, 50);
+        }, this);
+
+        // Tell KITT to use annyang
+        SpeechKITT.annyang();
+
+        // Stylesheet for KITT to use
+        SpeechKITT.setStylesheet('https://cdnjs.cloudflare.com/ajax/libs/SpeechKITT/1.0.0/themes/flat.css');
+
+
+        SpeechKITT.displayRecognizedSentence(true);
+
+        // When start
+        SpeechKITT.setStartCommand(function() {
+          console.info('Speech Recognition Started ______________________________');
+          //angular.element('#skitt-ui > a').addClass('bubble-pulse');
+          annyang.start();
+        });
+
+        // When abort
+        SpeechKITT.setAbortCommand(function() {
+          console.info('Stopping ............................');
+          annyang.abort();
+        });
+
+        // Render KITT's interface
+        SpeechKITT.vroom();
+      }
+    })();
 
 
 
