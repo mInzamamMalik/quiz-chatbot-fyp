@@ -943,8 +943,11 @@
       if (annyang) {
 
         var commands = {
-          'test': function() { console.info('__________this is test!'); },
-          'ok': function() { console.info('_____________this is ok !'); }
+          'hello Sam test': function() { console.info('__________this is test!'); },
+          'hello Sam stop': function() {
+            console.info('Stopping ............................');
+            annyang.abort();
+          }
         };
 
         // Add our commands to annyang
@@ -958,6 +961,7 @@
         annyang.addCallback('result', function(phrases) {
           console.log(phrases); // best possible match is at 0'th index
           SpeechKITT.setInstructionsText(phrases[0]);
+          SpeechKITT.setSampleCommands([]);
           $timeout(function() {
             angular.element('#skitt-ui').removeClass('skitt-ui--listening');
             angular.element('#skitt-ui').addClass('skitt-ui--not-listening');
@@ -971,6 +975,15 @@
         SpeechKITT.annyang();
 
         // Stylesheet for KITT to use
+        //SpeechKITT.setStylesheet('https://cdnjs.cloudflare.com/ajax/libs/SpeechKITT/1.0.0/themes/flat-amethyst.css');
+        //SpeechKITT.setStylesheet('https://cdnjs.cloudflare.com/ajax/libs/SpeechKITT/1.0.0/themes/flat-clouds.css');
+        //SpeechKITT.setStylesheet('https://cdnjs.cloudflare.com/ajax/libs/SpeechKITT/1.0.0/themes/flat-concrete.css');
+        //SpeechKITT.setStylesheet('https://cdnjs.cloudflare.com/ajax/libs/SpeechKITT/1.0.0/themes/flat-emerald.css');
+        //SpeechKITT.setStylesheet('https://cdnjs.cloudflare.com/ajax/libs/SpeechKITT/1.0.0/themes/flat-midnight-blue.css');
+        //SpeechKITT.setStylesheet('https://cdnjs.cloudflare.com/ajax/libs/SpeechKITT/1.0.0/themes/flat-orange.css');
+        //SpeechKITT.setStylesheet('https://cdnjs.cloudflare.com/ajax/libs/SpeechKITT/1.0.0/themes/flat-pomegranate.css');
+        //SpeechKITT.setStylesheet('https://cdnjs.cloudflare.com/ajax/libs/SpeechKITT/1.0.0/themes/flat-pumpkin.css');
+        //SpeechKITT.setStylesheet('https://cdnjs.cloudflare.com/ajax/libs/SpeechKITT/1.0.0/themes/flat-turquoise.css');
         SpeechKITT.setStylesheet('https://cdnjs.cloudflare.com/ajax/libs/SpeechKITT/1.0.0/themes/flat.css');
 
 
@@ -979,7 +992,9 @@
         // When start
         SpeechKITT.setStartCommand(function() {
           console.info('Speech Recognition Started ______________________________');
-          //angular.element('#skitt-ui > a').addClass('bubble-pulse');
+          // set text first time for example
+          SpeechKITT.setInstructionsText('How can i help you?');
+          SpeechKITT.setSampleCommands(['e.g hello Sam.']);
           annyang.start();
         });
 

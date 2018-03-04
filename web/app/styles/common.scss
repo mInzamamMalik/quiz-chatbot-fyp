@@ -249,3 +249,16 @@ body {
   margin: 17px 0;
   line-height: 8px !important;
 }
+
+#skitt-ui {
+  &.skitt-ui--not-listening {
+    a {
+      animation: bubble-pulse 1.5s infinite;
+    }
+  }
+  &.skitt-ui--listening {
+    a{
+      animation: bubble-pulse-listening 1.5s infinite;
+    }
+  }
+}
