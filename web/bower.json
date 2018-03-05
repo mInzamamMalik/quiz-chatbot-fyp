@@ -21,7 +21,6 @@
     "ng-google-signin": "^0.1.0",
     "aws-sdk": "aws-sdk-js#^2.198.0",
     "hover": "^2.1.1",
-    "angular-adaptive-speech": "latest",
     "angular-bootstrap": "^2.5.0"
   },
   "devDependencies": {

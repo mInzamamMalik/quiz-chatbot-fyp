@@ -5,34 +5,12 @@
     .module('radUlFasaadApp')
     .controller('HomeCtrl', HomeCtrl);
 
-  HomeCtrl.$inject = ['$rootScope', '$speechRecognition', '$speechSynthetis', '$speechCorrection', 'toastr',
-                      '$window', 'ERROR_MSG', '$timeout'];
+  HomeCtrl.$inject = ['$rootScope', 'toastr', '$window', 'ERROR_MSG', '$timeout'];
 
-  function HomeCtrl($rootScope, $speechRecognition, $speechSynthetis, $speechCorrection, toastr,
-                    $window, ERROR_MSG, $timeout) {
+  function HomeCtrl($rootScope, toastr, $window, ERROR_MSG, $timeout) {
     /* jshint validthis: true */
     var vm = this;
 
-    //var db = firebase.firestore();
-    var background = ['red', 'green', 'blue', 'purple', 'grey', 'orange', 'yellow', 'brown', 'golden', 'deepskyblue'];
-    var task = [
-      {
-        'regex': /(.+ )?change( .+)?/gi,
-        'lang': 'en-US',
-        'call': function(e){
-          console.info('changing the background ..................');
-          angular.element('.home-wrapper').css('background-image', 'none');
-          angular.element('body').css('background', background[Math.floor(Math.random() * 9) + 1]);
-        }
-      }, {
-        'regex': /(.+ )?please stop( .+)?/gi,
-        'lang': 'en-US',
-        'call': function(e){
-          console.info('ok, stoping ..........................');
-          $speechRecognition.stopListening();
-        }
-      }
-    ];
 
 
     vm.listeningVoice = false;
@@ -959,70 +937,103 @@
     }];
 
 
+
     /* init */
+    (function() {
+      if (annyang) {
 
-      // when start
-    $speechRecognition.onstart(function() {
-      console.info('Activated!');
-    });
-      // when nothing detect
-    $speechRecognition.onerror(function(e){
-      console.info('No voice detected');
-    });
-      // when somebody speak
-    $speechRecognition.onUtterance(function(utterance){
-      console.log(utterance);
-    });
-      // watch also tasks commands
-    $speechRecognition.listenUtterance(task);
+        var commands = {
+          'hello Sam test': function() { console.info('__________this is test!'); },
+          'hello Sam stop': function() {
+            console.info('Stopping ............................');
+            annyang.abort();
+          }
+        };
+
+        // Add our commands to annyang
+        annyang.addCommands(commands);
 
 
-    vm.saveUserInputValue = saveUserInputValue;
+        annyang.addCallback('resultMatch', function(userSaid, commandText, phrases) {
+          console.log('@command match');
+        });
+
+        annyang.addCallback('result', function(phrases) {
+          console.log(phrases); // best possible match is at 0'th index
+          SpeechKITT.setInstructionsText(phrases[0]);
+          SpeechKITT.setSampleCommands([]);
+          $timeout(function() {
+            angular.element('#skitt-ui').removeClass('skitt-ui--listening');
+            angular.element('#skitt-ui').addClass('skitt-ui--not-listening');
+          });
+          $timeout(function() {
+            angular.element('#skitt-ui').addClass('skitt-ui--listening');
+          }, 50);
+        }, this);
+
+        // Tell KITT to use annyang
+        SpeechKITT.annyang();
+
+        // Stylesheet for KITT to use
+        //SpeechKITT.setStylesheet('https://cdnjs.cloudflare.com/ajax/libs/SpeechKITT/1.0.0/themes/flat-amethyst.css');
+        //SpeechKITT.setStylesheet('https://cdnjs.cloudflare.com/ajax/libs/SpeechKITT/1.0.0/themes/flat-clouds.css');
+        //SpeechKITT.setStylesheet('https://cdnjs.cloudflare.com/ajax/libs/SpeechKITT/1.0.0/themes/flat-concrete.css');
+        //SpeechKITT.setStylesheet('https://cdnjs.cloudflare.com/ajax/libs/SpeechKITT/1.0.0/themes/flat-emerald.css');
+        //SpeechKITT.setStylesheet('https://cdnjs.cloudflare.com/ajax/libs/SpeechKITT/1.0.0/themes/flat-midnight-blue.css');
+        //SpeechKITT.setStylesheet('https://cdnjs.cloudflare.com/ajax/libs/SpeechKITT/1.0.0/themes/flat-orange.css');
+        //SpeechKITT.setStylesheet('https://cdnjs.cloudflare.com/ajax/libs/SpeechKITT/1.0.0/themes/flat-pomegranate.css');
+        //SpeechKITT.setStylesheet('https://cdnjs.cloudflare.com/ajax/libs/SpeechKITT/1.0.0/themes/flat-pumpkin.css');
+        //SpeechKITT.setStylesheet('https://cdnjs.cloudflare.com/ajax/libs/SpeechKITT/1.0.0/themes/flat-turquoise.css');
+        SpeechKITT.setStylesheet('https://cdnjs.cloudflare.com/ajax/libs/SpeechKITT/1.0.0/themes/flat.css');
+
+
+        SpeechKITT.displayRecognizedSentence(true);
+
+        // When start
+        SpeechKITT.setStartCommand(function() {
+          console.info('Speech Recognition Started ______________________________');
+          // set text first time for example
+          SpeechKITT.setInstructionsText('How can i help you?');
+          SpeechKITT.setSampleCommands(['e.g hello Sam.']);
+          annyang.start();
+        });
+
+        // When abort
+        SpeechKITT.setAbortCommand(function() {
+          console.info('Stopping ............................');
+          annyang.abort();
+        });
+
+        // Render KITT's interface
+        SpeechKITT.vroom();
+      }
+    })();
+
+
+
+    /* vm-functions */
     vm.animateElementIn = animateElementIn;
     vm.animateElementOut = animateElementOut;
-    vm.listenSpeech = listenSpeech;
-    vm.playVoice = playVoice;
+    vm.saveUserInputValue = saveUserInputValue;
+    vm.playAudio = playAudio;
     vm.listening = listening;
 
 
+
+    /* functions */
     function animateElementIn($el) {
       $el.find(".timeline-panel-style").addClass('animated pulse');
     }
     function animateElementOut($el) {
       $el.find(".timeline-panel-style").removeClass('animated pulse');
     }
-    function listenSpeech() {
-      // start listening user voice
-      $speechRecognition.listen();
+    function saveUserInputValue() {
+      console.info(vm.userInputValue);
+      vm.userInputValue = '';
     }
-    function playVoice(ssml) {
+    function playAudio(ssml) {
       console.info(ssml);
     }
-    //function getMessages() {
-    //  // get all messages collection from fire-store database
-    //  db.collection("messages").get()
-    //    .then(function(queryResult) {
-    //      queryResult.forEach(function(doc) {
-    //        console.log(doc.id, doc.data());
-    //      });
-    //    });
-    //}
-    //function setFirebaseCollection() {
-    //  // set message collection into fire-store database
-    //  db.collection("messages").add({
-    //      content: "hi, this is a testing",
-    //      from: 'me',
-    //      date: new Date().getTime(),
-    //      react: ''
-    //    })
-    //    .then(function(docRef) {
-    //      console.log("Document written with ID: ", docRef.id);
-    //    })
-    //    .catch(function(error) {
-    //      console.error("Error adding document: ", error);
-    //      toastr.error(ERROR_MSG);
-    //    });
-    //}
     function listening() {
       $rootScope.startLoading(true);
       vm.listeningVoice = true;
@@ -1031,10 +1042,7 @@
         $rootScope.startLoading(false);
       }, 3000)
     }
-    function saveUserInputValue() {
-      console.info(vm.userInputValue);
-      vm.userInputValue = '';
-    }
+
   }
 
 })();

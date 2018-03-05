@@ -7,7 +7,7 @@
                         <timeline-event ng-repeat="message in home.timeline track by $index" side="{{message.from == 'me' ? 'right' : 'left'}}"
                                         when-visible="home.animateElementIn"
                                         when-not-visible="home.animateElementOut">
-                            <timeline-badge title="Play" data-ng-click=""
+                            <timeline-badge title="Play" data-ng-click="home.playAudio(message.content)"
                                             class="cursor no-timeline-badge-shadow {{message.from == 'me' ? 'success' : 'danger'}}">
                                 <i class="fa hvr-grow-shadow fa-volume-up"></i>
                             </timeline-badge>
@@ -33,7 +33,7 @@
     </div>
 
     <!-- fixed input -->
-    <div class="container">
+    <div class="container" ng-if="false">
         <div class="row">
             <div class="fixed-input col-md-12">
                 <div class="text-overlay">
@@ -46,7 +46,7 @@
         </div>
     </div>
     <!-- fixed button for speak -->
-    <div class="fixed-action-btn">
+    <div class="fixed-action-btn" ng-if="false">
         <a data-ng-click="home.listening()" data-ng-class="{
         'bubble-pulse': !home.listeningVoice, 'bubble-pulse-listening': home.listeningVoice
         }" class="animated zoomIn btn btn-floating btn-large">
