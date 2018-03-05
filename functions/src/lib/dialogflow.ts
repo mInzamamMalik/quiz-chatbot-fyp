@@ -4,6 +4,7 @@ import * as _cors from 'cors';
 import { session, textQuery } from './../core';
 import db from './../db'
 import { firebaseAdmin } from './../db'
+import { document } from 'firebase-functions/lib/providers/firestore';
 
 
 var cors = _cors({ origin: true });// set these options appropriately According to your case,
@@ -21,6 +22,70 @@ interface talk {
     email: string,
     token: string
 }
+
+export const getallmessages = functions.https.onRequest((req, res) => {
+    cors(req, res, () => {
+
+        let body = req.body;
+        if (!body.email || !body.token) {
+            res.status(400).send("required params missing");
+        }
+        session.check(body.email, body.token).then(() => {
+
+            let messageArr: any = [];
+
+            db.collection(`messages/${body.email}/chat`).get()
+                .then((userMessageRef) => {
+                    userMessageRef.forEach(documentSnap => {
+                        messageArr.push(documentSnap.data())
+                    })
+                    res.send(messageArr)
+                }).catch(e => {
+                    console.log("firebase write error");
+                    res.status(500).send("firebase error")
+                })
+        }).catch(e => {
+            res.status(401).send("invalid token")
+        })
+    })
+})
+
+export const writemessage = functions.https.onRequest((req, res) => {
+    cors(req, res, () => {
+
+        let body = req.body;
+        if (!body.email || !body.from || !body.token || !body.platform || !body.text) {
+            res.status(400).send("required params missing");
+        }
+        session.check(body.email, body.token).then(() => {
+
+            let userMessage = {
+                text: body.text,
+                platform: body.platform,
+                from: body.from,
+                timestamp: firebaseAdmin.firestore.FieldValue.serverTimestamp()
+            }
+            console.log("attempting to write messages in db");
+
+            db.collection(`messages/${body.email}/chat`).add(userMessage)
+                .then((userMessageRef) => {
+
+                    console.log("firebase write success");
+                    userMessageRef.get()
+                        .then(userMessageSnap => {
+                            res.send(userMessageSnap.data())
+                        })
+                }).catch(e => {
+                    console.log("firebase write error");
+                    res.status(500).send("firebase error")
+                })
+        }).catch(e => {
+            res.status(401).send("invalid token")
+        })
+    })
+})
+
+
 
 // http example
 export const talk = functions.https.onRequest((req, res) => {
