@@ -1,8 +1,8 @@
 import * as functions from 'firebase-functions'
 import db from './db'
 
-import { webhook, talk } from './lib/dialogflow'
-export { webhook, talk }
+import { webhook, talk, writemessage, getallmessages } from './lib/dialogflow'
+export { webhook, talk, writemessage, getallmessages }
 
 import { onMessage } from './lib/onMessage'
 export { onMessage }

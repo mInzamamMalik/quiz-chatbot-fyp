@@ -1,0 +1,190 @@
+{
+	"info": {
+		"name": "project rad ul fasad",
+		"_postman_id": "657b1338-c9f1-2c6d-8c43-5983c6d739c3",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "signup",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"email\": \"abc@abc.com\",\n  \"password\": \"123456\",\n  \"firstName\": \"inzamam\",\n  \"lastName\": \"malik\",\n  \"phoneNumber\": \"03022004480\"\n}"
+				},
+				"url": {
+					"raw": "https://us-central1-rad-ul-fasaad.cloudfunctions.net/signup",
+					"protocol": "https",
+					"host": [
+						"us-central1-rad-ul-fasaad",
+						"cloudfunctions",
+						"net"
+					],
+					"path": [
+						"signup"
+					]
+				},
+				"description": null
+			},
+			"response": []
+		},
+		{
+			"name": "login",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"email\": \"abc@abc.com\",\n  \"password\": \"123456\"\n}"
+				},
+				"url": {
+					"raw": "https://us-central1-rad-ul-fasaad.cloudfunctions.net/login",
+					"protocol": "https",
+					"host": [
+						"us-central1-rad-ul-fasaad",
+						"cloudfunctions",
+						"net"
+					],
+					"path": [
+						"login"
+					]
+				},
+				"description": null
+			},
+			"response": []
+		},
+		{
+			"name": "get profile",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"email\": \"abc@abc.com\",\n  \"token\": \"$2a$10$R1Dz2efJJeTaJBoS3osNauNqsUBekDyK5uiHShGS3S16X3uCw.I1C\"\n} "
+				},
+				"url": {
+					"raw": "https://us-central1-rad-ul-fasaad.cloudfunctions.net/profile",
+					"protocol": "https",
+					"host": [
+						"us-central1-rad-ul-fasaad",
+						"cloudfunctions",
+						"net"
+					],
+					"path": [
+						"profile"
+					]
+				},
+				"description": null
+			},
+			"response": []
+		},
+		{
+			"name": "logout",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"email\": \"abc@abc.com\",\n  \"token\": \"$2a$10$r7oP3BfMmlzho8cg2RZtuOQX5h84j8N6UMcH5Gp903NpGOvA9Wzlq\"\n}"
+				},
+				"url": {
+					"raw": "https://us-central1-rad-ul-fasaad.cloudfunctions.net/logout",
+					"protocol": "https",
+					"host": [
+						"us-central1-rad-ul-fasaad",
+						"cloudfunctions",
+						"net"
+					],
+					"path": [
+						"logout"
+					]
+				},
+				"description": null
+			},
+			"response": []
+		},
+		{
+			"name": "write message",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"email\": \"abc@abc.com\",\n  \"token\": \"$2a$10$R1Dz2efJJeTaJBoS3osNauNqsUBekDyK5uiHShGS3S16X3uCw.I1C\",\n  \n  \"platform\": \"web\",\n  \n  \"from\": \"abc@abc.com\",\n  \"text\":\"some text\"\n} "
+				},
+				"url": {
+					"raw": "https://us-central1-rad-ul-fasaad.cloudfunctions.net/writemessage",
+					"protocol": "https",
+					"host": [
+						"us-central1-rad-ul-fasaad",
+						"cloudfunctions",
+						"net"
+					],
+					"path": [
+						"writemessage"
+					]
+				},
+				"description": null
+			},
+			"response": []
+		},
+		{
+			"name": "get all message",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"email\": \"abc@abc.com\",\n\t\"token\": \"$2a$10$R1Dz2efJJeTaJBoS3osNauNqsUBekDyK5uiHShGS3S16X3uCw.I1C\"\n} "
+				},
+				"url": {
+					"raw": "https://us-central1-rad-ul-fasaad.cloudfunctions.net/getallmessages",
+					"protocol": "https",
+					"host": [
+						"us-central1-rad-ul-fasaad",
+						"cloudfunctions",
+						"net"
+					],
+					"path": [
+						"getallmessages"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		}
+	]
+}
