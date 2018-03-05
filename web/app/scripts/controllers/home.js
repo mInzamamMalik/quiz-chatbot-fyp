@@ -939,29 +939,74 @@
 
 
     /* init */
-    (function() {
+    initSpeechRecognization();
+    initDynamicMicrophoneColor();
+
+
+    /* vm-functions */
+    vm.animateElementIn = animateElementIn;
+    vm.animateElementOut = animateElementOut;
+    vm.saveUserInputValue = saveUserInputValue;
+    vm.playAudio = playAudio;
+
+
+
+    /* functions */
+    function animateElementIn($el) {
+      $el.find(".timeline-panel-style").addClass('animated pulse');
+    }
+    function animateElementOut($el) {
+      $el.find(".timeline-panel-style").removeClass('animated pulse');
+    }
+    function saveUserInputValue() {
+      console.info(vm.userInputValue);
+      vm.timeline.push({
+        content: vm.userInputValue,
+        from: 'me',
+        date: new Date().getTime(),
+        react: ''
+      });
+
+      $('html, body').animate({scrollTop: $(document).height()}, 2000);
+
+      vm.userInputValue = '';
+    }
+    function playAudio(ssml) {
+      console.info(ssml);
+    }
+    function initSpeechRecognization() {
       if (annyang) {
 
         var commands = {
-          'hello Sam test': function() { console.info('__________this is test!'); },
-          'hello Sam stop': function() {
+          'hey listen test': function() { console.info('__________this is test!'); },
+          'hey listen stop': function() {
             console.info('Stopping ............................');
+
+            // for show text input
+            $timeout(function() {
+              vm.listeningVoice = false;
+            });
+
             annyang.abort();
           }
         };
 
-        // Add our commands to annyang
+        // Add commands to annyang
         annyang.addCommands(commands);
 
-
+        // Every time match result with commands
         annyang.addCallback('resultMatch', function(userSaid, commandText, phrases) {
           console.log('@command match');
         });
 
+        // When user say something
         annyang.addCallback('result', function(phrases) {
-          console.log(phrases); // best possible match is at 0'th index
-          SpeechKITT.setInstructionsText(phrases[0]);
-          SpeechKITT.setSampleCommands([]);
+          console.log(phrases);                       // best possible match is at 0'th index
+
+          SpeechKITT.setInstructionsText(phrases[0]); // then display it
+          SpeechKITT.setSampleCommands([]);           // remove instructions (useful only for first time)
+
+          // Writing effect
           $timeout(function() {
             angular.element('#skitt-ui').removeClass('skitt-ui--listening');
             angular.element('#skitt-ui').addClass('skitt-ui--not-listening');
@@ -975,74 +1020,61 @@
         SpeechKITT.annyang();
 
         // Stylesheet for KITT to use
-        //SpeechKITT.setStylesheet('https://cdnjs.cloudflare.com/ajax/libs/SpeechKITT/1.0.0/themes/flat-amethyst.css');
-        //SpeechKITT.setStylesheet('https://cdnjs.cloudflare.com/ajax/libs/SpeechKITT/1.0.0/themes/flat-clouds.css');
-        //SpeechKITT.setStylesheet('https://cdnjs.cloudflare.com/ajax/libs/SpeechKITT/1.0.0/themes/flat-concrete.css');
-        //SpeechKITT.setStylesheet('https://cdnjs.cloudflare.com/ajax/libs/SpeechKITT/1.0.0/themes/flat-emerald.css');
-        //SpeechKITT.setStylesheet('https://cdnjs.cloudflare.com/ajax/libs/SpeechKITT/1.0.0/themes/flat-midnight-blue.css');
-        //SpeechKITT.setStylesheet('https://cdnjs.cloudflare.com/ajax/libs/SpeechKITT/1.0.0/themes/flat-orange.css');
-        //SpeechKITT.setStylesheet('https://cdnjs.cloudflare.com/ajax/libs/SpeechKITT/1.0.0/themes/flat-pomegranate.css');
-        //SpeechKITT.setStylesheet('https://cdnjs.cloudflare.com/ajax/libs/SpeechKITT/1.0.0/themes/flat-pumpkin.css');
-        //SpeechKITT.setStylesheet('https://cdnjs.cloudflare.com/ajax/libs/SpeechKITT/1.0.0/themes/flat-turquoise.css');
         SpeechKITT.setStylesheet('https://cdnjs.cloudflare.com/ajax/libs/SpeechKITT/1.0.0/themes/flat.css');
 
-
+        // Allow KITT to display result
         SpeechKITT.displayRecognizedSentence(true);
 
         // When start
         SpeechKITT.setStartCommand(function() {
           console.info('Speech Recognition Started ______________________________');
+
           // set text first time for example
           SpeechKITT.setInstructionsText('How can i help you?');
-          SpeechKITT.setSampleCommands(['e.g hello Sam.']);
+          SpeechKITT.setSampleCommands(['e.g say hello.']);
+
+          // for hide text input
+          $timeout(function() {
+            vm.listeningVoice = true;
+          });
+
           annyang.start();
         });
 
         // When abort
         SpeechKITT.setAbortCommand(function() {
           console.info('Stopping ............................');
+
+          // for show text input
+          $timeout(function() {
+            vm.listeningVoice = false;
+          });
+
           annyang.abort();
         });
 
         // Render KITT's interface
         SpeechKITT.vroom();
+      } else {
+        toastr.error('<b>Oops!</b> Your browser doesn\'t support <br/> <b>Speech Synthesis</b>', {allowHtml: true})
       }
-    })();
-
-
-
-    /* vm-functions */
-    vm.animateElementIn = animateElementIn;
-    vm.animateElementOut = animateElementOut;
-    vm.saveUserInputValue = saveUserInputValue;
-    vm.playAudio = playAudio;
-    vm.listening = listening;
-
-
-
-    /* functions */
-    function animateElementIn($el) {
-      $el.find(".timeline-panel-style").addClass('animated pulse');
     }
-    function animateElementOut($el) {
-      $el.find(".timeline-panel-style").removeClass('animated pulse');
-    }
-    function saveUserInputValue() {
-      console.info(vm.userInputValue);
-      vm.userInputValue = '';
-    }
-    function playAudio(ssml) {
-      console.info(ssml);
-    }
-    function listening() {
-      $rootScope.startLoading(true);
-      vm.listeningVoice = true;
-      $timeout(function() {
-        vm.listeningVoice = false;
-        $rootScope.startLoading(false);
-      }, 3000)
-    }
+    function initDynamicMicrophoneColor() {
+      var at = 0;
+      var colors = [
+        'flat-amethyst', 'flat-clouds', 'flat-concrete',
+        'flat-emerald', 'flat-midnight-blue', 'flat-orange',
+        'flat-pomegranate', 'flat-pumpkin', 'flat-turquoise',
+        'flat'
+      ];
+      var styleSheetPath = 'https://cdnjs.cloudflare.com/ajax/libs/SpeechKITT/1.0.0/themes/';
 
+      angular.element('#skitt-listening-box').on('dblclick', function() {
+        SpeechKITT.setStylesheet(styleSheetPath + colors[at] + '.css');
+        if(at == 9) at = 0;
+        else at ++;
+      })
+    }
   }
 
 })();

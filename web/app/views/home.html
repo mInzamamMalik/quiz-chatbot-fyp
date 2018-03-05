@@ -33,25 +33,18 @@
     </div>
 
     <!-- fixed input -->
-    <div class="container" ng-if="false">
+    <div class="container">
         <div class="row">
-            <div class="fixed-input col-md-12">
+            <div class="fixed-input col-md-12"
+                 ng-class="{'animated fadeInDown': !home.listeningVoice, 'animated fadeOutUp': home.listeningVoice}">
                 <div class="text-overlay">
                     <form novalidate data-ng-submit="home.saveUserInputValue()">
                         <input type="text" class="form-control"
-                               data-ng-model="home.userInputValue" placeholder="Ask what's in you mind..">
+                               data-ng-model="home.userInputValue" placeholder="Ask what's in your mind..">
                     </form>
                 </div>
             </div>
         </div>
-    </div>
-    <!-- fixed button for speak -->
-    <div class="fixed-action-btn" ng-if="false">
-        <a data-ng-click="home.listening()" data-ng-class="{
-        'bubble-pulse': !home.listeningVoice, 'bubble-pulse-listening': home.listeningVoice
-        }" class="animated zoomIn btn btn-floating btn-large">
-            <i class="fa fa-microphone"></i>
-        </a>
     </div>
 </div>
 
