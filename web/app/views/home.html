@@ -23,6 +23,10 @@
                                        popover-is-open="message.isPopover" uib-popover-template="'emogiTemplate.html'"
                                        popover-placement="bottom-left" popover-append-to-body="true"
                                        popover-trigger="'outsideClick'"></i>
+                                    <span class="sent-from pull-right" data-balloon="sent from" data-balloon-pos="down">
+                                        <i ng-class="{'fa-phone': message.from == 'me', 'fa-globe': message.from != 'me'}"
+                                           class="fa" aria-hidden="true"></i>
+                                    </span>
                                 </p>
                             </timeline-panel>
                         </timeline-event>
