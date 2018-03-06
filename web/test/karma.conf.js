@@ -38,6 +38,7 @@ module.exports = function(config) {
       'bower_components/ng-google-signin/dist/ng-google-signin.js',
       'bower_components/aws-sdk/dist/aws-sdk.js',
       'bower_components/angular-bootstrap/ui-bootstrap-tpls.js',
+      'bower_components/ngstorage/ngStorage.js',
       'bower_components/angular-mocks/angular-mocks.js',
       // endbower
       'app/scripts/**/*.js',

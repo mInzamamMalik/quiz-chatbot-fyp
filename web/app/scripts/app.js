@@ -16,7 +16,8 @@
       'yaru22.angular-timeago',
       'google-signin',
       'ui.bootstrap',
-      'angular-typed'
+      'angular-typed',
+      'ngStorage'
     ])
     .config(RouteConfig);
 

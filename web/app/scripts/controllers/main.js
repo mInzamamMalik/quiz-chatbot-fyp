@@ -5,9 +5,11 @@
     .module('radUlFasaadApp')
     .controller('MainCtrl', MainCtrl);
 
-  MainCtrl.$inject = ['$rootScope', '$timeout', 'Auth', 'GoogleSignin', 'toastr', 'ERROR_MSG', 'NLP', '$location'];
+  MainCtrl.$inject = ['$rootScope', '$timeout', 'Auth', 'GoogleSignin', 'toastr', 'ERROR_MSG', 'NLP', '$location',
+                      '$localStorage', '$sessionStorage'];
 
-  function MainCtrl($rootScope, $timeout, Auth, GoogleSignin, toastr, ERROR_MSG, NLP, $location) {
+  function MainCtrl($rootScope, $timeout, Auth, GoogleSignin, toastr, ERROR_MSG, NLP, $location,
+                    $localStorage, $sessionStorage) {
     /* jshint validthis: true */
     var vm = this;
 
@@ -84,15 +86,29 @@
         Auth.login(vm.singIn)
           .then(function(res) {
             console.info('res ', res);
+            if(vm.singIn.remember) {
+              $localStorage.session = res.data;
+            } else {
+              $sessionStorage.session = res.data;
+            }
             vm.singIn = {};
-            $rootScope.startLoading(false);
+            $timeout(function () {
+              $('#loginModal').fadeOut('fast',function(){
+                $('button[data-dismiss]').click();
+              });
+              vm.user = getUserDetail();
+              toastr.success('logged in as ' + vm.user.fName);
+              getVoices();
+              $location.path('/home');
+              console.info(vm.user)
+            });
           }, function(err) {
             console.info('err ', err);
-            vm.singIn = {};
+            toastr.error(err.data);
             $rootScope.startLoading(false);
             $timeout(function() {
               shakeModal();
-            }, 2000);
+            });
           });
 
       }
@@ -181,12 +197,19 @@
     function clearAll() {
       $timeout(function() {
         vm.voices = null;
-        vm.selectedVoice = {
-
-        };
+        vm.selectedVoice = {};
         vm.user = null;
+        $localStorage.$reset();
+        $sessionStorage.$reset();
+
+        /* hide the GUI voice button */
+        SpeechKITT.hide();
+
         $location.path('/');
       })
+    }
+    function getUserDetail() {
+      return $localStorage.session ? $localStorage.session : $sessionStorage.session;
     }
   }
 
