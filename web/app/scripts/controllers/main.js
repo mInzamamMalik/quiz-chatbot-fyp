@@ -66,6 +66,9 @@
         $('.modal-title').html('Login with');
       });
       $('.error').removeClass('alert alert-danger').html('');
+      $timeout(function() {
+        angular.element('#login_focus').focus();
+      }, 500);
     }
     function showRegisterForm(){
       $('.loginBox').fadeOut('fast',function(){
@@ -76,7 +79,9 @@
         $('.modal-title').html('Register with');
       });
       $('.error').removeClass('alert alert-danger').html('');
-
+      $timeout(function() {
+        angular.element('#signup_focus').focus();
+      }, 500);
     }
     function loginAjax(form){
       if(form.$valid) {

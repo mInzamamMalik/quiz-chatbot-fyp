@@ -161,7 +161,7 @@
                                     <div class="error"></div>
                                     <div class="form loginBox">
                                         <form name="loginForm" data-ng-submit="loginCtrl.loginAjax(loginForm)">
-                                            <input bs-validation required class="form-control" type="text"
+                                            <input id="login_focus" bs-validation required class="form-control" type="text"
                                                    data-ng-model="loginCtrl.singIn.email" placeholder="Email" name="email">
                                             <input bs-validation required class="form-control" type="password"
                                                    data-ng-model="loginCtrl.singIn.password" placeholder="Password" name="password">
@@ -188,7 +188,7 @@
                                 <div class="content registerBox" style="display:none;">
                                     <div class="form">
                                         <form name="registerForm" data-ng-submit="loginCtrl.registerUser(registerForm)">
-                                            <input bs-validation required class="form-control" data-ng-model="loginCtrl.register.fullName"
+                                            <input id="signup_focus" bs-validation required class="form-control" data-ng-model="loginCtrl.register.fullName"
                                                    type="text" placeholder="Your Name" name="fullName">
                                             <input bs-validation required class="form-control" data-ng-model="loginCtrl.register.email"
                                                    type="text" placeholder="Email" name="email">
