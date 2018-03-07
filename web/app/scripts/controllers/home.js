@@ -5,52 +5,17 @@
     .module('radUlFasaadApp')
     .controller('HomeCtrl', HomeCtrl);
 
-  HomeCtrl.$inject = ['$rootScope', 'toastr', '$window', 'ERROR_MSG', '$timeout'];
+  HomeCtrl.$inject = ['$rootScope', 'toastr', '$window', 'ERROR_MSG', '$timeout', 'User', '$localStorage', '$sessionStorage'];
 
-  function HomeCtrl($rootScope, toastr, $window, ERROR_MSG, $timeout) {
+  function HomeCtrl($rootScope, toastr, $window, ERROR_MSG, $timeout, User, $localStorage, $sessionStorage) {
     /* jshint validthis: true */
     var vm = this;
 
-
+    var session;
 
     vm.listeningVoice = false;
     vm.userInputValue = '';
-    vm.timeline = [{
-      content: 'hi there.',
-      from: 'me',
-      date: new Date(),
-      react: ''
-    }, {
-      content: 'see time after a while.',
-      from: 'me',
-      date: new Date().getTime()+200000,
-      react: ''
-    }, {
-      content: 'i am just testing its wonderful.',
-      from: '',
-      date: new Date().getTime()-100000,
-      react: ''
-    }, {
-      content: 'this is text speech testing.',
-      from: 'me',
-      date: new Date().getTime()-1200000,
-      react: ''
-    }, {
-      content: 'really awesome.',
-      from: '',
-      date: new Date().getTime()-700000,
-      react: ''
-    }, {
-      content: 'keep rocking man.',
-      from: 'me',
-      date: new Date().getTime()-100000,
-      react: ''
-    }, {
-      content: 'More awesome text.',
-      from: 'me',
-      date: new Date().getTime()-900000,
-      react: ''
-    }];
+    vm.timeline = [];
     vm.emogis = [{
       type: 'Smiley',
       names: [
@@ -941,6 +906,7 @@
     /* init */
     initSpeechRecognization();
     initDynamicMicrophoneColor();
+    getAllMessages();
 
 
     /* vm-functions */
@@ -959,15 +925,25 @@
       $el.find(".timeline-panel-style").removeClass('animated pulse');
     }
     function saveUserInputValue() {
-      console.info(vm.userInputValue);
-      vm.timeline.push({
-        content: vm.userInputValue,
-        from: 'me',
-        date: new Date().getTime(),
-        react: ''
-      });
+      $rootScope.startLoading(true);
+      session = $localStorage.session ? $localStorage.session : $sessionStorage.session;
 
-      $('html, body').animate({scrollTop: $(document).height()}, 2000);
+      var payload = {
+        fullName: session.profile.fullName,
+        text: vm.userInputValue
+      };
+
+      User.writeMessage(payload)
+        .then(function(res) {
+          console.log('input ', res.data);
+          vm.timeline.push(res.data);
+          $('html, body').animate({scrollTop: $(document).height()}, 2000);
+          $rootScope.startLoading(false);
+        }, function(err) {
+          console.log('reason ', err);
+          toastr.error(ERROR_MSG);
+          $rootScope.startLoading(false);
+        });
 
       vm.userInputValue = '';
     }
@@ -1073,6 +1049,20 @@
         SpeechKITT.setStylesheet(styleSheetPath + colors[at] + '.css');
         if(at == 9) at = 0;
         else at ++;
+      })
+    }
+    function getAllMessages() {
+      $timeout(function() {
+        User.getAllMessages()
+          .then(function(res) {
+            vm.timeline = res.data;
+            console.info('timeline ', vm.timeline);
+            $rootScope.startLoading(false);
+          }, function(err) {
+            console.log('reason ', err);
+            toastr.error(ERROR_MSG);
+            $rootScope.startLoading(false);
+          })
       })
     }
   }

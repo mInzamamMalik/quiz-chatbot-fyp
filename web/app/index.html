@@ -106,7 +106,7 @@
                         </ul>
                         <ul data-ng-if="loginCtrl.user != null" class="nav navbar-nav navbar-right">
                             <li class="active animated fadeIn">
-                                <a href="javascript:" data-ng-bind="loginCtrl.user.fullName + ','"></a>
+                                <a href="javascript:" data-ng-bind="loginCtrl.user.profile.fullName + ','"></a>
                             </li>
                             <li class="animated fadeIn">
                                 <a href="javascript:" data-ng-click="loginCtrl.logout()">
@@ -296,6 +296,7 @@
         <script src="scripts/factory/auth.js"></script>
         <script src="scripts/factory/app-loader.js"></script>
         <script src="scripts/factory/nlp.js"></script>
+        <script src="scripts/factory/user.js"></script>
 
         <!-- Run -->
         <script src="scripts/run/index.js"></script>

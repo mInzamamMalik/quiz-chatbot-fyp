@@ -90,7 +90,6 @@
 
         Auth.login(vm.singIn)
           .then(function(res) {
-            console.info('res ', res);
             if(vm.singIn.remember) {
               $localStorage.session = res.data;
             } else {
@@ -102,10 +101,11 @@
                 $('button[data-dismiss]').click();
               });
               vm.user = getUserDetail();
-              toastr.success('logged in as ' + vm.user.fName);
+              vm.user.profile.fullName = vm.user.profile['firstName'] + ' ' + vm.user.profile['lastName'];
+              toastr.success('logged in as ' + vm.user.profile.firstName);
               getVoices();
               $location.path('/home');
-              console.info(vm.user)
+              console.info('user ', vm.user);
             });
           }, function(err) {
             console.info('err ', err);
@@ -200,8 +200,7 @@
           $timeout(function() {
             vm.voices = res.data.Voices;
             vm.selectedVoice = vm.voices[0];
-            $rootScope.startLoading(false);
-            console.info(vm.voices);
+            console.info('voices ', vm.voices);
           })
         }, function (err) {
           console.log('reason ', err);
