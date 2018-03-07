@@ -173,16 +173,26 @@
         });
     }
     function logout() {
-      GoogleSignin.signOut()
-        .then(function (res) {
-          $timeout(function () {
-            console.info('logged out');
-            clearAll();
-          });
-        }, function (err) {
+      $rootScope.startLoading(true);
+      //GoogleSignin.signOut()
+      //  .then(function (res) {
+      //    $timeout(function () {
+      //      console.info('logged out');
+      //      clearAll();
+      //    });
+      //  }, function (err) {
+      //    console.log('reason ', err);
+      //    toastr.error(ERROR_MSG);
+      //  });
+      Auth.logout()
+        .then(function(res) {
+          console.info(res.data);
+          clearAll();
+        }, function(err) {
           console.log('reason ', err);
+          $rootScope.startLoading(false);
           toastr.error(ERROR_MSG);
-        });
+        })
     }
     function getVoices() {
       NLP.getVoice()
@@ -211,6 +221,8 @@
         SpeechKITT.hide();
 
         $location.path('/');
+
+        $rootScope.startLoading(false);
       })
     }
     function getUserDetail() {
