@@ -68,10 +68,14 @@ export const login = functions.https.onRequest(async (req, res) => {
                     if (user.data().password === body.password) {
 
                         session.start(body.email).then((token) => {
-                            res.status(200).send({
-                                email: body.email,
-                                token: token
-                            })
+                            db.collection("users").doc(body.email).get()
+                                .then(user => {
+                                    res.send({
+                                        email: body.email,
+                                        token: token,
+                                        profile: user.data()
+                                    })
+                                })
                         })
                     } else {
                         res.status(401).send("password is invalid");
