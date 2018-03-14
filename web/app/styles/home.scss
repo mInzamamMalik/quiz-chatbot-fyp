@@ -1,4 +1,8 @@
 .home-wrapper {
+  background: #00c6ff;  /* fallback for old browsers */
+  background: -webkit-linear-gradient(to right, #0072ff, #00c6ff);  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to right, #0072ff, #00c6ff); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  min-height: 100%;
   padding-top: 75px;
   background-size: cover;
   position: absolute;
@@ -51,12 +55,18 @@
   .timeline-panel-style:after, .timeline-panel-style:before { display: none !important; }
   .timeline {
     &:before {
-      width: 2px;
-      margin-left: -0.5px;
+      //width: 2px;
+      //margin-left: -0.5px;
+      display: none;
     }
-    timeline-event:last-child {
+    //timeline-event:last-child {
+    //  li {
+    //    margin-bottom: 7.8%;
+    //  }
+    //}
+    timeline-event:first-child {
       li {
-        margin-bottom: 7.8%;
+        margin-top: 1.7%;
       }
     }
   }

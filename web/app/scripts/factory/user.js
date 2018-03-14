@@ -28,7 +28,7 @@
             email: session.email,
             token: session.token,
             platform: 'web',
-            from: data.fullName,
+            from: session.email,
             text: data.text
           }
         });

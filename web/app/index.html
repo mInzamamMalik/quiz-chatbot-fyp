@@ -204,10 +204,14 @@
                                                 password not same
                                             </div>
 
-                                            <input data-ng-show="!isLoading" class="btn btn-default hvr-back-pulse btn-register"
-                                                   type="submit" value="Create account" name="submit">
-                                            <input data-ng-class="{'grey-bg': isLoading}" data-ng-show="isLoading" type="button"
-                                                   class="btn btn-default btn-register" value="Please wait" data-ng-disabled="true">
+                                            <div data-ng-show="!isLoading">
+                                                <input class="btn btn-default hvr-back-pulse btn-register"
+                                                       type="submit" value="Create account" name="submit">
+                                            </div>
+                                            <div data-ng-show="isLoading">
+                                                <input data-ng-class="{'grey-bg': !isLoading}" type="button"
+                                                       class="btn btn-default btn-register" value="Please wait" data-ng-disabled="true">
+                                            </div>
                                         </form>
                                     </div>
                                 </div>
@@ -222,7 +226,7 @@
                             </div>
                             <div class="forgot register-footer" style="display:none">
                                 <span>Already have an account?</span>
-                                <a href="javascript:" data-ng-click="loginCtrl.showLoginForm()">Login</a>
+                                <a href="javascript:" data-ng-click="loginCtrl.showLoginForm()">login</a>
                             </div>
                         </div>
                     </div>

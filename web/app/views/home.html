@@ -1,4 +1,4 @@
-<div class="home-wrapper" data-ng-controller="HomeCtrl as home" style="background-image: url('images/bg.jpg')">
+<div class="home-wrapper" data-ng-controller="HomeCtrl as home">
     <div class="overlay">
         <div class="container">
             <div class="row">
@@ -7,17 +7,18 @@
                         <timeline-event ng-repeat="message in home.timeline track by $index"
                                         side="{{message.from == 'BOT' ? 'left' : 'right'}}"
                                         when-visible="home.animateElementIn"
-                                        when-not-visible="home.animateElementOut">
-                            <timeline-badge title="Play" data-ng-click="home.playAudio(message.text)"
-                                            class="cursor no-timeline-badge-shadow {{message.from == 'BOT' ? 'danger' : 'success'}}">
-                                <i class="fa hvr-grow-shadow fa-volume-up"></i>
-                            </timeline-badge>
+                                        when-not-visible="home.animateElementOut"
+                                        data-ng-click="home.playAudio(message.text)">
+                            <!--<timeline-badge title="Play" data-ng-click="home.playAudio(message.text)"-->
+                                            <!--class="cursor no-timeline-badge-shadow {{message.from == 'BOT' ? 'danger' : 'success'}}">-->
+                                <!--<i class="fa hvr-grow-shadow fa-volume-up"></i>-->
+                            <!--</timeline-badge>-->
                             <timeline-panel class="timeline-panel-style">
                                 <timeline-heading>
                                     <h4 ng-bind="message.from == 'BOT' ? 'Bot' : ''"></h4>
                                 </timeline-heading>
                                 <p>{{message.text}}</p>
-                                <p class="time">
+                                <p class="time" data-ng-click="$event.stopPropagation();">
                                     <span data-ng-bind="message.timestamp | timeAgo"></span> .
                                     <span data-ng-show="message.react" class="em no-cursor {{message.react}}"></span>
                                     <i data-ng-show="!message.react" class="fa fa-smile-o emogi" aria-hidden="true"
