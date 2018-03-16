@@ -13,6 +13,7 @@
 
     var session;
 
+    vm.showDateTooltip = false;
     vm.listeningVoice = false;
     vm.userInputValue = '';
     vm.timeline = [];
@@ -907,7 +908,7 @@
     initSpeechRecognization();
     initDynamicMicrophoneColor();
     getAllMessages();
-
+    onScrollDateTooltip();
 
     /* vm-functions */
     vm.animateElementIn = animateElementIn;
@@ -1064,6 +1065,14 @@
             $rootScope.startLoading = false;
           })
       })
+    }
+    function onScrollDateTooltip() {
+      angular.element(window).bind('scroll', function(){
+        vm.showDateTooltip = true;
+        setTimeout(function() {
+          vm.showDateTooltip = false;
+        }, 1000)
+      });
     }
   }
 

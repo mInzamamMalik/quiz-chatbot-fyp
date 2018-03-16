@@ -2,6 +2,14 @@
     <div class="overlay">
         <div class="container">
             <div class="row">
+                <dic class="col-md-12 text-center">
+                    <span ng-show="home.showDateTooltip" class="scroll-date-tooltip"
+                          ng-class="{'animated fadeOut': !home.showDateTooltip}">
+                        Yesterday
+                    </span>
+                </dic>
+            </div>
+            <div class="row">
                 <div class="col-md-12">
                     <timeline>
                         <timeline-event ng-repeat="message in home.timeline track by $index"
