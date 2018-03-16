@@ -26,7 +26,7 @@
 
 
     /* init */
-
+    getUserProfile();
 
 
     /* vm-function */
@@ -86,7 +86,7 @@
     function loginAjax(form){
       if(form.$valid) {
         console.info('form ', vm.singIn);
-        $rootScope.startLoading(true);
+        $rootScope.startLoading = true;
 
         Auth.login(vm.singIn)
           .then(function(res) {
@@ -110,7 +110,7 @@
           }, function(err) {
             console.info('err ', err);
             toastr.error(err.data);
-            $rootScope.startLoading(false);
+            $rootScope.startLoading = false;
             $timeout(function() {
               shakeModal();
             });
@@ -129,17 +129,17 @@
     function registerUser(form) {
       if(form.$valid) {
         console.info('form ', vm.register);
-        $rootScope.startLoading(true);
+        $rootScope.startLoading = true;
 
         Auth.signUp(vm.register)
           .then(function(res) {
             console.info('res ', res);
             vm.register = {};
-            $rootScope.startLoading(false);
+            $rootScope.startLoading = false;
           }, function(err) {
             console.info('err ', err);
             vm.register = {};
-            $rootScope.startLoading(false);
+            $rootScope.startLoading = false;
           })
       }
     }
@@ -149,7 +149,7 @@
           $timeout(function () {
             $('#loginModal').fadeOut('fast',function(){
               $('button[data-dismiss]').click();
-              $rootScope.startLoading(true);
+              $rootScope.startLoading = true;
             });
             var profile = user.getBasicProfile();
             var userDetail = {
@@ -169,11 +169,11 @@
         }, function (err) {
           console.log('reason ', err);
           toastr.error(ERROR_MSG);
-          $rootScope.startLoading(false);
+          $rootScope.startLoading = false;
         });
     }
     function logout() {
-      $rootScope.startLoading(true);
+      $rootScope.startLoading = true;
       //GoogleSignin.signOut()
       //  .then(function (res) {
       //    $timeout(function () {
@@ -190,7 +190,7 @@
           clearAll();
         }, function(err) {
           console.log('reason ', err);
-          $rootScope.startLoading(false);
+          $rootScope.startLoading = false;
           toastr.error(ERROR_MSG);
         })
     }
@@ -199,13 +199,13 @@
         .then(function (res) {
           $timeout(function() {
             vm.voices = res.data.Voices;
-            vm.selectedVoice = vm.voices[0];
+            vm.selectedVoice = {Gender: "Female", Id: "Joanna", LanguageCode: "en-US", LanguageName: "US English", Name: "Joanna"};
             console.info('voices ', vm.voices);
           })
         }, function (err) {
           console.log('reason ', err);
           toastr.error(ERROR_MSG);
-          $rootScope.startLoading(false);
+          $rootScope.startLoading = false;
         })
     }
     function clearAll() {
@@ -221,11 +221,15 @@
 
         $location.path('/');
 
-        $rootScope.startLoading(false);
+        $rootScope.startLoading = false;
       })
     }
     function getUserDetail() {
       return $localStorage.session ? $localStorage.session : $sessionStorage.session;
+    }
+    function getUserProfile() {
+      vm.user = $localStorage.session ? $localStorage.session : $sessionStorage.session;
+      getVoices();
     }
   }
 

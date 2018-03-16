@@ -925,7 +925,7 @@
       $el.find(".timeline-panel-style").removeClass('animated pulse');
     }
     function saveUserInputValue() {
-      $rootScope.startLoading(true);
+      $rootScope.startLoading = true;
       session = $localStorage.session ? $localStorage.session : $sessionStorage.session;
 
       var payload = {
@@ -938,11 +938,11 @@
           console.log('input ', res.data);
           vm.timeline.push(res.data);
           $('html, body').animate({scrollTop: $(document).height()}, 2000);
-          $rootScope.startLoading(false);
+          $rootScope.startLoading = false;
         }, function(err) {
           console.log('reason ', err);
           toastr.error(ERROR_MSG);
-          $rootScope.startLoading(false);
+          $rootScope.startLoading = false;
         });
 
       vm.userInputValue = '';
@@ -1057,11 +1057,11 @@
           .then(function(res) {
             vm.timeline = res.data;
             console.info('timeline ', vm.timeline);
-            $rootScope.startLoading(false);
+            $rootScope.startLoading = false;
           }, function(err) {
             console.log('reason ', err);
             toastr.error(ERROR_MSG);
-            $rootScope.startLoading(false);
+            $rootScope.startLoading = false;
           })
       })
     }

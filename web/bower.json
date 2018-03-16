@@ -10,8 +10,6 @@
     "angular-route": "^1.4.0",
     "angular-sanitize": "^1.4.0",
     "angular-touch": "^1.4.0",
-    "please-wait": "^0.0.5",
-    "SpinKit": "spinkit#^1.2.5",
     "bootstrap-angular-validation": "^1.0.7",
     "angular-toastr": "^2.1.1",
     "angular-timeline": "^1.7.0",
