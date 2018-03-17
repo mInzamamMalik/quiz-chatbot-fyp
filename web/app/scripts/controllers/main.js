@@ -38,6 +38,7 @@
     vm.logout = logout;
     vm.signInWithGoogle = signInWithGoogle;
     vm.registerUser = registerUser;
+    vm.doBlur = doBlur;
 
 
 
@@ -96,6 +97,7 @@
               $sessionStorage.session = res.data;
             }
             vm.singIn = {};
+            form.$setPristine();
             $timeout(function () {
               $('#loginModal').fadeOut('fast',function(){
                 $('button[data-dismiss]').click();
@@ -112,6 +114,8 @@
             toastr.error(err.data);
             $rootScope.startLoading = false;
             $timeout(function() {
+              angular.element('#login_focus').focus();
+              form.$setPristine();
               shakeModal();
             });
           });
@@ -135,11 +139,16 @@
           .then(function(res) {
             console.info('res ', res);
             vm.register = {};
+            form.$setPristine();
+            toastr.success(res.data);
+            showLoginForm();
             $rootScope.startLoading = false;
           }, function(err) {
             console.info('err ', err);
-            vm.register = {};
+            toastr.error(err.data);
+            form.$setPristine();
             $rootScope.startLoading = false;
+            angular.element('#signup_focus').focus();
           })
       }
     }
@@ -216,7 +225,8 @@
         $localStorage.$reset();
         $sessionStorage.$reset();
 
-        /* hide the GUI voice button */
+        /* hide and abort the GUI voice button */
+        annyang.abort();
         SpeechKITT.hide();
 
         $location.path('/');
@@ -230,6 +240,13 @@
     function getUserProfile() {
       vm.user = $localStorage.session ? $localStorage.session : $sessionStorage.session;
       getVoices();
+    }
+    function doBlur(ev, el) {
+      //var target;
+      //el == 'login' ? (target = ev.target.password) : (target = ev.target.cPassword);
+      // do more stuff here, like blur or other things
+      //target.blur();
+      angular.element('.took-focus').focus();
     }
   }
 

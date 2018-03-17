@@ -15,6 +15,7 @@
 
     vm.showDateTooltip = false;
     vm.listeningVoice = false;
+    vm.sending = false;
     vm.userInputValue = '';
     vm.timeline = [];
     vm.emogis = [{
@@ -926,7 +927,7 @@
       $el.find(".timeline-panel-style").removeClass('animated pulse');
     }
     function saveUserInputValue() {
-      $rootScope.startLoading = true;
+      vm.sending = true;
       session = $localStorage.session ? $localStorage.session : $sessionStorage.session;
 
       var payload = {
@@ -939,11 +940,34 @@
           console.log('input ', res.data);
           vm.timeline.push(res.data);
           $('html, body').animate({scrollTop: $(document).height()}, 2000);
-          $rootScope.startLoading = false;
+          vm.sending = false;
         }, function(err) {
           console.log('reason ', err);
           toastr.error(ERROR_MSG);
-          $rootScope.startLoading = false;
+          vm.sending = false;
+        });
+
+      vm.userInputValue = '';
+    }
+    function saveUserVoiceValue(text) {
+      //$rootScope.startLoading = true;
+      session = $localStorage.session ? $localStorage.session : $sessionStorage.session;
+
+      var payload = {
+        fullName: session.profile.fullName,
+        text: text
+      };
+
+      User.writeMessage(payload)
+        .then(function(res) {
+          console.log('input ', res.data);
+          vm.timeline.push(res.data);
+          $('html, body').animate({scrollTop: $(document).height()}, 2000);
+          //$rootScope.startLoading = false;
+        }, function(err) {
+          console.log('reason ', err);
+          toastr.error(ERROR_MSG);
+          //$rootScope.startLoading = false;
         });
 
       vm.userInputValue = '';
@@ -990,6 +1014,15 @@
           });
           $timeout(function() {
             angular.element('#skitt-ui').addClass('skitt-ui--listening');
+            var match;
+            for(var key in commands) {
+              if(phrases[0].trim() == key) {
+                match = true;
+                return;
+              }
+              else match = false;
+            }
+            if(!match) saveUserVoiceValue(phrases[0])
           }, 50);
         }, this);
 
@@ -1032,6 +1065,9 @@
 
         // Render KITT's interface
         SpeechKITT.vroom();
+
+        // Show
+        SpeechKITT.show();
       } else {
         toastr.error('<b>Oops!</b> Your browser doesn\'t support <br/> <b>Speech Synthesis</b>', {allowHtml: true})
       }
