@@ -25,7 +25,7 @@
                                 <timeline-heading>
                                     <h4 ng-bind="message.from == 'BOT' ? 'Bot' : ''"></h4>
                                 </timeline-heading>
-                                <p>{{message.text}}</p>
+                                <p class="animated fadeIn">{{message.text}}</p>
                                 <p class="time" data-ng-click="$event.stopPropagation();">
                                     <span data-ng-bind="message.timestamp | timeAgo"></span> .
                                     <span data-ng-show="message.react" class="em no-cursor {{message.react}}"></span>
