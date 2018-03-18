@@ -17,7 +17,8 @@
       'google-signin',
       'ui.bootstrap',
       'angular-typed',
-      'ngStorage'
+      'ngStorage',
+      'timer'
     ])
     .config(RouteConfig);
 

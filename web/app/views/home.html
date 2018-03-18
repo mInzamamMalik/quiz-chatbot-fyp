@@ -1,4 +1,9 @@
 <div class="home-wrapper" data-ng-controller="HomeCtrl as home">
+    <timer interval="1000" countdown="60 * 60 + 10">
+      <span>{{hours}} hour{{hoursS}},</span>
+      <span>{{minutes}} minute{{minutesS}},</span>
+      <span>{{seconds}} second{{secondsS}}.</span>
+    </timer>
     <div class="overlay">
         <div class="container">
             <div class="row">

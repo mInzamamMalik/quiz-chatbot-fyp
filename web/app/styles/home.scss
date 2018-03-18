@@ -10,6 +10,18 @@
   background-attachment: fixed;
   width: 100%;
   left: 0;
+  timer {
+    display: inline;
+    position: absolute;
+    top: 25px;
+    right: 0;
+    left: 0;
+    font-size: 20px;
+    font-weight: bold;
+    color: #fff;
+    z-index: 9999;
+    text-align: center;
+  }
   .overlay {
     background-color: rgba(0, 0, 0, 0.6);
     height: 100%;
