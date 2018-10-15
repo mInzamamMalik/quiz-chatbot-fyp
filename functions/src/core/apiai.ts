@@ -4,7 +4,7 @@ import * as request from 'request'
 import * as apiai from 'apiai';
 import { TextRequestOptions, Event, EventRequestOptions } from 'apiai';
 
-let app = apiai('7baa246fc18a49cfaebb48b83c733f44 ');
+let app = apiai('7baa246fc18a49cfaebb48b83c733f44');
 
 export function textQuery(text: [string] | string, options: {
     sessionId: string
