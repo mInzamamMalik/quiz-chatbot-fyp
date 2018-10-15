@@ -5,34 +5,25 @@
       .module('radUlFasaadApp')
       .run(runBlock);
 
-    runBlock.$inject = ['$rootScope', 'AppLoader'];
+    runBlock.$inject = ['$rootScope'];
 
-    function runBlock($rootScope, AppLoader) {
+    function runBlock($rootScope) {
 
       /* toggle loading at root level */
 
+
       /* vm-properties */
-      $rootScope.isLoading = false;
+      $rootScope.startLoading = true;
 
 
       /* init */
       stopLoadingOnloaded();
 
 
-      /* vm-functions */
-      $rootScope.startLoading = startLoading;
-
-
       /* functions */
-      function startLoading(val) {
-        $rootScope.isLoading = val;
-        if (val) AppLoader.start();
-        else AppLoader.stop();
-      }
       function stopLoadingOnloaded() {
-        startLoading(true);
         window.onload = function() {
-          startLoading(false);
+          $rootScope.startLoading = false;
         };
       }
     }

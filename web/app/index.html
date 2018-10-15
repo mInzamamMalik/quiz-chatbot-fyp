@@ -8,8 +8,6 @@
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
     <!-- build:css(.) styles/vendor.css -->
     <!-- bower:css -->
-    <link rel="stylesheet" href="bower_components/please-wait/build/please-wait.css" />
-    <link rel="stylesheet" href="bower_components/SpinKit/css/spinkit.css" />
     <link rel="stylesheet" href="bower_components/angular-toastr/dist/angular-toastr.css" />
     <link rel="stylesheet" href="bower_components/angular-timeline/dist/angular-timeline.css" />
     <link rel="stylesheet" href="bower_components/animate.css/animate.css" />
@@ -25,8 +23,16 @@
   </head>
   <body data-ng-app="radUlFasaadApp">
 
-    <!-- Audio element -->
-    <audio controls autoplay id="say_speak"></audio>
+
+    <!-- application loader -->
+    <div class="app-loader" ng-if="startLoading">
+      <li class="three-bounce selected">
+          <div class="one"></div>
+          <div class="two"></div>
+          <div class="three"></div>
+      </li>
+    </div>
+
 
     <!--[if lte IE 8]>
       <p class="browsehappy">You are using an <strong>outdated</strong> browser.
@@ -52,44 +58,12 @@
                     <!-- Collect the nav links, forms, and other content for toggling -->
                     <div class="collapse navbar-collapse" id="left-navbar-menu-collapse">
                         <ul class="nav navbar-nav">
-                            <li data-ng-if="loginCtrl.user != null" class="dropdown">
-                                <a title="{{loginCtrl.selectedVoice.LanguageName}}" href="javascript:"
-                                   class="dropdown-toggle animated fadeIn language-title" data-toggle="dropdown">
-                                    <i title="Language" class="fa fa-language" aria-hidden="true"></i>
-                                    <span ng-if="loginCtrl.selectedVoice.Name" class="animated fadeIn"
-                                          ng-bind="loginCtrl.selectedVoice.Name + ' (' + loginCtrl.selectedVoice.LanguageCode + ')'"></span>
-                                    <b class="caret"></b>
-                                </a>
-                                <ul class="dropdown-menu">
-                                    <div class="overflow text-center">
-                                        <li title="{{voice.LanguageName}}"
-                                            data-ng-click="loginCtrl.selectedVoice = voice"
-                                            data-ng-repeat="voice in loginCtrl.voices track by $index">
-                                            <a href="javascript:" class="hvr-grow">
-                                              <span data-ng-bind="voice.Name + ' (' + voice.LanguageCode + ')'"></span>
-                                              <span class="label label-danger" data-ng-bind="voice.Gender"
-                                                    ng-class="{
-                                                    'text-pink': voice.Gender == 'Female',
-                                                    'text-green': voice.Gender == 'Male',
-                                                    }">
-                                              </span>
-                                            </a>
-                                        </li>
-                                    </div>
-
-                                    <li class="divider"></li>
-                                    <li class="inactive-link">
-                                        <a href="javascript:" class="text-center">
-                                          <i class="fa fa-microphone" aria-hidden="true"></i> available voices
-                                        </a>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li data-ng-if="loginCtrl.user == null">
-                                <a href="#!/" class="btn btn-warning animated fadeIn input-sm title-btn-link">
-                                    Home
-                                </a>
-                            </li>
+                          <li class="animated fadeIn">
+                            <a href="javascript:">
+                              <i title="Language" class="fa fa-language" aria-hidden="true"></i>
+                              <span ng-bind="loginCtrl.selectedVoice.LanguageCode"></span>
+                            </a>
+                          </li>
                         </ul>
 
                         <ul data-ng-if="loginCtrl.user == null" class="nav navbar-nav navbar-right">
@@ -106,7 +80,7 @@
                         </ul>
                         <ul data-ng-if="loginCtrl.user != null" class="nav navbar-nav navbar-right">
                             <li class="active animated fadeIn">
-                                <a href="javascript:" data-ng-bind="loginCtrl.user.fullName + ','"></a>
+                                <a href="javascript:" data-ng-bind="loginCtrl.user.profile.fullName + ','"></a>
                             </li>
                             <li class="animated fadeIn">
                                 <a href="javascript:" data-ng-click="loginCtrl.logout()">
@@ -160,7 +134,8 @@
                                     </div>
                                     <div class="error"></div>
                                     <div class="form loginBox">
-                                        <form name="loginForm" data-ng-submit="loginCtrl.loginAjax(loginForm)">
+                                        <form name="loginForm"
+                                              data-ng-submit="loginCtrl.loginAjax(loginForm);loginCtrl.doBlur($event, 'login')">
                                             <input id="login_focus" bs-validation required class="form-control" type="text"
                                                    data-ng-model="loginCtrl.singIn.email" placeholder="Email" name="email">
                                             <input bs-validation required class="form-control" type="password"
@@ -178,8 +153,15 @@
                                                     </label>
                                                 </div>
                                             </div>
-                                            <button data-ng-disabled="isLoading" data-ng-class="{'grey-bg': isLoading}"
-                                                    type="submit" class="btn hvr-shutter-out-horizontal btn-default btn-login">Login</button>
+                                            <div data-ng-show="!startLoading">
+                                                <button class="btn hvr-shutter-out-horizontal btn-default btn-login"
+                                                        type="submit">Login</button>
+                                            </div>
+                                            <div data-ng-show="startLoading">
+                                                <button type="button" data-ng-disabled="true"
+                                                        class="btn btn-default btn-login grey-bg">Please wait
+                                                </button>
+                                            </div>
                                         </form>
                                     </div>
                                 </div>
@@ -187,12 +169,17 @@
                             <div class="box">
                                 <div class="content registerBox" style="display:none;">
                                     <div class="form">
-                                        <form name="registerForm" data-ng-submit="loginCtrl.registerUser(registerForm)">
-                                            <input id="signup_focus" bs-validation required class="form-control" data-ng-model="loginCtrl.register.fullName"
-                                                   type="text" placeholder="Your Name" name="fullName">
+                                        <form name="registerForm"
+                                              data-ng-submit="loginCtrl.registerUser(registerForm);loginCtrl.doBlur($event, 'signup')">
+                                            <input id="signup_focus" bs-validation required class="form-control"
+                                                   data-ng-model="loginCtrl.register.firstName"
+                                                   type="text" placeholder="First Name" name="fName">
+                                            <input bs-validation required class="form-control"
+                                                   data-ng-model="loginCtrl.register.lastName"
+                                                   type="text" placeholder="Last Name" name="lName">
                                             <input bs-validation required class="form-control" data-ng-model="loginCtrl.register.email"
                                                    type="text" placeholder="Email" name="email">
-                                            <input bs-validation required class="form-control" data-ng-model="loginCtrl.register.contact"
+                                            <input bs-validation required class="form-control" data-ng-model="loginCtrl.register.phoneNumber"
                                                    type="text" placeholder="Contact" name="contact">
                                             <input bs-validation required class="form-control" data-ng-model="loginCtrl.register.password"
                                                    type="password" placeholder="Password" name="password">
@@ -204,14 +191,20 @@
                                                 password not same
                                             </div>
 
-                                            <input data-ng-show="!isLoading" class="btn btn-default hvr-back-pulse btn-register"
-                                                   type="submit" value="Create account" name="submit">
-                                            <input data-ng-class="{'grey-bg': isLoading}" data-ng-show="isLoading" type="button"
-                                                   class="btn btn-default btn-register" value="Please wait" data-ng-disabled="true">
+                                            <div data-ng-show="!startLoading">
+                                                <input class="btn btn-default hvr-back-pulse btn-register"
+                                                       type="submit" value="Create account" name="submit">
+                                            </div>
+                                            <div data-ng-show="startLoading">
+                                                <button type="button" data-ng-disabled="true"
+                                                        class="btn btn-default btn-register grey-bg">Please wait
+                                                </button>
+                                            </div>
                                         </form>
                                     </div>
                                 </div>
                             </div>
+                            <input readonly type="text" class="took-focus">
                         </div>
                         <div class="modal-footer">
                             <div class="forgot login-footer">
@@ -222,7 +215,7 @@
                             </div>
                             <div class="forgot register-footer" style="display:none">
                                 <span>Already have an account?</span>
-                                <a href="javascript:" data-ng-click="loginCtrl.showLoginForm()">Login</a>
+                                <a href="javascript:" data-ng-click="loginCtrl.showLoginForm()">login</a>
                             </div>
                         </div>
                     </div>
@@ -244,15 +237,15 @@
     </div>
 
     <!-- Google Analytics: change UA-XXXXX-X to be your site's ID -->
-    <script>
-       !function(A,n,g,u,l,a,r){A.GoogleAnalyticsObject=l,A[l]=A[l]||function(){
-       (A[l].q=A[l].q||[]).push(arguments)},A[l].l=+new Date,a=n.createElement(g),
-       r=n.getElementsByTagName(g)[0],a.src=u,r.parentNode.insertBefore(a,r)
-       }(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+    <!--<script>-->
+       <!--!function(A,n,g,u,l,a,r){A.GoogleAnalyticsObject=l,A[l]=A[l]||function(){-->
+       <!--(A[l].q=A[l].q||[]).push(arguments)},A[l].l=+new Date,a=n.createElement(g),-->
+       <!--r=n.getElementsByTagName(g)[0],a.src=u,r.parentNode.insertBefore(a,r)-->
+       <!--}(window,document,'script','https://www.google-analytics.com/analytics.js','ga');-->
 
-       ga('create', 'UA-XXXXX-X');
-       ga('send', 'pageview');
-    </script>
+       <!--ga('create', 'UA-XXXXX-X');-->
+       <!--ga('send', 'pageview');-->
+    <!--</script>-->
 
     <!-- build:js(.) scripts/vendor.js -->
     <!-- bower:js -->
@@ -265,7 +258,6 @@
     <script src="bower_components/angular-route/angular-route.js"></script>
     <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
     <script src="bower_components/angular-touch/angular-touch.js"></script>
-    <script src="bower_components/please-wait/build/please-wait.js"></script>
     <script src="bower_components/bootstrap-angular-validation/dist/bootstrap-angular-validation-all.min.js"></script>
     <script src="bower_components/angular-toastr/dist/angular-toastr.tpls.js"></script>
     <script src="bower_components/angular-timeline/dist/angular-timeline.js"></script>
@@ -275,6 +267,9 @@
     <script src="bower_components/aws-sdk/dist/aws-sdk.js"></script>
     <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
     <script src="bower_components/ngstorage/ngStorage.js"></script>
+    <script src="bower_components/moment/moment.js"></script>
+    <script src="bower_components/humanize-duration/humanize-duration.js"></script>
+    <script src="bower_components/angular-timer/dist/angular-timer.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
 
@@ -294,8 +289,8 @@
 
         <!-- Factories -->
         <script src="scripts/factory/auth.js"></script>
-        <script src="scripts/factory/app-loader.js"></script>
         <script src="scripts/factory/nlp.js"></script>
+        <script src="scripts/factory/user.js"></script>
 
         <!-- Run -->
         <script src="scripts/run/index.js"></script>
@@ -306,11 +301,11 @@
         <script src="scripts/config/google-sign-in.js"></script>
 
         <!-- Angular-typed -->
-        <script src="https://cdn.rawgit.com/codekraft-studio/angular-typed/master/dist/angular-typed.min.js"></script>
+        <script src="scripts/lib/angular-typed.min.js"></script>
 
         <!-- Speech-Recognition with KITT -->
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/annyang/2.6.0/annyang.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/SpeechKITT/1.0.0/speechkitt.min.js"></script>
+        <script src="scripts/lib/annyang.min.js"></script>
+        <script src="scripts/lib/speechkitt.min.js"></script>
 
         <!-- endbuild -->
 </body>

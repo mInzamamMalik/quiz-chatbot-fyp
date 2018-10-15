@@ -26,7 +26,7 @@
 
 
     /* init */
-
+    getUserProfile();
 
 
     /* vm-function */
@@ -38,6 +38,7 @@
     vm.logout = logout;
     vm.signInWithGoogle = signInWithGoogle;
     vm.registerUser = registerUser;
+    vm.doBlur = doBlur;
 
 
 
@@ -86,32 +87,35 @@
     function loginAjax(form){
       if(form.$valid) {
         console.info('form ', vm.singIn);
-        $rootScope.startLoading(true);
+        $rootScope.startLoading = true;
 
         Auth.login(vm.singIn)
           .then(function(res) {
-            console.info('res ', res);
             if(vm.singIn.remember) {
               $localStorage.session = res.data;
             } else {
               $sessionStorage.session = res.data;
             }
             vm.singIn = {};
+            form.$setPristine();
             $timeout(function () {
               $('#loginModal').fadeOut('fast',function(){
                 $('button[data-dismiss]').click();
               });
               vm.user = getUserDetail();
-              toastr.success('logged in as ' + vm.user.fName);
+              vm.user.profile.fullName = vm.user.profile['firstName'] + ' ' + vm.user.profile['lastName'];
+              toastr.success('logged in as ' + vm.user.profile.firstName);
               getVoices();
               $location.path('/home');
-              console.info(vm.user)
+              console.info('user ', vm.user);
             });
           }, function(err) {
             console.info('err ', err);
             toastr.error(err.data);
-            $rootScope.startLoading(false);
+            $rootScope.startLoading = false;
             $timeout(function() {
+              angular.element('#login_focus').focus();
+              form.$setPristine();
               shakeModal();
             });
           });
@@ -129,17 +133,22 @@
     function registerUser(form) {
       if(form.$valid) {
         console.info('form ', vm.register);
-        $rootScope.startLoading(true);
+        $rootScope.startLoading = true;
 
         Auth.signUp(vm.register)
           .then(function(res) {
             console.info('res ', res);
             vm.register = {};
-            $rootScope.startLoading(false);
+            form.$setPristine();
+            toastr.success(res.data);
+            showLoginForm();
+            $rootScope.startLoading = false;
           }, function(err) {
             console.info('err ', err);
-            vm.register = {};
-            $rootScope.startLoading(false);
+            toastr.error(err.data);
+            form.$setPristine();
+            $rootScope.startLoading = false;
+            angular.element('#signup_focus').focus();
           })
       }
     }
@@ -149,7 +158,7 @@
           $timeout(function () {
             $('#loginModal').fadeOut('fast',function(){
               $('button[data-dismiss]').click();
-              $rootScope.startLoading(true);
+              $rootScope.startLoading = true;
             });
             var profile = user.getBasicProfile();
             var userDetail = {
@@ -169,34 +178,43 @@
         }, function (err) {
           console.log('reason ', err);
           toastr.error(ERROR_MSG);
-          $rootScope.startLoading(false);
+          $rootScope.startLoading = false;
         });
     }
     function logout() {
-      GoogleSignin.signOut()
-        .then(function (res) {
-          $timeout(function () {
-            console.info('logged out');
-            clearAll();
-          });
-        }, function (err) {
+      $rootScope.startLoading = true;
+      //GoogleSignin.signOut()
+      //  .then(function (res) {
+      //    $timeout(function () {
+      //      console.info('logged out');
+      //      clearAll();
+      //    });
+      //  }, function (err) {
+      //    console.log('reason ', err);
+      //    toastr.error(ERROR_MSG);
+      //  });
+      Auth.logout()
+        .then(function(res) {
+          console.info(res.data);
+          clearAll();
+        }, function(err) {
           console.log('reason ', err);
+          $rootScope.startLoading = false;
           toastr.error(ERROR_MSG);
-        });
+        })
     }
     function getVoices() {
       NLP.getVoice()
         .then(function (res) {
           $timeout(function() {
             vm.voices = res.data.Voices;
-            vm.selectedVoice = vm.voices[0];
-            $rootScope.startLoading(false);
-            console.info(vm.voices);
+            vm.selectedVoice = {Gender: "Female", Id: "Joanna", LanguageCode: "en-US", LanguageName: "US English", Name: "Joanna"};
+            console.info('voices ', vm.voices);
           })
         }, function (err) {
           console.log('reason ', err);
           toastr.error(ERROR_MSG);
-          $rootScope.startLoading(false);
+          $rootScope.startLoading = false;
         })
     }
     function clearAll() {
@@ -207,14 +225,28 @@
         $localStorage.$reset();
         $sessionStorage.$reset();
 
-        /* hide the GUI voice button */
+        /* hide and abort the GUI voice button */
+        annyang.abort();
         SpeechKITT.hide();
 
         $location.path('/');
+
+        $rootScope.startLoading = false;
       })
     }
     function getUserDetail() {
       return $localStorage.session ? $localStorage.session : $sessionStorage.session;
+    }
+    function getUserProfile() {
+      vm.user = $localStorage.session ? $localStorage.session : $sessionStorage.session;
+      getVoices();
+    }
+    function doBlur(ev, el) {
+      //var target;
+      //el == 'login' ? (target = ev.target.password) : (target = ev.target.cPassword);
+      // do more stuff here, like blur or other things
+      //target.blur();
+      angular.element('.took-focus').focus();
     }
   }
 
