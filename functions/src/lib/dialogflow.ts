@@ -11,10 +11,6 @@ var cors = _cors({ origin: true });// set these options appropriately According 
 // see document: https://www.npmjs.com/package/cors#configuration-options
 // true means allow everything
 
-// http example
-export const webhook = functions.https.onRequest((req, res) => {
-
-});
 
 interface talk {
     platform: string, // 0 for web, 1 for android
@@ -96,7 +92,7 @@ export const talk = functions.https.onRequest((req, res) => {
         const sessionId = req.body.sessionId;
         const query = req.body.query;
 
-
+ 
         res.send({
             "messages": [
                 {
