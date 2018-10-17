@@ -1,0 +1,28 @@
+{
+  "id": "49a4733b-ba85-4d07-8020-b77e6fbc8f2e",
+  "name": "startQuiz",
+  "auto": true,
+  "contexts": [],
+  "responses": [
+    {
+      "resetContexts": false,
+      "affectedContexts": [],
+      "parameters": [],
+      "messages": [
+        {
+          "type": 0,
+          "lang": "en",
+          "speech": "something went wrong in start quiz intent"
+        }
+      ],
+      "defaultResponsePlatforms": {},
+      "speech": []
+    }
+  ],
+  "priority": 500000,
+  "webhookUsed": true,
+  "webhookForSlotFilling": false,
+  "lastUpdate": 1539779919,
+  "fallbackIntent": false,
+  "events": []
+}

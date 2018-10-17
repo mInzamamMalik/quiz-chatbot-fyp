@@ -1,0 +1,36 @@
+{
+  "id": "fa4d3410-71ab-45d8-82c3-50e8b1af91b5",
+  "name": "startQuiz_overview",
+  "auto": true,
+  "contexts": [
+    "start_quiz"
+  ],
+  "responses": [
+    {
+      "resetContexts": false,
+      "affectedContexts": [
+        {
+          "name": "start_quiz",
+          "parameters": {},
+          "lifespan": 5
+        }
+      ],
+      "parameters": [],
+      "messages": [
+        {
+          "type": 0,
+          "lang": "en",
+          "speech": "something went wrong in quiz started:overview"
+        }
+      ],
+      "defaultResponsePlatforms": {},
+      "speech": []
+    }
+  ],
+  "priority": 500000,
+  "webhookUsed": true,
+  "webhookForSlotFilling": false,
+  "lastUpdate": 1539790997,
+  "fallbackIntent": false,
+  "events": []
+}
