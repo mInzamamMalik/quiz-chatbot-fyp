@@ -1,7 +1,12 @@
 import * as functions from 'firebase-functions'
 import * as admin from 'firebase-admin'
 
-var defaultApp = admin.initializeApp(functions.config().firebase)
+var serviceAccount = require('./serviceAccount.json');
+
+var defaultApp = admin.initializeApp({
+    credential: admin.credential.cert(serviceAccount),
+    databaseURL: "https://rad-ul-fasaad.firebaseio.com"
+});
 
 const db = admin.firestore();
 export default db;
