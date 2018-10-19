@@ -1,0 +1,38 @@
+{
+  "id": "69a31903-734b-4f0b-b329-561b7793f36d",
+  "name": "startQuiz_logAnswer",
+  "auto": true,
+  "contexts": [
+    "question_asked"
+  ],
+  "responses": [
+    {
+      "resetContexts": false,
+      "affectedContexts": [],
+      "parameters": [
+        {
+          "id": "f8776b4f-bc55-491a-9812-d6d4606a7157",
+          "dataType": "@option",
+          "name": "option",
+          "value": "$option",
+          "isList": false
+        }
+      ],
+      "messages": [
+        {
+          "type": 0,
+          "lang": "en",
+          "speech": []
+        }
+      ],
+      "defaultResponsePlatforms": {},
+      "speech": []
+    }
+  ],
+  "priority": 500000,
+  "webhookUsed": false,
+  "webhookForSlotFilling": false,
+  "lastUpdate": 1539793646,
+  "fallbackIntent": false,
+  "events": []
+}

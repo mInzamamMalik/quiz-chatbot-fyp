@@ -1,0 +1,40 @@
+[
+  {
+    "value": "0",
+    "synonyms": [
+      "1",
+      "a",
+      "first",
+      "one"
+    ]
+  },
+  {
+    "value": "1",
+    "synonyms": [
+      "2",
+      "b",
+      "second",
+      "two"
+    ]
+  },
+  {
+    "value": "2",
+    "synonyms": [
+      "3",
+      "c",
+      "third",
+      "second last",
+      "three"
+    ]
+  },
+  {
+    "value": "3",
+    "synonyms": [
+      "4",
+      "d",
+      "last",
+      "fourth",
+      "four"
+    ]
+  }
+]

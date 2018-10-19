@@ -3,18 +3,12 @@
   "name": "startQuiz_overview",
   "auto": true,
   "contexts": [
-    "start_quiz"
+    "quiz_started"
   ],
   "responses": [
     {
       "resetContexts": false,
-      "affectedContexts": [
-        {
-          "name": "start_quiz",
-          "parameters": {},
-          "lifespan": 5
-        }
-      ],
+      "affectedContexts": [],
       "parameters": [],
       "messages": [
         {
@@ -30,7 +24,7 @@
   "priority": 500000,
   "webhookUsed": true,
   "webhookForSlotFilling": false,
-  "lastUpdate": 1539790997,
+  "lastUpdate": 1539975519,
   "fallbackIntent": false,
   "events": []
 }

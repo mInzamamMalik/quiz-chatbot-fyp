@@ -2,7 +2,9 @@
   "id": "2d9877d0-8c4b-47ad-ade9-044c6019a174",
   "name": "startQuiz_readQuestion",
   "auto": true,
-  "contexts": [],
+  "contexts": [
+    "quiz_started"
+  ],
   "responses": [
     {
       "resetContexts": false,
@@ -10,6 +12,7 @@
       "parameters": [
         {
           "id": "91ef9dfb-5447-404f-ad76-a2ca37f46564",
+          "required": false,
           "dataType": "@sys.number",
           "name": "question_number",
           "value": "$question_number",
@@ -17,9 +20,18 @@
         },
         {
           "id": "4f6c690d-9749-4d5f-acb3-65a99b243cb5",
+          "required": false,
           "dataType": "@sys.ordinal",
           "name": "question_ordinal",
           "value": "$question_ordinal",
+          "isList": false
+        },
+        {
+          "id": "2075bfbb-34f7-481d-9d45-aa2425acd9a2",
+          "required": false,
+          "dataType": "@next",
+          "name": "next",
+          "value": "$next",
           "isList": false
         }
       ],
@@ -37,7 +49,7 @@
   "priority": 500000,
   "webhookUsed": true,
   "webhookForSlotFilling": false,
-  "lastUpdate": 1539793023,
+  "lastUpdate": 1539975544,
   "fallbackIntent": false,
   "events": []
 }
