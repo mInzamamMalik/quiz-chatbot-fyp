@@ -118,6 +118,11 @@ export const webhook = functions.https.onRequest((request, response) => {
         } else if (params.this) { // user is asking to read the last read question again
 
             let last_readed_question_index = context.parameters.last_readed_question_index || 0;
+            agent.setContext({
+                name: 'question_asked',
+                lifespan: 1,
+                parameters: {}
+            });
 
             return agent.add(`ok, reading question number ${last_readed_question_index + 1} again,
             ${quiz.questions[last_readed_question_index].question},\n
@@ -167,12 +172,19 @@ export const webhook = functions.https.onRequest((request, response) => {
         } else { // user is asking to read quesion by its number#
             let question_number = params.question_number || params.question_ordinal
 
+            if (question_number > quiz.questions.length || question_number < 1) {
+                return agent.add(`unable to read question number ${question_number}\n
+                you have only ${quiz.questions.length} questions in this quiz
+                you may ask what are my un-answered questions`)
+
+            }
+
             let newContext: contextQuizStarted = {
                 name: 'quiz_started',
                 lifespan: 99,
                 parameters: {
                     quizStarted: true,
-                    last_readed_question_index: question_number,
+                    last_readed_question_index: question_number - 1,
                     answered_count: context.parameters.answered_count
                 }
             }
