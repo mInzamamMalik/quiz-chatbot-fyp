@@ -3,7 +3,7 @@ import * as functions from 'firebase-functions';
 import { WebhookClient } from 'dialogflow-fulfillment';
 
 
-let quiz = {
+let quiz: any = {
     overview: `this is a general knowlegde quiz, all questions have equal marks you have to attempt all questions`,
     subject: "General Knowledge",
     totalMark: 100,
@@ -15,12 +15,14 @@ let quiz = {
         {
             question: "what was the first capital of pakistan",
             options: ["karachi", "lahore", "islamabad", "kashmir"],
-            correctIndex: 0
+            correctIndex: 0,
+            userSelectedIndex: null
         },
         {
             question: "which one is the bigest city of pakistan",
             options: ["karachi", "lahore", "islamabad", "kashmir"],
-            correctIndex: 0
+            correctIndex: 0,
+            userSelectedIndex: null
         },
     ]
 }
@@ -205,30 +207,42 @@ export const webhook = functions.https.onRequest((request, response) => {
 
     function startQuiz_logAnswer(agent: WebhookClient) {
 
+        let context: contextQuizStarted = agent.context.get("quiz_started");
+        console.log("context: ", context)
+
         let params = agent.parameters;
         console.log("params: ", params)
+
+        let alreadyAnswered = false;
 
         if (!params.option) {
             return agent.add("sorry i didnt get what option you have selected, to log your answer say like option 1 or option A or first option is correct")
         } else {
             let selectedOptionNumber = params.option
 
-            agent.setContext({
+            if (quiz.questions[context.parameters.last_readed_question_index].userSelectedIndex) {
+                alreadyAnswered = true
+            }
+
+            let newContext: contextQuizStarted = {
                 name: 'quiz_started',
                 lifespan: 99,
                 parameters: {
                     quizStarted: true,
-                    // last_readed_question_index: question_number,
-                    answered_count: 1 // TODO: get data from context and increment
+                    last_readed_question_index: context.parameters.last_readed_question_index,
+                    answered_count: (alreadyAnswered) ? context.parameters.last_readed_question_index : context.parameters.last_readed_question_index + 1
                 }
-            });
+            }
+            agent.setContext(newContext);
             agent.setContext({
                 name: 'question_asked',
                 lifespan: 0,
                 parameters: {}
             });
-            return agent.add(`you said option number ${selectedOptionNumber + 1} is correct which is  ${quiz.questions[0].options[selectedOptionNumber]}`)
-            //TODO: get data from context and replace 0 with last asked question number 
+            return agent.add(
+                `you said option number ${selectedOptionNumber + 1} is correct which is\n
+             ${quiz.questions[context.parameters.last_readed_question_index].options[selectedOptionNumber]}\n
+             ${(alreadyAnswered) ? "your previous answer is replaced with the new one" : ""}`)
         }
     }
 
