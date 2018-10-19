@@ -4,7 +4,7 @@ import { WebhookClient, context } from 'dialogflow-fulfillment';
 
 
 let quiz = {
-    overview: "",
+    overview: `this is a general knowlegde quiz, all questions have equal marks you have to attempt all questions`,
     subject: "General Knowledge",
     totalMark: 100,
     passingMark: 50,
@@ -96,13 +96,13 @@ export const webhook = functions.https.onRequest((request, response) => {
 
     function startQuiz_overview(agent: WebhookClient) {
 
-        return agent.add(`general knowlegde quiz\n
-        this quiz have 10 questions and all questions are mcqs based,\n
-        created by Prof. John maclean,\n
-        all questions have equal marks
-        you have to attempt all questions\n
-        total marks 100 and passing marks is 50\n
-        ask for 1st question when you are ready`);
+        return agent.add(
+            `${quiz.overview}
+        this quiz have ${quiz.questions.length} questions and all questions are mcqs based,\n
+        created by ${quiz.instructor},\n
+        total marks are ${quiz.totalMark} and passing mark is ${quiz.passingMark}\n
+        ask for 1st question when you are ready`
+        );
     }
 
     function startQuiz_readQuestion(agent: WebhookClient) {
@@ -116,15 +116,19 @@ export const webhook = functions.https.onRequest((request, response) => {
             return agent.add(`please tell me which question you are talking about, \n
             you may ask like read first question or read question number 4, or if you want to skip this question\n
             ask me to read next question`)
-            
+
         } else if (params.next) { // user is asking to skip/read next question with the context of current
+
+            let last_readed_question_index = context.parameters.last_readed_question_index;
+            let going_to_Read_question_index = (last_readed_question_index) ? last_readed_question_index + 1 : 0;
+
 
             let newContext: contextQuizStarted = {
                 name: 'quiz_started',
                 lifespan: 99,
                 parameters: {
                     quizStarted: true,
-                    last_readed_question_index: (context.parameters.last_readed_question_index + 1),
+                    last_readed_question_index: going_to_Read_question_index,
                     answered_count: context.parameters.answered_count
                 }
             }
@@ -136,9 +140,9 @@ export const webhook = functions.https.onRequest((request, response) => {
             });
 
             // TODO: correct this text
-            return agent.add(`ok here is your next question, question number ${context.parameters.last_readed_question_index + 2}\n
-            is saying, ${quiz.questions[context.parameters.last_readed_question_index + 1].question},\n
-            and your options are: ${quiz.questions[context.parameters.last_readed_question_index + 1].options.toString()}\n
+            return agent.add(`ok here is your next question, question number ${going_to_Read_question_index + 1}\n
+            is saying, ${quiz.questions[going_to_Read_question_index].question},\n
+            and your options are: ${quiz.questions[going_to_Read_question_index].options.toString()}\n
             which option do you think is correct? to log your answer say like option 1 or option A or first option is correct
             if you want me to read this question again simply ask me to read this question again,
             if you want to skip this question you may ask me to read any other question`)
