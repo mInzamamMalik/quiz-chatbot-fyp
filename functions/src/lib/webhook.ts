@@ -1,6 +1,6 @@
 
 import * as functions from 'firebase-functions';
-import { WebhookClient, context } from 'dialogflow-fulfillment';
+import { WebhookClient } from 'dialogflow-fulfillment';
 
 
 let quiz = {
@@ -35,10 +35,6 @@ interface contextQuizStarted {
     lifespan: number
 }
 
-
-
-
-// http example
 export const webhook = functions.https.onRequest((request, response) => {
 
     const _agent = new WebhookClient({ request: request, response: response });
@@ -67,7 +63,7 @@ export const webhook = functions.https.onRequest((request, response) => {
         let context = agent.context.get("quiz_started");
         console.log("context:", context)
         return agent.add(`Hi, my name is Sarah, I'm your quiz assistant,
-         I Will help you out in the whole quiz, please say start quiz when you are ready to start`);
+         I Will assist you through out the quiz, please say start quiz when you are ready to start`);
 
     }
 
@@ -109,19 +105,39 @@ export const webhook = functions.https.onRequest((request, response) => {
     function startQuiz_readQuestion(agent: WebhookClient) {
 
         let context: contextQuizStarted = agent.context.get("quiz_started");
+        console.log("context: ", context)
 
         let params = agent.parameters;
         console.log("params: ", params)
 
-        if (!params.question_number && !params.question_ordinal && !params.next) {
-            return agent.add(`please tell me which question you are talking about, \n
+        if (!params.question_number && !params.question_ordinal && !params.next && !params.this) {
+            return agent.add(`which question number do you want me to read, \n
             you may ask like read first question or read question number 4, or if you want to skip this question\n
             ask me to read next question`)
+
+        } else if (params.this) { // user is asking to read the last read question again
+
+            let last_readed_question_index = context.parameters.last_readed_question_index || 0;
+
+            return agent.add(`ok, reading question number ${last_readed_question_index + 1} again,
+            ${quiz.questions[last_readed_question_index].question},\n
+            and your options are: ${quiz.questions[last_readed_question_index].options.toString()}\n
+            which option do you think is correct?
+            if you want to skip this question you may ask me to read any other question`)
 
         } else if (params.next) { // user is asking to skip/read next question with the context of current
 
             let last_readed_question_index = context.parameters.last_readed_question_index;
-            let going_to_Read_question_index = (last_readed_question_index) ? last_readed_question_index + 1 : 0;
+            let going_to_Read_question_index = (last_readed_question_index == null) ? 0 : last_readed_question_index + 1;
+
+            // checking if last question was the last question
+            if (quiz.questions[going_to_Read_question_index] == undefined) {
+
+                return agent.add(`question number ${last_readed_question_index + 1} was the last question,
+                 if you wanted me to read question number ${last_readed_question_index + 1} again just ask me to do so,
+                 so far you have answered ${context.parameters.answered_count} questions,
+                 you may ask what are my un-answered questions`)
+            }
 
 
             let newContext: contextQuizStarted = {
@@ -140,7 +156,6 @@ export const webhook = functions.https.onRequest((request, response) => {
                 parameters: {}
             });
 
-            // TODO: correct this text
             return agent.add(`ok here is your next question, question number ${going_to_Read_question_index + 1}\n
             is saying, ${quiz.questions[going_to_Read_question_index].question},\n
             and your options are: ${quiz.questions[going_to_Read_question_index].options.toString()}\n
