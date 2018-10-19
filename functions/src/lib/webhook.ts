@@ -3,20 +3,27 @@ import * as functions from 'firebase-functions';
 import { WebhookClient, context } from 'dialogflow-fulfillment';
 
 
+let quiz = {
+    overview: "",
+    subject: "General Knowledge",
+    totalMark: 100,
+    passingMark: 50,
+    durationInMinutes: 60,
+    instructor: "Dr. Sam Smith",
 
-
-let questions = [
-    {
-        question: "what was the first capital of pakistan",
-        options: ["karachi", "lahore", "islamabad", "kashmir"]
-    },
-    {
-        question: "which one is the bigest city of pakistan",
-        options: ["karachi", "lahore", "islamabad", "kashmir"]
-    },
-
-]
-
+    questions: [
+        {
+            question: "what was the first capital of pakistan",
+            options: ["karachi", "lahore", "islamabad", "kashmir"],
+            correctIndex: 0
+        },
+        {
+            question: "which one is the bigest city of pakistan",
+            options: ["karachi", "lahore", "islamabad", "kashmir"],
+            correctIndex: 0
+        },
+    ]
+}
 
 interface contextQuizStarted {
     name: 'quiz_started',
@@ -59,7 +66,7 @@ export const webhook = functions.https.onRequest((request, response) => {
 
         let context = agent.context.get("quiz_started");
         console.log("context:", context)
-        agent.add(`Hi, would you like me to start quiz`);
+        return agent.add(`Hi, would you like me to start quiz`);
 
     }
 
@@ -69,7 +76,7 @@ export const webhook = functions.https.onRequest((request, response) => {
         let contextQuizStarted: contextQuizStarted = agent.context.get("quiz_started");
 
         if (contextQuizStarted) {
-            agent.add(`you already have started quiz, and you already answered \n
+            return agent.add(`you already have started quiz, and you already answered \n
             ${contextQuizStarted.parameters.answered_count}\n
             you may ask me to read overview or ask me to read question number`);
         }
@@ -81,12 +88,12 @@ export const webhook = functions.https.onRequest((request, response) => {
             lifespan: 99,
             parameters: { quizStarted: true }
         });
-        agent.add(`your quiz is started, would you like me to tell you overview? or you can directly ask for 1st question`);
+        return agent.add(`your quiz is started, would you like me to tell you overview? or you can directly ask for 1st question`);
     }
 
     function startQuiz_overview(agent: WebhookClient) {
 
-        agent.add(`general knowlegde quiz\n
+        return agent.add(`general knowlegde quiz\n
         this quiz have 10 questions and all questions are mcqs based,\n
         created by Prof. John maclean,\n
         all questions have equal marks
@@ -101,7 +108,7 @@ export const webhook = functions.https.onRequest((request, response) => {
         console.log("params: ", params)
 
         if (!params.question_number && !params.question_ordinal) {
-            agent.add("please tell me which question you are talking about, you may ask like read first question or read question number 4")
+            return agent.add("please tell me which question you are talking about, you may ask like read first question or read question number 4")
         } else {
             let question_number = params.question_number || params.question_ordinal
 
@@ -119,8 +126,8 @@ export const webhook = functions.https.onRequest((request, response) => {
                 lifespan: 1,
                 parameters: {}
             });
-            agent.add(`question number ${question_number} is saying, ${questions[question_number - 1].question},\n
-            and your options are: ${questions[question_number - 1].options.toString()}\n
+            return agent.add(`question number ${question_number} is saying, ${quiz.questions[question_number - 1].question},\n
+            and your options are: ${quiz.questions[question_number - 1].options.toString()}\n
             which option do you think is correct? to log your answer say like option 1 or option A or first option is correct
             if you want me to read this question again simply say read question ${question_number} again,
             if you want to skip this question you may ask me to read any other question`)
@@ -134,7 +141,7 @@ export const webhook = functions.https.onRequest((request, response) => {
         console.log("params: ", params)
 
         if (!params.option) {
-            agent.add("sorry i didnt get what option you have selected, to log your answer say like option 1 or option A or first option is correct")
+            return agent.add("sorry i didnt get what option you have selected, to log your answer say like option 1 or option A or first option is correct")
         } else {
             let selectedOptionNumber = params.option
 
@@ -152,7 +159,7 @@ export const webhook = functions.https.onRequest((request, response) => {
                 lifespan: 0,
                 parameters: {}
             });
-            agent.add(`you said option number ${selectedOptionNumber + 1} is correct which is  ${questions[0].options[selectedOptionNumber]}`)
+            return agent.add(`you said option number ${selectedOptionNumber + 1} is correct which is  ${quiz.questions[0].options[selectedOptionNumber]}`)
             //TODO: get data from context and replace 0 with last asked question number 
         }
     }
