@@ -33,6 +33,13 @@
           "name": "next",
           "value": "$next",
           "isList": false
+        },
+        {
+          "id": "c2339fd9-92de-431f-9c9a-7fbc42549cc2",
+          "dataType": "@this",
+          "name": "this",
+          "value": "$this",
+          "isList": false
         }
       ],
       "messages": [
@@ -49,7 +56,7 @@
   "priority": 500000,
   "webhookUsed": true,
   "webhookForSlotFilling": false,
-  "lastUpdate": 1539975544,
+  "lastUpdate": 1539986461,
   "fallbackIntent": false,
   "events": []
 }
