@@ -29,10 +29,10 @@ interface contextQuizStarted {
     name: 'quiz_started',
     parameters: {
         quizStarted: boolean,
-        last_readed_question: Number,
-        answered_count: Number
+        last_readed_question_index: number,
+        answered_count: number
     },
-    lifespan: 94
+    lifespan: number
 }
 
 
@@ -75,19 +75,22 @@ export const webhook = functions.https.onRequest((request, response) => {
 
         let contextQuizStarted: contextQuizStarted = agent.context.get("quiz_started");
 
-        if (contextQuizStarted) {
+        if (contextQuizStarted) { // if quiz is already started
             return agent.add(`you already have started quiz, and you already answered \n
             ${contextQuizStarted.parameters.answered_count}\n
             you may ask me to read overview or ask me to read question number`);
         }
 
-
-        let params = agent.parameters;
-        agent.setContext({
+        let newContext: contextQuizStarted = {
             name: 'quiz_started',
             lifespan: 99,
-            parameters: { quizStarted: true }
-        });
+            parameters: {
+                quizStarted: true,
+                answered_count: 0,
+                last_readed_question_index: null
+            }
+        }
+        agent.setContext(newContext);
         return agent.add(`your quiz is started, would you like me to tell you overview? or you can directly ask for 1st question`);
     }
 
@@ -104,23 +107,56 @@ export const webhook = functions.https.onRequest((request, response) => {
 
     function startQuiz_readQuestion(agent: WebhookClient) {
 
+        let context: contextQuizStarted = agent.context.get("quiz_started");
+
         let params = agent.parameters;
         console.log("params: ", params)
 
-        if (!params.question_number && !params.question_ordinal) {
-            return agent.add("please tell me which question you are talking about, you may ask like read first question or read question number 4")
-        } else {
-            let question_number = params.question_number || params.question_ordinal
+        if (!params.question_number && !params.question_ordinal && params.next) {
+            return agent.add(`please tell me which question you are talking about, \n
+            you may ask like read first question or read question number 4, or if you want to skip this question\n
+            ask me to read next question`)
+            
+        } else if (params.next) { // user is asking to skip/read next question with the context of current
 
-            agent.setContext({
+            let newContext: contextQuizStarted = {
                 name: 'quiz_started',
                 lifespan: 99,
                 parameters: {
                     quizStarted: true,
-                    last_readed_question: question_number,
-                    answered_count: 0
+                    last_readed_question_index: (context.parameters.last_readed_question_index + 1),
+                    answered_count: context.parameters.answered_count
                 }
+            }
+            agent.setContext(newContext);
+            agent.setContext({
+                name: 'question_asked',
+                lifespan: 1,
+                parameters: {}
             });
+
+            // TODO: correct this text
+            return agent.add(`ok here is your next question, question number ${context.parameters.last_readed_question_index + 2}\n
+            is saying, ${quiz.questions[context.parameters.last_readed_question_index + 1].question},\n
+            and your options are: ${quiz.questions[context.parameters.last_readed_question_index + 1].options.toString()}\n
+            which option do you think is correct? to log your answer say like option 1 or option A or first option is correct
+            if you want me to read this question again simply ask me to read this question again,
+            if you want to skip this question you may ask me to read any other question`)
+
+
+        } else { // user is asking to read quesion by its number#
+            let question_number = params.question_number || params.question_ordinal
+
+            let newContext: contextQuizStarted = {
+                name: 'quiz_started',
+                lifespan: 99,
+                parameters: {
+                    quizStarted: true,
+                    last_readed_question_index: question_number,
+                    answered_count: context.parameters.answered_count
+                }
+            }
+            agent.setContext(newContext);
             agent.setContext({
                 name: 'question_asked',
                 lifespan: 1,
@@ -129,7 +165,7 @@ export const webhook = functions.https.onRequest((request, response) => {
             return agent.add(`question number ${question_number} is saying, ${quiz.questions[question_number - 1].question},\n
             and your options are: ${quiz.questions[question_number - 1].options.toString()}\n
             which option do you think is correct? to log your answer say like option 1 or option A or first option is correct
-            if you want me to read this question again simply say read question ${question_number} again,
+            if you want me to read this question again simply ask me to read this question again,
             if you want to skip this question you may ask me to read any other question`)
         }
     }
@@ -150,7 +186,7 @@ export const webhook = functions.https.onRequest((request, response) => {
                 lifespan: 99,
                 parameters: {
                     quizStarted: true,
-                    // last_readed_question: question_number,
+                    // last_readed_question_index: question_number,
                     answered_count: 1 // TODO: get data from context and increment
                 }
             });
