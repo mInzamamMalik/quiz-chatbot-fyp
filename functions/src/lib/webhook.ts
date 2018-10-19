@@ -18,6 +18,17 @@ let questions = [
 ]
 
 
+interface contextQuizStarted {
+    name: 'quiz_started',
+    parameters: {
+        quizStarted: boolean,
+        last_readed_question: Number,
+        answered_count: Number
+    },
+    lifespan: 94
+}
+
+
 
 
 // http example
@@ -36,10 +47,9 @@ export const webhook = functions.https.onRequest((request, response) => {
     intentMap.set('startQuiz', startQuiz);
     intentMap.set('startQuiz_overview', startQuiz_overview);
     intentMap.set('startQuiz_readQuestion', startQuiz_readQuestion);
+    intentMap.set('startQuiz_logAnswer', startQuiz_logAnswer);
 
     _agent.handleRequest(intentMap);
-
-
 
 
     function welcome(agent: any) {
@@ -47,6 +57,8 @@ export const webhook = functions.https.onRequest((request, response) => {
 
         let params = agent.parameters;
 
+        let context = agent.context.get("quiz_started");
+        console.log("context:", context)
         agent.add(`Hi, would you like me to start quiz`);
 
     }
@@ -54,9 +66,18 @@ export const webhook = functions.https.onRequest((request, response) => {
 
     function startQuiz(agent: WebhookClient) {
 
+        let contextQuizStarted: contextQuizStarted = agent.context.get("quiz_started");
+
+        if (contextQuizStarted) {
+            agent.add(`you already have started quiz, and you already answered \n
+            ${contextQuizStarted.parameters.answered_count}\n
+            you may ask me to read overview or ask me to read question number`);
+        }
+
+
         let params = agent.parameters;
         agent.setContext({
-            name: 'start_quiz',
+            name: 'quiz_started',
             lifespan: 99,
             parameters: { quizStarted: true }
         });
@@ -85,18 +106,54 @@ export const webhook = functions.https.onRequest((request, response) => {
             let question_number = params.question_number || params.question_ordinal
 
             agent.setContext({
-                name: 'start_quiz',
+                name: 'quiz_started',
                 lifespan: 99,
                 parameters: {
                     quizStarted: true,
-                    last_readed_question: question_number
+                    last_readed_question: question_number,
+                    answered_count: 0
                 }
+            });
+            agent.setContext({
+                name: 'question_asked',
+                lifespan: 1,
+                parameters: {}
             });
             agent.add(`question number ${question_number} is saying, ${questions[question_number - 1].question},\n
             and your options are: ${questions[question_number - 1].options.toString()}\n
             which option do you think is correct? to log your answer say like option 1 or option A or first option is correct
             if you want me to read this question again simply say read question ${question_number} again,
             if you want to skip this question you may ask me to read any other question`)
+        }
+    }
+
+
+    function startQuiz_logAnswer(agent: WebhookClient) {
+
+        let params = agent.parameters;
+        console.log("params: ", params)
+
+        if (!params.option) {
+            agent.add("sorry i didnt get what option you have selected, to log your answer say like option 1 or option A or first option is correct")
+        } else {
+            let selectedOptionNumber = params.option
+
+            agent.setContext({
+                name: 'quiz_started',
+                lifespan: 99,
+                parameters: {
+                    quizStarted: true,
+                    // last_readed_question: question_number,
+                    answered_count: 1 // TODO: get data from context and increment
+                }
+            });
+            agent.setContext({
+                name: 'question_asked',
+                lifespan: 0,
+                parameters: {}
+            });
+            agent.add(`you said option number ${selectedOptionNumber + 1} is correct which is  ${questions[0].options[selectedOptionNumber]}`)
+            //TODO: get data from context and replace 0 with last asked question number 
         }
     }
 
