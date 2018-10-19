@@ -66,7 +66,8 @@ export const webhook = functions.https.onRequest((request, response) => {
 
         let context = agent.context.get("quiz_started");
         console.log("context:", context)
-        return agent.add(`Hi, would you like me to start quiz`);
+        return agent.add(`Hi, my name is Sarah, I'm your quiz assistant,
+         I Will help you out in the whole quiz, please say start quiz when you are ready to start`);
 
     }
 
@@ -112,7 +113,7 @@ export const webhook = functions.https.onRequest((request, response) => {
         let params = agent.parameters;
         console.log("params: ", params)
 
-        if (!params.question_number && !params.question_ordinal && params.next) {
+        if (!params.question_number && !params.question_ordinal && !params.next) {
             return agent.add(`please tell me which question you are talking about, \n
             you may ask like read first question or read question number 4, or if you want to skip this question\n
             ask me to read next question`)
