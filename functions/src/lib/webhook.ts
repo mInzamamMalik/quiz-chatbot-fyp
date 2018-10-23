@@ -64,7 +64,7 @@ export const webhook = functions.https.onRequest((request, response) => {
 
         let context = agent.context.get("quiz_started");
         console.log("context:", context)
-        return agent.add(`Hi, my name is Sarah, I'm your quiz assistant,
+        return agent.add(`Hi, I'm your quiz assistant,
          I Will assist you through out the quiz, please say start quiz when you are ready to start`);
 
     }
