@@ -92,30 +92,32 @@ export const talk = functions.https.onRequest((req, res) => {
         const sessionId = req.body.sessionId;
         const query = req.body.query;
 
- 
-        res.send({
-            "messages": [
-                {
-                    "speech": "Hello",
-                    "type": 0 // text
-                },
-                {
-                    "speech": "How may i help you my friend",
-                    "type": 0 // text
-                }
-            ]
-        })
 
-        // textQuery(query, {
-        //     sessionId: sessionId,
-        //     originalRequest: {} //empty object
-        // }).then(response => {
-
-        //     res.send(response.result.fulfillment)
-
-        // }).catch(e => {
-        //     res.send("error")
+        // res.send({
+        //     "messages": [
+        //         {
+        //             "speech": "Hello",
+        //             "type": 0 // text
+        //         },
+        //         {
+        //             "speech": "How may i help you my friend",
+        //             "type": 0 // text
+        //         }
+        //     ]
         // })
+
+        textQuery(query, {
+            sessionId: sessionId,
+            originalRequest: {} //empty object
+        }).then(response => {
+
+            res.send({
+                reply: response.result.fulfillment.speech
+            })
+
+        }).catch(e => {
+            res.send("error")
+        })
     })
 })
 
