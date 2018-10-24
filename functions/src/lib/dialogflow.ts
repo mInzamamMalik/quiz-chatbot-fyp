@@ -5,7 +5,8 @@ import { session, textQuery } from './../core';
 import db from './../db'
 import { firebaseAdmin } from './../db'
 import { document } from 'firebase-functions/lib/providers/firestore';
-
+import { http } from 'request-inzi';
+import * as request from "request";
 
 var cors = _cors({ origin: true });// set these options appropriately According to your case,
 // see document: https://www.npmjs.com/package/cors#configuration-options
@@ -89,35 +90,33 @@ export const talk = functions.https.onRequest((req, res) => {
         console.log("req.body: ", req.body)
 
         const languageCode = 'en-US';
-        const sessionId = req.body.sessionId;
+        let sessionId = req.body.sessionId;
         const query = req.body.query;
 
+        if (!query) return res.send("query text required")
+        if (!sessionId) sessionId = "no-session";
 
-        // res.send({
-        //     "messages": [
-        //         {
-        //             "speech": "Hello",
-        //             "type": 0 // text
-        //         },
-        //         {
-        //             "speech": "How may i help you my friend",
-        //             "type": 0 // text
-        //         }
-        //     ]
-        // })
+        request({
+            url: `https://api.dialogflow.com/v1/query?v=20170712&query=${query}&lang=en&sessionId=756b16a5-bb0a-1178-60a7-5408aff15a13&timezone=Asia/Karachi`,
+            headers: { "Authorization": "Bearer 4033a05cc6e7444bad5f0e58ba9b4889" }
+        },
+            (error, response: any, body) => {
+                //checking if response was success
+                if (!error && response.statusCode == 200) {
+                    let responseBody = JSON.parse(response.body)
 
-        textQuery(query, {
-            sessionId: sessionId,
-            originalRequest: {} //empty object
-        }).then(response => {
+                    console.log("responseBody: ", responseBody)
+                    res.send({
+                        reply: responseBody.result.fulfillment.speech
+                    })
 
-            res.send({
-                reply: response.result.fulfillment.speech
+                } else {
+                    console.log("http get error * url: ", url + query, error);
+                    return
+                }
+
             })
 
-        }).catch(e => {
-            res.send("error")
-        })
     })
 })
 
