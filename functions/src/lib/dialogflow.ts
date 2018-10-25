@@ -107,16 +107,17 @@ export const talk = functions.https.onRequest((req, res) => {
 
                     console.log("responseBody: ", responseBody)
                     res.send({
-                        reply: responseBody.result.fulfillment.speech
+                        "timestamp": "2018-10-16T09:14:45.119Z",
+                        "reply": responseBody.result.fulfillment.speech,
+                        "from": "chatbot",
+                        "ssml": "ssml"
                     })
 
                 } else {
                     console.log("http get error * url: ", url + query, error);
                     return
                 }
-
             })
-
     })
 })
 
