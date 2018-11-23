@@ -3,7 +3,8 @@ import * as functions from 'firebase-functions';
 import { WebhookClient } from 'dialogflow-fulfillment';
 
 
-let quiz: any = {
+let defaultQuiz: any = {
+
     overview: `this is a general knowlegde quiz, all questions have equal marks you have to attempt all questions`,
     subject: "General Knowledge",
     totalMark: 100,
@@ -49,6 +50,7 @@ export const webhook = functions.https.onRequest((request, response) => {
 
     // works with intent name(doesnt work with action identifier) and this intent name is ****ing case sensitive :-(
     intentMap.set('Default Welcome Intent', welcome);
+    intentMap.set('Default Fallback Intent', fallback);
     intentMap.set('startQuiz', startQuiz);
     intentMap.set('startQuiz_overview', startQuiz_overview);
     intentMap.set('startQuiz_readQuestion', startQuiz_readQuestion);
@@ -69,6 +71,23 @@ export const webhook = functions.https.onRequest((request, response) => {
 
     }
 
+    function fallback(agent: any) {
+        let contextQuizStarted: contextQuizStarted = agent.context.get("quiz_started");
+
+        let response = "I didnt understand what you have just said. ";
+
+        if (contextQuizStarted) { // if quiz is already started
+            response += ` your quiz is in progress, so far you have answered \n
+            ${contextQuizStarted.parameters.answered_count}\n, you may ask me to read any question number, or you may ask for overview`
+        } else if () {
+            response += ` your quiz is in progress, so far you have answered \n
+            ${contextQuizStarted.parameters.answered_count}\n, you may ask me to read any question number, or you may ask for overview`
+
+
+        }
+
+    }
+
 
     function startQuiz(agent: WebhookClient) {
 
@@ -85,6 +104,15 @@ export const webhook = functions.https.onRequest((request, response) => {
             lifespan: 99,
             parameters: {
                 quizStarted: true,
+                answered_count: 0,
+                last_readed_question_index: null
+            }
+        }
+        let quiz: contextQuizStarted = {
+            name: 'quiz_started',
+            lifespan: 99,
+            parameters: {
+                object: "",
                 answered_count: 0,
                 last_readed_question_index: null
             }
