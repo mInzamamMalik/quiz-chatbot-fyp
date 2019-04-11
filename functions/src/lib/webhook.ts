@@ -79,13 +79,11 @@ export const webhook = functions.https.onRequest((request, response) => {
         if (contextQuizStarted) { // if quiz is already started
             response += ` your quiz is in progress, so far you have answered \n
             ${contextQuizStarted.parameters.answered_count}\n, you may ask me to read any question number, or you may ask for overview`
-        } else if () {
+        } else {
             response += ` your quiz is in progress, so far you have answered \n
             ${contextQuizStarted.parameters.answered_count}\n, you may ask me to read any question number, or you may ask for overview`
-
-
         }
-
+        agent.add(response)
     }
 
 

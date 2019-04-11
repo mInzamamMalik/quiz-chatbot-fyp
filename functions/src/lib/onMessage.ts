@@ -5,7 +5,7 @@ import { firebaseAdminFirestore, firebaseAdmin, firebaseAdminAuth } from './../d
 
 
 
-// WE ARE NO LONGER SING THIS FUNCTION, INSTEAD WE ARE USING HELUSS TYPE RESPONSES
+// WE ARE NO LONGER USING THIS FUNCTION, INSTEAD WE ARE USING HELUSS TYPE RESPONSES
 
 // // this functions will be triggered when user will send message to esox personal assistant
 // // from home screen of esox android app and esox 
