@@ -4,7 +4,8 @@
   "author": "M Inzamam Malik <malikasinger1@gmail.com>",
   "scripts": {
     "start": "",
-    "build": "webpack --watch",
+    "build": "webpack",
+    "build-w": "webpack --watch",
     "deploy": "firebase deploy --only functions",
     "test": "./node_modules/.bin/mocha --reporter spec"
   },

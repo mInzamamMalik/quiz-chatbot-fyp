@@ -1,1 +1,7 @@
-{}
+{
+    "functions": {
+        "predeploy": [
+            "cd functions && npm run build"
+        ]
+    }
+}

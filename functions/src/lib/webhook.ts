@@ -1,9 +1,9 @@
 
 import * as functions from 'firebase-functions';
-import { WebhookClient } from 'dialogflow-fulfillment';
+const { WebhookClient } = require('dialogflow-fulfillment');
 
 
-let defaultQuiz: any = {
+let quiz: any = {
 
     overview: `this is a general knowlegde quiz, all questions have equal marks you have to attempt all questions`,
     subject: "General Knowledge",
@@ -25,6 +25,24 @@ let defaultQuiz: any = {
             correctIndex: 0,
             userSelectedIndex: null
         },
+        {
+            question: "Which of the following country has no boundary with Syria?",
+            options: ["Iraq", "Iran", "Turkey", "Israel"],
+            correctIndex: 1,
+            userSelectedIndex: null
+        },
+        {
+            question: "which city is called The land of hospitality?",
+            options: ["KPK", "Sindh", "Baluchistan", "Punjab"],
+            correctIndex: 0,
+            userSelectedIndex: null
+        },
+        {
+            question: "How many crops seasons are in Pakistan?",
+            options: ["2", "3", "4", "None of the above"],
+            correctIndex: 2,
+            userSelectedIndex: null
+        }
     ]
 }
 
@@ -68,7 +86,6 @@ export const webhook = functions.https.onRequest((request, response) => {
         console.log("context:", context)
         return agent.add(`Hi, I'm your quiz assistant,
          I Will assist you through out the quiz, please say start quiz when you are ready to start`);
-
     }
 
     function fallback(agent: any) {
@@ -80,14 +97,13 @@ export const webhook = functions.https.onRequest((request, response) => {
             response += ` your quiz is in progress, so far you have answered \n
             ${contextQuizStarted.parameters.answered_count}\n, you may ask me to read any question number, or you may ask for overview`
         } else {
-            response += ` your quiz is in progress, so far you have answered \n
-            ${contextQuizStarted.parameters.answered_count}\n, you may ask me to read any question number, or you may ask for overview`
+            response += ` your have not started the quiz please say start quiz when you are ready`
         }
         agent.add(response)
     }
 
 
-    function startQuiz(agent: WebhookClient) {
+    function startQuiz(agent: any) {
 
         let contextQuizStarted: contextQuizStarted = agent.context.get("quiz_started");
 
@@ -110,7 +126,7 @@ export const webhook = functions.https.onRequest((request, response) => {
             name: 'quiz_started',
             lifespan: 99,
             parameters: {
-                object: "",
+                quizStarted: true,
                 answered_count: 0,
                 last_readed_question_index: null
             }
@@ -119,7 +135,7 @@ export const webhook = functions.https.onRequest((request, response) => {
         return agent.add(`your quiz is started, would you like me to tell you overview? or you can directly ask for 1st question`);
     }
 
-    function startQuiz_overview(agent: WebhookClient) {
+    function startQuiz_overview(agent: any) {
 
         return agent.add(
             `${quiz.overview}
@@ -130,7 +146,7 @@ export const webhook = functions.https.onRequest((request, response) => {
         );
     }
 
-    function startQuiz_readQuestion(agent: WebhookClient) {
+    function startQuiz_readQuestion(agent: any) {
 
         let context: contextQuizStarted = agent.context.get("quiz_started");
         console.log("context: ", context)
@@ -231,7 +247,7 @@ export const webhook = functions.https.onRequest((request, response) => {
     }
 
 
-    function startQuiz_logAnswer(agent: WebhookClient) {
+    function startQuiz_logAnswer(agent: any) {
 
         let context: contextQuizStarted = agent.context.get("quiz_started");
         console.log("context: ", context)
@@ -266,7 +282,7 @@ export const webhook = functions.https.onRequest((request, response) => {
                 parameters: {}
             });
             return agent.add(
-                `you said option number ${selectedOptionNumber + 1} is correct which is\n
+                `you said option number ${parseInt(selectedOptionNumber) + 1} is correct which is\n
              ${quiz.questions[context.parameters.last_readed_question_index].options[selectedOptionNumber]}\n
              ${(alreadyAnswered) ? "your previous answer is replaced with the new one" : ""}`)
         }

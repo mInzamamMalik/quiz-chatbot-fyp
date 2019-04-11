@@ -1,53 +1,41 @@
-import * as functions from 'firebase-functions'
-import * as admin from 'firebase-admin'
-
+"use strict";
+exports.__esModule = true;
+var admin = require("firebase-admin");
 var serviceAccount = require('./serviceAccount.json');
-
 var defaultApp = admin.initializeApp({
     credential: admin.credential.cert(serviceAccount),
     databaseURL: "https://rad-ul-fasaad.firebaseio.com"
 });
-
-const db = admin.firestore();
-export default db;
-
-
-
-let firebaseAdmin = admin;
-let firebaseAdminDb = admin.database().ref('/')
-let firebaseAdminAuth = admin.auth()
-let firebaseAdminFirestore = admin.firestore()
-
-export { firebaseAdmin, firebaseAdminAuth, firebaseAdminDb, firebaseAdminFirestore }
+var db = admin.firestore();
+exports["default"] = db;
+var firebaseAdmin = admin;
+exports.firebaseAdmin = firebaseAdmin;
+var firebaseAdminDb = admin.database().ref('/');
+exports.firebaseAdminDb = firebaseAdminDb;
+var firebaseAdminAuth = admin.auth();
+exports.firebaseAdminAuth = firebaseAdminAuth;
+var firebaseAdminFirestore = admin.firestore();
+exports.firebaseAdminFirestore = firebaseAdminFirestore;
 // var defaultApp = admin.initializeApp(functions.config().firebase);
-
-
-
-import * as mongoose from "mongoose";
-
+var mongoose = require("mongoose");
 /////////////////////////////////////////////////////////////////////////////////////////////////
-let dbURI = "mongodb://abc123:abc123@ds135726.mlab.com:35726/rad-ul-fasad";
+var dbURI = "mongodb://abc123:abc123@ds135726.mlab.com:35726/rad-ul-fasad";
 // let dbURI = 'mongodb://localhost/mydatabase';
 mongoose.connect(dbURI);
-
-
 ////////////////mongodb connected disconnected events///////////////////////////////////////////////
-mongoose.connection.on('connected', function () {//connected
+mongoose.connection.on('connected', function () {
     console.log("Mongoose is connected");
     // process.exit(1);
 });
-
-mongoose.connection.on('disconnected', function () {//disconnected
+mongoose.connection.on('disconnected', function () {
     console.log("Mongoose is disconnected");
     process.exit(1);
 });
-
-mongoose.connection.on('error', function (err) {//any error
+mongoose.connection.on('error', function (err) {
     console.log('Mongoose connection error: ', err);
     process.exit(1);
 });
-
-process.on('SIGINT', function () {/////this function will run jst before app is closing
+process.on('SIGINT', function () {
     console.log("app is terminating");
     mongoose.connection.close(function () {
         console.log('Mongoose default connection closed');
@@ -55,57 +43,37 @@ process.on('SIGINT', function () {/////this function will run jst before app is 
     });
 });
 ////////////////mongodb connected disconnected events///////////////////////////////////////////////
-
-
-
 //////////////quiz schema and model///////////////////////////////////////////
-let quizSchema = new mongoose.Schema({
-
-
+var quizSchema = new mongoose.Schema({
     questionNumber: Number,
     question: String,
     options: [String],
     correctIndex: Number,
-
     createdOn: { type: Date, 'default': Date.now } //pack 'default' in single quotes(this is Optional) to avoid compile error
-
 });
-
-let quizModel = mongoose.model("quizes", quizSchema);
+var quizModel = mongoose.model("quizes", quizSchema);
 //////////////end quiz schema and model//////////////////////////////////////////
-
-
 //////////////answer schema and model///////////////////////////////////////////
-let answerSchema = new mongoose.Schema({
-
+var answerSchema = new mongoose.Schema({
     user: String,
     questionNumber: Number,
-    
     answerIndex: Number,
     isCorrect: Boolean,
-
     createdOn: { type: Date, 'default': Date.now } //pack 'default' in single quotes(this is Optional) to avoid compile error
-
 });
-
-let answerModel = mongoose.model("answers", answerSchema);
+var answerModel = mongoose.model("answers", answerSchema);
 //////////////end answer schema and model//////////////////////////////////////////
-
-
 new quizModel({
     questionNumber: 1,
     question: "what was the first capital of pakistan",
     options: ["karachi", "lahore", "islamabad", "kashmir"],
     correctIndex: 0,
     userSelectedIndex: null
-}).save()
-
-
+}).save();
 new quizModel({
-    questionNumber:2,
+    questionNumber: 2,
     question: "which one is the biggest city of pakistan",
     options: ["karachi", "lahore", "islamabad", "kashmir"],
     correctIndex: 0,
     userSelectedIndex: null
-}).save()
-
+}).save();

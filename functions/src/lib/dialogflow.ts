@@ -5,7 +5,6 @@ import { session, textQuery } from './../core';
 import db from './../db'
 import { firebaseAdmin } from './../db'
 import { document } from 'firebase-functions/lib/providers/firestore';
-import { http } from 'request-inzi';
 import * as request from "request";
 
 var cors = _cors({ origin: true });// set these options appropriately According to your case,
