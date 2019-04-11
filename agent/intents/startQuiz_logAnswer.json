@@ -12,9 +12,16 @@
       "parameters": [
         {
           "id": "f8776b4f-bc55-491a-9812-d6d4606a7157",
+          "required": true,
           "dataType": "@option",
           "name": "option",
           "value": "$option",
+          "prompts": [
+            {
+              "lang": "en",
+              "value": "which option do you think is correct?"
+            }
+          ],
           "isList": false
         }
       ],
@@ -30,7 +37,7 @@
     }
   ],
   "priority": 500000,
-  "webhookUsed": false,
+  "webhookUsed": true,
   "webhookForSlotFilling": false,
   "lastUpdate": 1539793646,
   "fallbackIntent": false,

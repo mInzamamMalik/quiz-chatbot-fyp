@@ -1,19 +1,18 @@
 {
-  "id": "379a17c7-1462-4ed0-b5ad-51197f3d2b40",
-  "name": "Default Fallback Intent",
+  "id": "caef7dca-14c6-4e49-9a71-2d86bfcfe229",
+  "name": "Result",
   "auto": true,
   "contexts": [],
   "responses": [
     {
       "resetContexts": false,
-      "action": "input.unknown",
       "affectedContexts": [],
       "parameters": [],
       "messages": [
         {
           "type": 0,
           "lang": "en",
-          "speech": "something went wrong in default fallback"
+          "speech": "your answers are submitted in the database, results will be announced soon, thank you very much for being a part of this quiz, have a nice day"
         }
       ],
       "defaultResponsePlatforms": {},
@@ -21,9 +20,8 @@
     }
   ],
   "priority": 500000,
-  "webhookUsed": true,
+  "webhookUsed": false,
   "webhookForSlotFilling": false,
-  "lastUpdate": 1542395948,
-  "fallbackIntent": true,
+  "fallbackIntent": false,
   "events": []
 }

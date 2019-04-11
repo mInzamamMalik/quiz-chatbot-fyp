@@ -13,7 +13,7 @@
         {
           "type": 0,
           "lang": "en",
-          "speech": "welcome to the quiz system, you may ask me to start quiz or overview of quiz"
+          "speech": "something went wrong in welcome intent"
         }
       ],
       "defaultResponsePlatforms": {},
@@ -23,7 +23,7 @@
   "priority": 500000,
   "webhookUsed": true,
   "webhookForSlotFilling": false,
-  "lastUpdate": 1539964077,
+  "lastUpdate": 1540399996,
   "fallbackIntent": false,
   "events": [
     {
